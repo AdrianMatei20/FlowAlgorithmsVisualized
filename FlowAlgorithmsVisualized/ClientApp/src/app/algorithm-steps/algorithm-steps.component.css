@@ -1,0 +1,31 @@
+#page-content {
+  display: flex;
+  flex-direction: row;
+}
+
+.header {
+  border: 1px dashed black;
+  justify-content: center;
+}
+
+.network {
+  display: flex;
+  flex-direction: column;
+  border: 1px dashed black;
+  justify-content: left;
+}
+
+.flow-and-capacity {
+  display: flex;
+  flex-direction: row;
+}
+
+#capacity-network, #flow-network, #residual-network {
+  display: flex;
+  justify-content: center;
+}
+
+#algorithm {
+  border: 1px dashed black;
+  /*background-color: yellow;*/
+}

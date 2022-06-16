@@ -1,0 +1,27 @@
+<header>
+  <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+    <div class="container">
+      <a class="navbar-brand" [routerLink]="['/']">Flow Algorithms Visualized</a>
+      <button class="navbar-toggler"
+              type="button"
+              data-toggle="collapse"
+              data-target=".navbar-collapse"
+              aria-label="Toggle navigation"
+              [attr.aria-expanded]="isExpanded"
+              (click)="toggle()">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="navbar-collapse collapse d-sm-inline-flex justify-content-end">
+        <div class="navbar-nav flex-grow button-row">
+          <button mat-raised-button color="accent" [routerLink]="['/algorithm-steps/1']">Generic</button>
+          <button mat-raised-button color="accent" [routerLink]="['/algorithm-steps/2']">Ford-Fulkerson</button>
+          <button mat-raised-button color="accent" [routerLink]="['/algorithm-steps/3']">Edmonds-Karp</button>
+          <button mat-raised-button color="accent" [routerLink]="['/algorithm-steps/4']">AOSMC</button>
+          <button mat-raised-button color="accent" [routerLink]="['/algorithm-steps/5']">Gabow</button>
+          <button mat-raised-button color="accent" [routerLink]="['/algorithm-steps/6']">AODS</button>
+          <button mat-raised-button color="accent" [routerLink]="['/algorithm-steps/7']">AORS</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>

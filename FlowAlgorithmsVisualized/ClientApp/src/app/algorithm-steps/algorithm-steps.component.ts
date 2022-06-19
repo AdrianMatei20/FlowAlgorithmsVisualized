@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Component, Inject, OnInit } from '@angular/core';
+import { NetworkService } from '../services/network.service';
 // import * as d3 from 'd3';
 declare var d3: any;
 
@@ -9,58 +11,35 @@ declare var d3: any;
 })
 export class AlgorithmStepsComponent implements OnInit {
 
-  constructor() { }
+  private capacityNetwork: string = "";
+  private flowNetwork: string = "";
+
+  constructor(private networkService: NetworkService) {
+  }
+
+  getData(): void {
+    this.networkService.getCapacityNetwork().subscribe((network) => {
+      this.capacityNetwork = network;
+      console.log("getData() --> CapacityNetwork:\n" + this.capacityNetwork);
+      this.renderNetwork(this.capacityNetwork, "#capacity-network");
+    });
+
+    this.networkService.getFlowNetwork().subscribe((network) => {
+      this.flowNetwork = network;
+      console.log("getData() --> FlowNetwork:\n" + this.flowNetwork);
+      this.renderNetwork(this.flowNetwork, "#flow-network");
+    });
+  }
 
   ngOnInit(): void {
-    this.renderCapacityNetwork();
-    this.renderFlowNetwork();
+    this.getData();
     this.startAnimation();
   }
 
-  renderCapacityNetwork(): void {
+  renderNetwork(network: string, selector: string): void {
     var graphviz = null;
-
-    var render = function () {
-      var dot = capacityNetwork;
-      graphviz!
-        .renderDot(dot)
-        .on("end", function () {
-          render();
-        });
-    }
-
-    graphviz = d3.select("#capacity-network").graphviz()
-      .transition(function () {
-        return d3.transition("main")
-          .ease(d3.easeLinear)
-          .delay(100)
-          .duration(500);
-      })
-      .logEvents(false)
-      .on("initEnd", render);
-  }
-
-  renderFlowNetwork(): void {
-    var graphviz = null;
-
-    var render = function () {
-      var dot = flowNetwork;
-      graphviz!
-        .renderDot(dot)
-        .on("end", function () {
-          render();
-        });
-    }
-
-    graphviz = d3.select("#flow-network").graphviz()
-      .transition(function () {
-        return d3.transition("main")
-          .ease(d3.easeLinear)
-          .delay(100)
-          .duration(500);
-      })
-      .logEvents(false)
-      .on("initEnd", render);
+    graphviz = d3.select(selector).graphviz();
+    graphviz!.renderDot(network)
   }
 
   startAnimation(): void {
@@ -93,62 +72,6 @@ export class AlgorithmStepsComponent implements OnInit {
   }
 
 }
-
-var capacityNetwork = `
-digraph  {
-        rankdir=LR
-        ranksep = 1
-        nodesep = 0.5
-        node [shape="circle"]
-        1 [style="filled", fillcolor="pink"]
-        2
-        3
-        4
-        5
-        6 [style="filled", fillcolor="lightblue"]
-        {rank = same; 2; 3;}
-        {rank = same; 4; 5;}
-        2, 4 [group=1]
-        3, 5 [group=2]
-        1 -> 2 [label="10"]
-        1 -> 3 [label="12"]
-        2 -> 3 [label="10"]
-        2 -> 4 [label="3"]
-        2 -> 5 [label="7"]
-        3 -> 5 [label="5"]
-        4 -> 6 [label="5"]
-        5 -> 6 [label="15"]
-      }
-
-`;
-
-var flowNetwork = `
-digraph  {
-        rankdir=LR
-        ranksep = 1
-        nodesep = 0.5
-        node [shape="circle"]
-        1 [style="filled", fillcolor="pink"]
-        2
-        3
-        4
-        5
-        6 [style="filled", fillcolor="lightblue"]
-        {rank = same; 2; 3;}
-        {rank = same; 4; 5;}
-        2, 4 [group=1]
-        3, 5 [group=2]
-        1 -> 2 [label="0"]
-        1 -> 3 [label="0"]
-        2 -> 3 [label="0"]
-        2 -> 4 [label="0"]
-        2 -> 5 [label="0"]
-        3 -> 5 [label="0"]
-        4 -> 6 [label="0"]
-        5 -> 6 [label="0"]
-      }
-
-`;
 
 var dots = [
   [`digraph  {

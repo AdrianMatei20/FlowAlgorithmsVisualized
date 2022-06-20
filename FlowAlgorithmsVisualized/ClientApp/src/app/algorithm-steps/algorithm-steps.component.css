@@ -6,6 +6,7 @@
 .header {
   border: 1px dashed black;
   justify-content: center;
+  align-items: center;
 }
 
 .network {

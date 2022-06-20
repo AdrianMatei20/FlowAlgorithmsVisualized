@@ -39,7 +39,7 @@ export class AlgorithmStepsComponent implements OnInit {
   renderNetwork(network: string, selector: string): void {
     var graphviz = null;
     graphviz = d3.select(selector).graphviz();
-    graphviz.engine("neato");
+    graphviz.engine("fdp");
     graphviz!.renderDot(network)
   }
 

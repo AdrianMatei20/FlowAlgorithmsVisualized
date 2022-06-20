@@ -26,6 +26,11 @@
   justify-content: center;
 }
 
+svg {
+    width: auto;
+    height: auto;
+}
+
 #algorithm {
   border: 1px dashed black;
   /*background-color: yellow;*/

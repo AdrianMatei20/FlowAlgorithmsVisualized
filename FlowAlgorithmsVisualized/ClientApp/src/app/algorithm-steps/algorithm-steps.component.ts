@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { NetworkService } from '../services/network.service';
 // import * as d3 from 'd3';
 declare var d3: any;
@@ -11,29 +12,36 @@ declare var d3: any;
 })
 export class AlgorithmStepsComponent implements OnInit {
 
+  private algorithm: string = "";
   private capacityNetwork: string = "";
   private flowNetwork: string = "";
 
-  constructor(private networkService: NetworkService) {
+  constructor(private networkService: NetworkService, private router: Router, private route: ActivatedRoute) {
+    router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.algorithm = this.route.snapshot.paramMap.get('algorithm');
+        console.log("Algorithm: " + this.algorithm);
+        this.getData(this.algorithm);
+      }
+    });
   }
 
-  getData(): void {
-    this.networkService.getCapacityNetwork().subscribe((network) => {
+  ngOnInit(): void {
+    // this.startAnimation();
+  }
+
+  getData(algorithm: string): void {
+    this.networkService.getCapacityNetwork(algorithm).subscribe((network) => {
       this.capacityNetwork = network;
       console.log("getData() --> CapacityNetwork:\n" + this.capacityNetwork);
       this.renderNetwork(this.capacityNetwork, "#capacity-network");
     });
 
-    this.networkService.getFlowNetwork().subscribe((network) => {
+    this.networkService.getFlowNetwork(algorithm).subscribe((network) => {
       this.flowNetwork = network;
       console.log("getData() --> FlowNetwork:\n" + this.flowNetwork);
       this.renderNetwork(this.flowNetwork, "#flow-network");
     });
-  }
-
-  ngOnInit(): void {
-    this.getData();
-    this.startAnimation();
   }
 
   renderNetwork(network: string, selector: string): void {

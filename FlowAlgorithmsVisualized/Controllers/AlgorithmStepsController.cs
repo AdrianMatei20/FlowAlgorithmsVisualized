@@ -12,16 +12,16 @@ namespace FlowAlgorithmsVisualized.Controllers
     public class AlgorithmStepsController : ControllerBase
     {
         [HttpGet("capacityNetwork")]
-        public string GetCapacityNetwork()
+        public string GetCapacityNetwork(string algorithm)
         {
-            string capacityNetwork = Network.GetCapacityNetwork();
+            string capacityNetwork = Network.GetCapacityNetwork(algorithm);
             return capacityNetwork;
         }
 
         [HttpGet("flowNetwork")]
-        public string GetFlowNetwork()
+        public string GetFlowNetwork(string algorithm)
         {
-            string flowNetwork = Network.GetFlowNetwork();
+            string flowNetwork = Network.GetFlowNetwork(algorithm);
             return flowNetwork;
         }
     }

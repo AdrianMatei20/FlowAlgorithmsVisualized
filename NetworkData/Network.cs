@@ -30,24 +30,65 @@ namespace NetworkData
             }
         }
 
-        public static string GetCapacityNetwork()
+        public static string GetFilePath(string algorithm)
         {
-            string filepath = "..\\NetworkData\\Networks\\Network_1.dot";
+            string filepath = "..\\NetworkData\\Networks\\Network_";
+
+            switch (algorithm)
+            {
+                case "Generic":
+                    filepath += "1.dot";
+                    break;
+
+                case "FF":
+                    filepath += "2.dot";
+                    break;
+
+                case "EK":
+                    filepath += "3.dot";
+                    break;
+
+                case "AOSMC":
+                    filepath += "4.dot";
+                    break;
+
+                case "Gabow":
+                    filepath += "5.dot";
+                    break;
+
+                case "AODS":
+                    filepath += "6.dot";
+                    break;
+
+                case "AORS":
+                    filepath += "7.dot";
+                    break;
+            }
+
+            return filepath;
+        }
+
+        public static string GetCapacityNetwork(string algorithm)
+        {
+            string filepath = GetFilePath(algorithm);
             string dotNetwork = File.ReadAllText(filepath);
             return dotNetwork;
         }
 
-        public static string GetFlowNetwork()
+        public static string GetFlowNetwork(string algorithm)
         {
-            string filepath = "..\\NetworkData\\Networks\\Network_1.dot";
+            string filepath = GetFilePath(algorithm);
             string dotNetwork = File.ReadAllText(filepath);
 
             var network = Parse(dotNetwork);
 
             foreach (DotEdge<int> edge in network.Edges)
             {
-                string edgeLabel = edge.Attributes["label"];
-                edge.Attributes["label"] = "0/" + edgeLabel;
+                if (edge.Attributes.ContainsKey("label"))
+                {
+                    string edgeLabel = edge.Attributes["label"];
+                    edge.Attributes["label"] = "0/" + edgeLabel;
+                }
             }
 
             var writer = new StringWriter();

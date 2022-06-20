@@ -30,7 +30,8 @@ import { AlgorithmStepsComponent } from './algorithm-steps/algorithm-steps.compo
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
-      { path: 'algorithm-steps/:id', component: AlgorithmStepsComponent },
+      { path: 'algorithm-steps/:algorithm', component: AlgorithmStepsComponent },
+      { path: '**', component: HomeComponent },
     ]),
     BrowserAnimationsModule,
     MatButtonModule

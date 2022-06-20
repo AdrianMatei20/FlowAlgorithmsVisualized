@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 
 @Injectable({
@@ -12,11 +12,13 @@ export class NetworkService {
     this.baseUrl = baseUrl;
   }
 
-  getCapacityNetwork() {
-    return this.http.get(this.baseUrl + 'algorithmsteps/capacityNetwork', { responseType: "text" });
+  getCapacityNetwork(algorithm: string) {
+    let params = new HttpParams().set("algorithm", algorithm);
+    return this.http.get(this.baseUrl + 'algorithmsteps/capacityNetwork', { params, responseType: "text" });
   }
 
-  getFlowNetwork() {
-    return this.http.get(this.baseUrl + 'algorithmsteps/flowNetwork', { responseType: "text" });
+  getFlowNetwork(algorithm: string) {
+    let params = new HttpParams().set("algorithm", algorithm);
+    return this.http.get(this.baseUrl + 'algorithmsteps/flowNetwork', { params, responseType: "text" });
   }
 }

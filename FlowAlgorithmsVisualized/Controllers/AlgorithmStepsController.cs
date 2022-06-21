@@ -29,7 +29,7 @@ namespace FlowAlgorithmsVisualized.Controllers
         [HttpGet("steps")]
         public string GetAlgorithmSteps(string algorithm)
         {
-            List<string> steps = Network.ApplyAlgorithm(algorithm);
+            List<List<string>> steps = Network.ApplyAlgorithm(algorithm);
             return JsonSerializer.Serialize(steps);
         }
     }

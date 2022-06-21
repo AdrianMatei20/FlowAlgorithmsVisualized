@@ -12,10 +12,14 @@ declare var d3: any;
 })
 export class AlgorithmStepsComponent implements OnInit {
 
+  private layoutEngines = ["dot", "neato", "fdp", "sfdp", "circo", "twopi", "osage", "patchwork"];
+  private layoutEngine = this.layoutEngines[1];
+
   private algorithm: string = "";
   private capacityNetwork: string = "";
   private flowNetwork: string = "";
-  private algorithmSteps: string[] = [];
+  private residualNetworks: string[] = [];
+  private flowNetworks: string[] = [];
 
   constructor(private networkService: NetworkService, private router: Router, private route: ActivatedRoute) {
     router.events.subscribe((event) => {
@@ -34,35 +38,40 @@ export class AlgorithmStepsComponent implements OnInit {
   getData(algorithm: string): void {
     this.networkService.getCapacityNetwork(algorithm).subscribe((network) => {
       this.capacityNetwork = network;
-      console.log("getData() --> CapacityNetwork:\n" + this.capacityNetwork);
+      // console.log("getData() --> CapacityNetwork:\n" + this.capacityNetwork);
       this.renderNetwork(this.capacityNetwork, "#capacity-network");
+      // this.renderNetwork(this.capacityNetwork, "#residual-network");
     });
 
     this.networkService.getFlowNetwork(algorithm).subscribe((network) => {
       this.flowNetwork = network;
-      console.log("getData() --> FlowNetwork:\n" + this.flowNetwork);
-      this.renderNetwork(this.flowNetwork, "#flow-network");
+      // console.log("getData() --> FlowNetwork:\n" + this.flowNetwork);
+      // this.renderNetwork(this.flowNetwork, "#flow-network");
     });
 
     this.networkService.getAlgorithmSteps(algorithm).subscribe((steps) => {
-      this.algorithmSteps = steps as string[];
-      console.log(this.algorithmSteps.length);
-      this.algorithmSteps.forEach((step) => console.log(step));
-      this.startAnimation();
+      this.residualNetworks = steps[0] as string[];
+      this.flowNetworks = steps[1] as string[];
+      console.log(this.residualNetworks.length);
+      // this.residualNetworks.forEach((step) => console.log(step));
+      this.flowNetworks.forEach((step) => console.log(step));
+
+      this.startAnimation(this.residualNetworks, "#residual-network");
+      this.startAnimation(this.flowNetworks, "#flow-network");
     });
   }
 
   renderNetwork(network: string, selector: string): void {
     var graphviz = null;
     graphviz = d3.select(selector).graphviz();
-    graphviz.engine("neato");
+    graphviz.engine(this.layoutEngine);
     graphviz!.renderDot(network)
   }
 
-  startAnimation(): void {
+  startAnimation(network: string[], netwokDiv: string): void {
     var dotIndex = 0;
     var graphviz = null;
-    var algorithmSteps = this.algorithmSteps;
+    var algorithmSteps = network;
 
     var render = function () {
       var dot = algorithmSteps[dotIndex];
@@ -77,17 +86,17 @@ export class AlgorithmStepsComponent implements OnInit {
         });
     }
 
-    graphviz = d3.select("#residual-network").graphviz()
+    graphviz = d3.select(netwokDiv).graphviz()
       .transition(function () {
         return d3.transition("main")
           .ease(d3.easeLinear)
-          .delay(100)
-          .duration(200);
+          .delay(500)
+          .duration(500);
       })
       .logEvents(false)
       .on("initEnd", render);
 
-    graphviz.engine("fdp");
+    graphviz.engine(this.layoutEngine);
   }
 
 }

@@ -8,22 +8,31 @@ namespace NetworkData.Algorithms
 {
     public partial class Algorithm
     {
-        private DotGraph<int> dotNetwork;
+        private DotGraph<int> dotCapacityNetwork;
+        private DotGraph<int> dotFlowNetwork;
         private int noOfVertices;
+        private int[,] capacityNetwork;
         private int[,] residualNetwork;
+        private int[,] flowNetwork;
 
-        public Algorithm(DotGraph<int> dotNetwork)
+        public Algorithm(DotGraph<int> dotCapacityNetwork, DotGraph<int> dotFlowNetwork)
         {
-            this.dotNetwork = dotNetwork;
-            noOfVertices = dotNetwork.Vertices.Count();
-            residualNetwork = new int[noOfVertices, noOfVertices];
+            this.dotCapacityNetwork = dotCapacityNetwork;
+            this.dotFlowNetwork = dotFlowNetwork;
 
-            foreach (DotEdge<int> edge in this.dotNetwork.Edges)
+            noOfVertices = dotCapacityNetwork.Vertices.Count();
+
+            capacityNetwork = new int[noOfVertices, noOfVertices];
+            residualNetwork = new int[noOfVertices, noOfVertices];
+            flowNetwork = new int[noOfVertices, noOfVertices];
+
+            foreach (DotEdge<int> edge in this.dotCapacityNetwork.Edges)
             {
                 int edgeSource = 0, edgeDestination = 0, edgeResidualCapacity = 0;
                 int.TryParse(edge.Source.Attributes["label"], out edgeSource);
                 int.TryParse(edge.Destination.Attributes["label"], out edgeDestination);
                 int.TryParse(edge.Label, out edgeResidualCapacity);
+                capacityNetwork[edgeSource - 1, edgeDestination - 1] = edgeResidualCapacity;
                 residualNetwork[edgeSource - 1, edgeDestination - 1] = edgeResidualCapacity;
             }
         }

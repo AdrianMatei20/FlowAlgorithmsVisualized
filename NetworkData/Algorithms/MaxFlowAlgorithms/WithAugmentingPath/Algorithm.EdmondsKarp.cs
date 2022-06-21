@@ -14,12 +14,12 @@ namespace NetworkData.Algorithms
             List<string> steps = new List<string>();
             List<(int V1, int V2)> path = new List<(int, int)>();
 
-            SaveState(steps, dotNetwork);
+            SaveState(steps, dotCapacityNetwork);
 
             int maxFlow = 0;
-            dotNetwork.Vertices.ElementAt(noOfVertices - 1).Attributes["xlabel"] = "V=" + maxFlow.ToString();
+            dotCapacityNetwork.Vertices.ElementAt(noOfVertices - 1).Attributes["xlabel"] = "V=" + maxFlow.ToString();
 
-            SaveState(steps, dotNetwork);
+            SaveState(steps, dotCapacityNetwork);
 
             do
             {
@@ -41,20 +41,20 @@ namespace NetworkData.Algorithms
 
                     foreach (var edge in path)
                     {
-                        var dotDirEdge = FindEdge(dotNetwork, edge.V1, edge.V2);
-                        var dotOppEdge = FindEdge(dotNetwork, edge.V2, edge.V1);
+                        var dotDirEdge = FindEdge(dotCapacityNetwork, edge.V1, edge.V2);
+                        var dotOppEdge = FindEdge(dotCapacityNetwork, edge.V2, edge.V1);
                         if (dotDirEdge != null)
                         {
                             dotDirEdge.Attributes["penwidth"] = "3";
                         }
 
-                        SaveState(steps, dotNetwork);
+                        SaveState(steps, dotCapacityNetwork);
                     }
 
                     foreach (var edge in path)
                     {
-                        var dotDirEdge = FindEdge(dotNetwork, edge.V1, edge.V2);
-                        var dotOppEdge = FindEdge(dotNetwork, edge.V2, edge.V1);
+                        var dotDirEdge = FindEdge(dotCapacityNetwork, edge.V1, edge.V2);
+                        var dotOppEdge = FindEdge(dotCapacityNetwork, edge.V2, edge.V1);
                         if (dotDirEdge != null)
                         {
                             dotDirEdge.Attributes["color"] = "red";
@@ -66,14 +66,14 @@ namespace NetworkData.Algorithms
                         }
                     }
 
-                    SaveState(steps, dotNetwork);
+                    SaveState(steps, dotCapacityNetwork);
 
                     foreach (var edge in path)
                     {
                         residualNetwork[edge.V1 - 1, edge.V2 - 1] -= residualCapacityOfPath;
                         residualNetwork[edge.V2 - 1, edge.V1 - 1] += residualCapacityOfPath;
 
-                        var directEdge = FindEdge(dotNetwork, edge.V1, edge.V2);
+                        var directEdge = FindEdge(dotCapacityNetwork, edge.V1, edge.V2);
                         if (directEdge != null)
                         {
                             int oldValue = 0, newValue = 0;
@@ -86,11 +86,11 @@ namespace NetworkData.Algorithms
                             }
                             else
                             {
-                                dotNetwork.RemoveEdge(directEdge);
+                                dotCapacityNetwork.RemoveEdge(directEdge);
                             }
                         }
 
-                        var oppositeEdge = FindEdge(dotNetwork, edge.V2, edge.V1);
+                        var oppositeEdge = FindEdge(dotCapacityNetwork, edge.V2, edge.V1);
                         if (oppositeEdge != null)
                         {
                             int oldValue = 0, newValue = 0;
@@ -103,48 +103,49 @@ namespace NetworkData.Algorithms
                             }
                             else
                             {
-                                dotNetwork.RemoveEdge(oppositeEdge);
+                                dotCapacityNetwork.RemoveEdge(oppositeEdge);
                             }
                         }
                         else
                         {
                             var edgeAttributes = new Dictionary<string, string>();
                             edgeAttributes.Add("label", residualCapacityOfPath.ToString());
+                            edgeAttributes.Add("fontsize", "18px");
                             edgeAttributes.Add("penwidth", "3");
                             edgeAttributes.Add("color", "red");
                             edgeAttributes.Add("fontcolor", "red");
-                            DotVertex<int> source = dotNetwork.Vertices.Where((vertex) => vertex.Id == edge.V2).FirstOrDefault();
-                            DotVertex<int> destination = dotNetwork.Vertices.Where((vertex) => vertex.Id == edge.V1).FirstOrDefault();
+                            DotVertex<int> source = dotCapacityNetwork.Vertices.Where((vertex) => vertex.Id == edge.V2).FirstOrDefault();
+                            DotVertex<int> destination = dotCapacityNetwork.Vertices.Where((vertex) => vertex.Id == edge.V1).FirstOrDefault();
                             DotEdge<int> newEdge = new DotEdge<int>(source, destination, edgeAttributes);
-                            dotNetwork.AddEdge(newEdge);
+                            dotCapacityNetwork.AddEdge(newEdge);
                         }
 
-                        SaveState(steps, dotNetwork);
+                        SaveState(steps, dotCapacityNetwork);
                     }
 
                     maxFlow += residualCapacityOfPath;
-                    dotNetwork.Vertices.ElementAt(noOfVertices - 1).Attributes["xlabel"] = "V=" + maxFlow.ToString();
+                    dotCapacityNetwork.Vertices.ElementAt(noOfVertices - 1).Attributes["xlabel"] = "V=" + maxFlow.ToString();
 
-                    SaveState(steps, dotNetwork);
+                    SaveState(steps, dotCapacityNetwork);
 
-                    foreach (DotEdge<int> edge in dotNetwork.Edges)
+                    foreach (DotEdge<int> edge in dotCapacityNetwork.Edges)
                     {
                         edge.Attributes["penwidth"] = "1";
                         edge.Attributes["color"] = "black";
                         edge.Attributes["fontcolor"] = "black";
                     }
 
-                    SaveState(steps, dotNetwork);
+                    SaveState(steps, dotCapacityNetwork);
                 }
 
             } while (path.Any());
 
             for (int i = 1; i <= 3; i++)
             {
-                dotNetwork.Vertices.ElementAt(noOfVertices - 1).Attributes["xlabel"] = "";
-                SaveState(steps, dotNetwork);
-                dotNetwork.Vertices.ElementAt(noOfVertices - 1).Attributes["xlabel"] = "V=" + maxFlow.ToString();
-                SaveState(steps, dotNetwork);
+                dotCapacityNetwork.Vertices.ElementAt(noOfVertices - 1).Attributes["xlabel"] = "";
+                SaveState(steps, dotCapacityNetwork);
+                dotCapacityNetwork.Vertices.ElementAt(noOfVertices - 1).Attributes["xlabel"] = "V=" + maxFlow.ToString();
+                SaveState(steps, dotCapacityNetwork);
             }
 
             return steps;

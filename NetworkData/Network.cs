@@ -95,10 +95,10 @@ namespace NetworkData
             return newDotNetwork;
         }
 
-        public static List<string> ApplyAlgorithm(string algorithmName)
+        public static List<List<string>> ApplyAlgorithm(string algorithmName)
         {
-            Algorithm algorithm = new Algorithm(Parse(GetCapacityNetwork(algorithmName)));
-            List<string> algorithmSteps = new List<string>();
+            Algorithm algorithm = new Algorithm(Parse(GetCapacityNetwork(algorithmName)), Parse(GetFlowNetwork(algorithmName)));
+            List<List<string>> algorithmSteps = new List<List<string>>();
 
             switch (algorithmName)
             {
@@ -110,9 +110,9 @@ namespace NetworkData
                     algorithmSteps = algorithm.FordFulkerson();
                     break;
 
-                case "EK":
-                    algorithmSteps = algorithm.EdmondsKarp();
-                    break;
+                //case "EK":
+                //    algorithmSteps = algorithm.EdmondsKarp();
+                //    break;
             }
 
             return algorithmSteps;

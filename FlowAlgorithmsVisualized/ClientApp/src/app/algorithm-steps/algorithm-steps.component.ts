@@ -55,7 +55,7 @@ export class AlgorithmStepsComponent implements OnInit {
   renderNetwork(network: string, selector: string): void {
     var graphviz = null;
     graphviz = d3.select(selector).graphviz();
-    graphviz.engine("fdp");
+    graphviz.engine("neato");
     graphviz!.renderDot(network)
   }
 
@@ -81,8 +81,8 @@ export class AlgorithmStepsComponent implements OnInit {
       .transition(function () {
         return d3.transition("main")
           .ease(d3.easeLinear)
-          .delay(500)
-          .duration(1000);
+          .delay(100)
+          .duration(200);
       })
       .logEvents(false)
       .on("initEnd", render);

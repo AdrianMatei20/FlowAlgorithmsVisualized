@@ -16,6 +16,11 @@ namespace NetworkData.Algorithms
 
             SaveState(steps, dotNetwork);
 
+            int maxFlow = 0;
+            dotNetwork.Vertices.ElementAt(noOfVertices - 1).Attributes["xlabel"] = "V=" + maxFlow.ToString();
+
+            SaveState(steps, dotNetwork);
+
             do
             {
                 path = FindPath();
@@ -117,16 +122,30 @@ namespace NetworkData.Algorithms
                         SaveState(steps, dotNetwork);
                     }
 
+                    maxFlow += residualCapacityOfPath;
+                    dotNetwork.Vertices.ElementAt(noOfVertices - 1).Attributes["xlabel"] = "V=" + maxFlow.ToString();
+
+                    SaveState(steps, dotNetwork);
+
                     foreach (DotEdge<int> edge in dotNetwork.Edges)
                     {
                         edge.Attributes["penwidth"] = "1";
                         edge.Attributes["color"] = "black";
                         edge.Attributes["fontcolor"] = "black";
                     }
+
                     SaveState(steps, dotNetwork);
                 }
 
             } while (path.Any());
+
+            for (int i = 1; i <= 3; i++)
+            {
+                dotNetwork.Vertices.ElementAt(noOfVertices - 1).Attributes["xlabel"] = "";
+                SaveState(steps, dotNetwork);
+                dotNetwork.Vertices.ElementAt(noOfVertices - 1).Attributes["xlabel"] = "V=" + maxFlow.ToString();
+                SaveState(steps, dotNetwork);
+            }
 
             return steps;
         }

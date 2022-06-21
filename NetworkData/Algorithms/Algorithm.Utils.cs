@@ -70,20 +70,20 @@ namespace NetworkData.Algorithms
             return path;
         }
 
-        private void SaveState(List<string> steps)
+        private void SaveState(List<string> steps, DotGraph<int> network)
         {
             var writer = new StringWriter();
-            new GraphToDotConverter().Convert(writer, dotNetwork, new AttributesProvider());
+            new GraphToDotConverter().Convert(writer, network, new AttributesProvider());
             var newDotNetwork = writer.GetStringBuilder().ToString().Trim();
 
             steps.Add(newDotNetwork);
         }
 
-        private DotEdge<int> FindEdge(int x, int y)
+        private DotEdge<int> FindEdge(DotGraph<int> network, int x, int y)
         {
             DotEdge<int> edge = null;
 
-            foreach (DotEdge<int> dotEdge in this.dotNetwork.Edges)
+            foreach (DotEdge<int> dotEdge in network.Edges)
             {
                 if (dotEdge.Source.Id == x && dotEdge.Destination.Id == y)
                 {

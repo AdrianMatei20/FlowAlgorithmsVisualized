@@ -12,7 +12,7 @@ namespace NetworkData.Algorithms
             List<string> steps = new List<string>();
             List<(int V1, int V2)> path = new List<(int, int)>();
 
-            SaveState(steps);
+            SaveState(steps, dotNetwork);
 
             do
             {
@@ -34,10 +34,39 @@ namespace NetworkData.Algorithms
 
                     foreach (var edge in path)
                     {
+                        var dotDirEdge = FindEdge(dotNetwork, edge.V1, edge.V2);
+                        var dotOppEdge = FindEdge(dotNetwork, edge.V2, edge.V1);
+                        if (dotDirEdge != null)
+                        {
+                            dotDirEdge.Attributes["penwidth"] = "3";
+                        }
+
+                        SaveState(steps, dotNetwork);
+                    }
+
+                    foreach (var edge in path)
+                    {
+                        var dotDirEdge = FindEdge(dotNetwork, edge.V1, edge.V2);
+                        var dotOppEdge = FindEdge(dotNetwork, edge.V2, edge.V1);
+                        if (dotDirEdge != null)
+                        {
+                            dotDirEdge.Attributes["color"] = "red";
+                            dotDirEdge.Attributes["fontcolor"] = "red";
+                        }
+                        if (dotOppEdge != null)
+                        {
+                            dotOppEdge.Attributes["fontcolor"] = "red";
+                        }
+                    }
+
+                    SaveState(steps, dotNetwork);
+
+                    foreach (var edge in path)
+                    {
                         residualNetwork[edge.V1 - 1, edge.V2 - 1] -= residualCapacityOfPath;
                         residualNetwork[edge.V2 - 1, edge.V1 - 1] += residualCapacityOfPath;
 
-                        var directEdge = FindEdge(edge.V1, edge.V2);
+                        var directEdge = FindEdge(dotNetwork, edge.V1, edge.V2);
                         if (directEdge != null)
                         {
                             int oldValue = 0, newValue = 0;
@@ -54,7 +83,7 @@ namespace NetworkData.Algorithms
                             }
                         }
 
-                        var oppositeEdge = FindEdge(edge.V2, edge.V1);
+                        var oppositeEdge = FindEdge(dotNetwork, edge.V2, edge.V1);
                         if (oppositeEdge != null)
                         {
                             int oldValue = 0, newValue = 0;
@@ -74,14 +103,25 @@ namespace NetworkData.Algorithms
                         {
                             var edgeAttributes = new Dictionary<string, string>();
                             edgeAttributes.Add("label", residualCapacityOfPath.ToString());
+                            edgeAttributes.Add("penwidth", "3");
+                            edgeAttributes.Add("color", "red");
+                            edgeAttributes.Add("fontcolor", "red");
                             DotVertex<int> source = dotNetwork.Vertices.Where((vertex) => vertex.Id == edge.V2).FirstOrDefault();
                             DotVertex<int> destination = dotNetwork.Vertices.Where((vertex) => vertex.Id == edge.V1).FirstOrDefault();
                             DotEdge<int> newEdge = new DotEdge<int>(source, destination, edgeAttributes);
                             dotNetwork.AddEdge(newEdge);
                         }
 
-                        SaveState(steps);
+                        SaveState(steps, dotNetwork);
                     }
+
+                    foreach (DotEdge<int> edge in dotNetwork.Edges)
+                    {
+                        edge.Attributes["penwidth"] = "1";
+                        edge.Attributes["color"] = "black";
+                        edge.Attributes["fontcolor"] = "black";
+                    }
+                    SaveState(steps, dotNetwork);
                 }
 
             } while (path.Any());

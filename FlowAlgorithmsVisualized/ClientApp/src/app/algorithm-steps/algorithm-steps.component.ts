@@ -81,7 +81,7 @@ export class AlgorithmStepsComponent implements OnInit {
       .transition(function () {
         return d3.transition("main")
           .ease(d3.easeLinear)
-          .delay(5000)
+          .delay(500)
           .duration(1000);
       })
       .logEvents(false)

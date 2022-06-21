@@ -1,13 +1,15 @@
 ﻿using Graphviz4Net.Dot;
+using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace NetworkData.Algorithms
 {
     public partial class Algorithm
     {
-        public List<string> GenericMaxFlowAlgWithAugPath()
+        public List<string> EdmondsKarp()
         {
             List<string> steps = new List<string>();
             List<(int V1, int V2)> path = new List<(int, int)>();
@@ -16,7 +18,7 @@ namespace NetworkData.Algorithms
 
             do
             {
-                path = FindRandomPath();
+                path = FindPath();
 
                 if (path.Any())
                 {

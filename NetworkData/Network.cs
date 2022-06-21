@@ -105,6 +105,14 @@ namespace NetworkData
                 case "Generic":
                     algorithmSteps = algorithm.GenericMaxFlowAlgWithAugPath();
                     break;
+
+                case "FF":
+                    algorithmSteps = algorithm.FordFulkerson();
+                    break;
+
+                case "EK":
+                    algorithmSteps = algorithm.EdmondsKarp();
+                    break;
             }
 
             return algorithmSteps;

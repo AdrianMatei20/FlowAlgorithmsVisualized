@@ -30,20 +30,21 @@ namespace NetworkData.Algorithms
 
         public List<(int, int)> FindPath()
         {
+            int s = 0, t = noOfVertices - 1;
             List<(int, int)> path = new List<(int, int)>();
             Queue<int> Q = new Queue<int>();
             int[] p = new int[noOfVertices];
-            Array.Fill(p, 0);
-            p[0] = noOfVertices - 1;
+            Array.Fill(p, -1);
 
-            Q.Enqueue(0);
+            p[s] = t;
+            Q.Enqueue(s);
 
-            while (Q.Any() && p[noOfVertices - 1] == 0)
+            while (Q.Any() && p[t] == -1)
             {
                 var x = Q.Dequeue();
                 for (int y = 0; y < noOfVertices; y++)
                 {
-                    if (residualNetwork[x, y] > 0 && !Q.Contains(y) && p[y] == 0)
+                    if (residualNetwork[x, y] > 0 && p[y] == -1)
                     {
                         p[y] = x;
                         Q.Enqueue(y);
@@ -51,7 +52,53 @@ namespace NetworkData.Algorithms
                 }
             }
 
-            if (p[noOfVertices - 1] != 0)
+            if (p[t] != -1)
+            {
+                int y = t;
+                int x = p[y];
+
+                while (x != t)
+                {
+                    (int x, int y) edge = (x + 1, y + 1);
+                    path.Add(edge);
+
+                    y = x;
+                    x = p[y];
+                }
+            }
+
+            path.Reverse();
+            return path;
+        }
+
+        public List<(int, int)> FindRandomPath()
+        {
+            int s = 0, t = noOfVertices - 1;
+            List<(int, int)> path = new List<(int, int)>();
+            List<int> L = new List<int>();
+            int[] p = new int[noOfVertices];
+            Array.Fill(p, -1);
+
+            p[s] = t;
+            L.Add(s);
+
+            while (L.Any() && p[t] == -1)
+            {
+                Random rnd = new Random();
+                var x = L.ElementAt(rnd.Next(0, L.Count()));
+                L.Remove(x);
+
+                for (int y = 0; y < noOfVertices; y++)
+                {
+                    if (residualNetwork[x, y] > 0 && p[y] == -1)
+                    {
+                        p[y] = x;
+                        L.Add(y);
+                    }
+                }
+            }
+
+            if (p[t] != -1)
             {
                 int y = noOfVertices - 1;
                 int x = p[y];

@@ -21,4 +21,9 @@ export class NetworkService {
     let params = new HttpParams().set("algorithm", algorithm);
     return this.http.get(this.baseUrl + 'algorithmsteps/flowNetwork', { params, responseType: "text" });
   }
+
+  getAlgorithmSteps(algorithm: string) {
+    let params = new HttpParams().set("algorithm", algorithm);
+    return this.http.get(this.baseUrl + 'algorithmsteps/steps', { params });
+  }
 }

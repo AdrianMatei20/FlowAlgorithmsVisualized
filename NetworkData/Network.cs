@@ -1,12 +1,9 @@
 ﻿using Antlr.Runtime;
 using Graphviz4Net.Dot;
 using Graphviz4Net.Dot.AntlrParser;
-using System;
+using NetworkData.Algorithms;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NetworkData
 {
@@ -30,11 +27,11 @@ namespace NetworkData
             }
         }
 
-        public static string GetFilePath(string algorithm)
+        public static string GetFilePath(string algorithmName)
         {
             string filepath = "..\\NetworkData\\Networks\\Network_";
 
-            switch (algorithm)
+            switch (algorithmName)
             {
                 case "Generic":
                     filepath += "1.dot";
@@ -68,16 +65,16 @@ namespace NetworkData
             return filepath;
         }
 
-        public static string GetCapacityNetwork(string algorithm)
+        public static string GetCapacityNetwork(string algorithmName)
         {
-            string filepath = GetFilePath(algorithm);
+            string filepath = GetFilePath(algorithmName);
             string dotNetwork = File.ReadAllText(filepath);
             return dotNetwork;
         }
 
-        public static string GetFlowNetwork(string algorithm)
+        public static string GetFlowNetwork(string algorithmName)
         {
-            string filepath = GetFilePath(algorithm);
+            string filepath = GetFilePath(algorithmName);
             string dotNetwork = File.ReadAllText(filepath);
 
             var network = Parse(dotNetwork);
@@ -96,6 +93,21 @@ namespace NetworkData
             var newDotNetwork = writer.GetStringBuilder().ToString().Trim();
 
             return newDotNetwork;
+        }
+
+        public static List<string> ApplyAlgorithm(string algorithmName)
+        {
+            Algorithm algorithm = new Algorithm(Parse(GetCapacityNetwork(algorithmName)));
+            List<string> algorithmSteps = new List<string>();
+
+            switch (algorithmName)
+            {
+                case "Generic":
+                    algorithmSteps = algorithm.GenericMaxFlowAlgWithAugPath();
+                    break;
+            }
+
+            return algorithmSteps;
         }
 
         private static DotGraph<int> Parse(string content)

@@ -14,6 +14,7 @@ namespace NetworkData.Algorithms
         private int[,] capacityNetwork;
         private int[,] residualNetwork;
         private int[,] flowNetwork;
+        List<List<(int, int)>> paths = new List<List<(int, int)>>();
 
         public Algorithm(DotGraph<int> dotCapacityNetwork, DotGraph<int> dotFlowNetwork)
         {
@@ -82,48 +83,47 @@ namespace NetworkData.Algorithms
 
         public List<(int, int)> FindRandomPath()
         {
-            int s = 0, t = noOfVertices - 1;
             List<(int, int)> path = new List<(int, int)>();
-            List<int> L = new List<int>();
-            int[] p = new int[noOfVertices];
-            Array.Fill(p, -1);
+            int s = 0, t = noOfVertices - 1;
+            bool[] visited = new bool[noOfVertices];
 
-            p[s] = t;
-            L.Add(s);
+            getAllPossiblePaths(s, t, visited, path);
 
-            while (L.Any() && p[t] == -1)
+            if (paths.Any())
             {
                 Random rnd = new Random();
-                var x = L.ElementAt(rnd.Next(0, L.Count()));
-                L.Remove(x);
-
-                for (int y = 0; y < noOfVertices; y++)
-                {
-                    if (residualNetwork[x, y] > 0 && p[y] == -1)
-                    {
-                        p[y] = x;
-                        L.Add(y);
-                    }
-                }
+                path = paths[rnd.Next(0, paths.Count())];
+                paths.Clear();
+                Console.WriteLine(path);
             }
 
-            if (p[t] != -1)
-            {
-                int y = noOfVertices - 1;
-                int x = p[y];
-
-                while (x != noOfVertices - 1)
-                {
-                    (int x, int y) edge = (x + 1, y + 1);
-                    path.Add(edge);
-
-                    y = x;
-                    x = p[y];
-                }
-            }
-
-            path.Reverse();
             return path;
+        }
+
+        private void getAllPossiblePaths(int x, int t, bool[] visited, List<(int, int)> path)
+        {
+            if (x == t)
+            {
+                paths.Add(new List<(int, int)>(path));
+                return;
+            }
+
+            visited[x] = true;
+
+            foreach (var node in dotCapacityNetwork.Vertices)
+            {
+                int y = node.Id - 1;
+                if (residualNetwork[x, y] > 0 && !visited[y])
+                {
+                    path.Add((x + 1, y + 1));
+                    getAllPossiblePaths(y, t, visited, path);
+                    path.Remove(((x + 1, y + 1)));
+                }
+            }
+
+            visited[x] = false;
+
+            return;
         }
 
         private void SaveState(List<string> steps, DotGraph<int> network)

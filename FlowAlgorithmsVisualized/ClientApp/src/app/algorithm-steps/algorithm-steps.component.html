@@ -1,48 +1,58 @@
-<div id="page-content" class="row">
+<div id="page-content" class="column">
 
-  <div class="networks col-md-8">
+  <div id="animation-controls">
+    <button mat-mini-fab color="primary" id="playButton" (click)="startAnimationOnClick()">
+      <mat-icon>play_arrow</mat-icon>
+    </button>
+  </div>
 
-    <div class="flow-and-capacity row">
+  <div id="content" class="row">
 
-      <div class="network col">
-        <div class="header row" style="background-color: pink">
-          <h2>Capacity network</h2>
+
+    <div class="networks col-md-8">
+
+      <div class="flow-and-capacity row">
+
+        <div class="network col">
+          <div class="header row" style="background-color: pink">
+            <h4>Capacity network</h4>
+          </div>
+          <div id="capacity-network">
+
+          </div>
         </div>
-        <div id="capacity-network">
 
+        <div class="network col">
+          <div class="header row" style="background-color: lightblue">
+            <h4>Flow network</h4>
+          </div>
+          <div id="flow-network">
+
+          </div>
         </div>
+
       </div>
 
-      <div class="network col">
-        <div class="header row" style="background-color: lightblue">
-          <h2>Flow network</h2>
-        </div>
-        <div id="flow-network">
+      <div class="row">
 
+        <div class="network col">
+          <div class="header row" style="background-color: lightgreen">
+            <h4>Residual network</h4>
+          </div>
+          <div id="residual-network">
+
+          </div>
         </div>
+
       </div>
 
     </div>
 
-    <div class="row">
-
-      <div class="network col">
-        <div class="header row" style="background-color: lightgreen">
-          <h2>Residual network</h2>
-        </div>
-        <div id="residual-network">
-
-        </div>
+    <div id="algorithm" class="col-md-4">
+      <div class="header row" style="background-color: yellow">
+        <h4>Algorithm</h4>
       </div>
-
     </div>
 
   </div>
-
-  <div id="algorithm" class="col-md-4">
-    <div class="header row" style="background-color: yellow">
-      <h2>Algorithm</h2>
-    </div>
-  </div>
-
 </div>

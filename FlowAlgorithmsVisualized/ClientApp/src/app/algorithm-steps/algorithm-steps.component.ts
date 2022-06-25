@@ -46,18 +46,21 @@ export class AlgorithmStepsComponent implements OnInit {
     this.networkService.getFlowNetwork(algorithm).subscribe((network) => {
       this.flowNetwork = network;
       // console.log("getData() --> FlowNetwork:\n" + this.flowNetwork);
-      // this.renderNetwork(this.flowNetwork, "#flow-network");
+      this.renderNetwork(this.flowNetwork, "#flow-network");
     });
 
     this.networkService.getAlgorithmSteps(algorithm).subscribe((steps) => {
       this.residualNetworks = steps[0] as string[];
       this.flowNetworks = steps[1] as string[];
-      console.log(this.residualNetworks.length);
-      // this.residualNetworks.forEach((step) => console.log(step));
-      this.flowNetworks.forEach((step) => console.log(step));
 
-      this.startAnimation(this.residualNetworks, "#residual-network");
-      this.startAnimation(this.flowNetworks, "#flow-network");
+      // console.log(this.residualNetworks.length);
+      // this.residualNetworks.forEach((step) => console.log(step));
+      // this.flowNetworks.forEach((step) => console.log(step));
+
+      this.renderNetwork(this.residualNetworks[0], "#residual-network");
+
+      //this.startAnimation(this.residualNetworks, "#residual-network");
+      //this.startAnimation(this.flowNetworks, "#flow-network");
     });
   }
 
@@ -97,6 +100,11 @@ export class AlgorithmStepsComponent implements OnInit {
       .on("initEnd", render);
 
     graphviz.engine(this.layoutEngine);
+  }
+
+  startAnimationOnClick() {
+    this.startAnimation(this.residualNetworks, "#residual-network");
+    this.startAnimation(this.flowNetworks, "#flow-network");
   }
 
 }

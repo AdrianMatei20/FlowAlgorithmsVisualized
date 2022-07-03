@@ -1,7 +1,6 @@
-﻿using Graphviz4Net.Dot;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using System.Linq;
+using Graphviz4Net.Dot;
 
 namespace NetworkData.Algorithms
 {
@@ -16,18 +15,13 @@ namespace NetworkData.Algorithms
 
             List<(int V1, int V2)> path = new List<(int, int)>();
 
-            // 1. Initial state of networks
-            SaveState(capacitySteps, dotCapacityNetwork);
-            SaveState(residualSteps, dotResidualNetwork);
-            SaveState(flowSteps, dotFlowNetwork);
+            SaveInitialStateOfNetworks(capacitySteps, residualSteps, flowSteps);
 
             int maxFlow = 0;
             dotResidualNetwork.Vertices.ElementAt(noOfVertices - 1).Attributes["xlabel"] = "V=" + maxFlow.ToString();
             dotFlowNetwork.Vertices.ElementAt(noOfVertices - 1).Attributes["xlabel"] = "V=" + maxFlow.ToString();
 
-            // 2. Initial max flow value
-            SaveState(residualSteps, dotResidualNetwork);
-            SaveState(flowSteps, dotFlowNetwork);
+            SaveCurrentStateOfNetworks(residualSteps, flowSteps);
 
             do
             {
@@ -47,50 +41,8 @@ namespace NetworkData.Algorithms
                         }
                     }
 
-                    foreach (var edge in path)
-                    {
-                        var dotDirEdge = FindEdge(dotResidualNetwork, edge.V1, edge.V2);
-                        if (dotDirEdge != null)
-                        {
-                            dotDirEdge.Attributes["penwidth"] = "3";
-                        }
-
-                        // 3a. Highlighting edges of path one by one (residual network).
-                        SaveState(residualSteps, dotResidualNetwork);
-                    }
-
-                    foreach (var edge in path)
-                    {
-                        var dotDirEdge = FindEdge(dotFlowNetwork, edge.V1 - 1, edge.V2 - 1);
-                        if (dotDirEdge != null)
-                        {
-                            dotDirEdge.Attributes["penwidth"] = "3";
-                            dotDirEdge.Attributes["color"] = "blue";
-                            dotDirEdge.Attributes["fontcolor"] = "blue";
-                        }
-
-                        // 3b. Highlighting edges of path one by one (flow network).
-                        SaveState(flowSteps, dotFlowNetwork);
-                    }
-
-                    foreach (var edge in path)
-                    {
-                        var dotDirEdge = FindEdge(dotResidualNetwork, edge.V1, edge.V2);
-                        var dotOppEdge = FindEdge(dotResidualNetwork, edge.V2, edge.V1);
-                        if (dotDirEdge != null)
-                        {
-                            dotDirEdge.Attributes["color"] = "red";
-                            dotDirEdge.Attributes["fontcolor"] = "red";
-                        }
-                        if (dotOppEdge != null)
-                        {
-                            dotOppEdge.Attributes["fontcolor"] = "red";
-                        }
-                    }
-
-                    // 4. Highlighting entire path.
-                    SaveState(residualSteps, dotResidualNetwork);
-                    SaveState(flowSteps, dotFlowNetwork);
+                    HighlightPathStepByStep(path, residualSteps, flowSteps);
+                    HighlightPath(path, residualSteps, flowSteps);
 
                     foreach (var edge in path)
                     {
@@ -152,38 +104,15 @@ namespace NetworkData.Algorithms
                             dotResidualNetwork.AddEdge(newEdge);
                         }
 
-                        // 5
-                        SaveState(residualSteps, dotResidualNetwork);
-                        SaveState(flowSteps, dotFlowNetwork);
+                        SaveCurrentStateOfNetworks(residualSteps, flowSteps);
                     }
 
                     maxFlow += residualCapacityOfPath;
                     dotResidualNetwork.Vertices.ElementAt(noOfVertices - 1).Attributes["xlabel"] = "V=" + maxFlow.ToString();
                     dotFlowNetwork.Vertices.ElementAt(noOfVertices - 1).Attributes["xlabel"] = "V=" + maxFlow.ToString();
 
-                    // 6
-                    SaveState(residualSteps, dotResidualNetwork);
-                    SaveState(flowSteps, dotFlowNetwork);
-
-                    foreach (DotEdge<int> edge in dotResidualNetwork.Edges)
-                    {
-                        edge.Attributes["penwidth"] = "1";
-                        edge.Attributes["color"] = "black";
-                        edge.Attributes["fontcolor"] = "black";
-                    }
-
-                    // 7a
-                    SaveState(residualSteps, dotResidualNetwork);
-
-                    foreach (DotEdge<int> edge in dotFlowNetwork.Edges)
-                    {
-                        edge.Attributes["penwidth"] = "1";
-                        edge.Attributes["color"] = "black";
-                        edge.Attributes["fontcolor"] = "black";
-                    }
-
-                    // 7b
-                    SaveState(flowSteps, dotFlowNetwork);
+                    SaveCurrentStateOfNetworks(residualSteps, flowSteps);
+                    ResetNetworks(residualSteps, flowSteps);
                 }
 
             } while (path.Any());

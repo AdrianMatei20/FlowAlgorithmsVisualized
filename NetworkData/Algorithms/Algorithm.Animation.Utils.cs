@@ -82,5 +82,19 @@ namespace NetworkData.Algorithms
 
             SaveCurrentStateOfNetworks(residualSteps, flowSteps);
         }
+
+        private void EndOfAnimation(List<string> residualSteps, List<string> flowSteps)
+        {
+            for (int i = 1; i <= 3; i++)
+            {
+                dotResidualNetwork.Vertices.ElementAt(noOfVertices - 1).Attributes["fillcolor"] = "white";
+                dotFlowNetwork.Vertices.ElementAt(noOfVertices - 1).Attributes["fillcolor"] = "white";
+                SaveCurrentStateOfNetworks(residualSteps, flowSteps);
+
+                dotResidualNetwork.Vertices.ElementAt(noOfVertices - 1).Attributes["fillcolor"] = "lightblue";
+                dotFlowNetwork.Vertices.ElementAt(noOfVertices - 1).Attributes["fillcolor"] = "lightblue";
+                SaveCurrentStateOfNetworks(residualSteps, flowSteps);
+            }
+        }
     }
 }

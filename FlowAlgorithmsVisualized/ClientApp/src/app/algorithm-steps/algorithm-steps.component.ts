@@ -64,7 +64,7 @@ export class AlgorithmStepsComponent implements OnInit {
     var dotIndex = 1;
     var graphviz = null;
     var bigDelay = 2000;
-    var smallDelay = 100;
+    var smallDelay = 200;
 
     var render = function () {
       var dot = algorithmSteps[dotIndex];

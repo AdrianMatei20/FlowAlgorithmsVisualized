@@ -117,13 +117,7 @@ namespace NetworkData.Algorithms
 
             } while (path.Any());
 
-            for (int i = 1; i <= 3; i++)
-            {
-                dotResidualNetwork.Vertices.ElementAt(noOfVertices - 1).Attributes["xlabel"] = "";
-                SaveState(residualSteps, dotResidualNetwork);
-                dotResidualNetwork.Vertices.ElementAt(noOfVertices - 1).Attributes["xlabel"] = "V=" + maxFlow.ToString();
-                SaveState(residualSteps, dotResidualNetwork);
-            }
+            EndOfAnimation(residualSteps, flowSteps);
 
             steps.Add(capacitySteps);
             steps.Add(residualSteps);

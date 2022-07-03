@@ -12,25 +12,32 @@ namespace FlowAlgorithmsVisualized.Controllers
     [Route("[controller]")]
     public class AlgorithmStepsController : ControllerBase
     {
-        [HttpGet("capacityNetwork")]
-        public string GetCapacityNetwork(string algorithm)
-        {
-            string capacityNetwork = Network.GetCapacityNetwork(algorithm);
-            return capacityNetwork;
-        }
+        //[HttpGet("capacityNetwork")]
+        //public string GetCapacityNetwork(string algorithm)
+        //{
+        //    string capacityNetwork = Network.GetCapacityNetwork(algorithm);
+        //    return capacityNetwork;
+        //}
 
-        [HttpGet("flowNetwork")]
-        public string GetFlowNetwork(string algorithm)
-        {
-            string flowNetwork = Network.GetFlowNetwork(algorithm);
-            return flowNetwork;
-        }
+        //[HttpGet("flowNetwork")]
+        //public string GetFlowNetwork(string algorithm)
+        //{
+        //    string flowNetwork = Network.GetFlowNetwork(algorithm);
+        //    return flowNetwork;
+        //}
+
+        //[HttpGet("steps")]
+        //public string GetAlgorithmSteps(string algorithm)
+        //{
+        //    List<List<string>> steps = Network.ApplyAlgorithm(algorithm);
+        //    return JsonSerializer.Serialize(steps);
+        //}
 
         [HttpGet("steps")]
-        public string GetAlgorithmSteps(string algorithm)
+        public string GetData(string algorithm)
         {
-            List<List<string>> steps = Network.ApplyAlgorithm(algorithm);
-            return JsonSerializer.Serialize(steps);
+            List<List<string>> data = Network.ApplyAlgorithm(algorithm);
+            return JsonSerializer.Serialize(data);
         }
     }
 }

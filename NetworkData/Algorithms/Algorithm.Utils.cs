@@ -9,6 +9,7 @@ namespace NetworkData.Algorithms
     public partial class Algorithm
     {
         private DotGraph<int> dotCapacityNetwork;
+        private DotGraph<int> dotResidualNetwork;
         private DotGraph<int> dotFlowNetwork;
         private int noOfVertices;
         private int[,] capacityNetwork;
@@ -19,6 +20,7 @@ namespace NetworkData.Algorithms
         public Algorithm(DotGraph<int> dotCapacityNetwork, DotGraph<int> dotFlowNetwork)
         {
             this.dotCapacityNetwork = dotCapacityNetwork;
+            this.dotResidualNetwork = dotCapacityNetwork;
             this.dotFlowNetwork = dotFlowNetwork;
 
             noOfVertices = dotCapacityNetwork.Vertices.Count();

@@ -39,6 +39,16 @@ namespace NetworkData.Algorithms
                     dotFlowNetworkEdge.Attributes["color"] = "blue";
                     dotFlowNetworkEdge.Attributes["fontcolor"] = "blue";
                 }
+                else
+                {
+                    var dotFlowNetworkBackEdge = FindEdge(dotFlowNetwork, edge.V2 - 1, edge.V1 - 1);
+                    if (dotFlowNetworkBackEdge != null)
+                    {
+                        // dotFlowNetworkBackEdge.Attributes["penwidth"] = "3";
+                        // dotFlowNetworkBackEdge.Attributes["color"] = "blue";
+                        dotFlowNetworkBackEdge.Attributes["fontcolor"] = "blue";
+                    }
+                }
 
                 SaveCurrentStateOfNetworks(residualSteps, flowSteps);
             }

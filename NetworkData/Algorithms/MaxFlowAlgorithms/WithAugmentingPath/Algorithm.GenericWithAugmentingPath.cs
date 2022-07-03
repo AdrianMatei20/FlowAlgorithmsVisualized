@@ -53,6 +53,15 @@ namespace NetworkData.Algorithms
                         {
                             dotEdge.Attributes["label"] = flowNetwork[edge.V1 - 1, edge.V2 - 1].ToString() + "/" + capacityNetwork[edge.V1 - 1, edge.V2 - 1].ToString();
                         }
+                        else
+                        {
+                            var dotBackEdge = FindEdge(dotFlowNetwork, edge.V2 - 1, edge.V1 - 1);
+                            if (dotBackEdge != null)
+                            {
+                                var flow = flowNetwork[edge.V1 - 1, edge.V2 - 1] - residualCapacityOfPath;
+                                dotBackEdge.Attributes["label"] = flow.ToString() + "/" + capacityNetwork[edge.V2 - 1, edge.V1 - 1].ToString();
+                            }
+                        }
 
                         residualNetwork[edge.V1 - 1, edge.V2 - 1] -= residualCapacityOfPath;
                         residualNetwork[edge.V2 - 1, edge.V1 - 1] += residualCapacityOfPath;

@@ -110,9 +110,9 @@ namespace NetworkData
                     algorithmSteps = algorithm.FordFulkerson();
                     break;
 
-                //case "EK":
-                //    algorithmSteps = algorithm.EdmondsKarp();
-                //    break;
+                case "EK":
+                    algorithmSteps = algorithm.EdmondsKarp();
+                    break;
             }
 
             return algorithmSteps;

@@ -21,3 +21,7 @@ html {
 button {
   margin: 5px;
 }
+
+.active {
+  background-color: crimson;
+}

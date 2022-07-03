@@ -35,14 +35,20 @@ export class AlgorithmStepsComponent implements OnInit {
   }
 
   getData(algorithm: string): void {
-    this.networkService.getData(algorithm).subscribe((data) => {
-      this.capacityNetwork = data[0][0] as string;
-      this.residualNetworks = data[1] as string[];
-      this.flowNetworks = data[2] as string[];
+    this.networkService.getData(algorithm).subscribe((response) => {
+      let data = response as string[][];
+      if (data.length > 0) {
+        this.capacityNetwork = data[0][0] as string;
+        this.residualNetworks = data[1] as string[];
+        this.flowNetworks = data[2] as string[];
 
-      this.renderNetwork(this.capacityNetwork, "#capacity-network");
-      this.renderNetwork(this.flowNetworks[0], "#flow-network");
-      this.renderNetwork(this.residualNetworks[0], "#residual-network");
+        this.renderNetwork(this.capacityNetwork, "#capacity-network");
+        this.renderNetwork(this.flowNetworks[0], "#flow-network");
+        this.renderNetwork(this.residualNetworks[0], "#residual-network");
+      }
+      else {
+        this.reset();
+      }
     });
   }
 
@@ -93,9 +99,9 @@ export class AlgorithmStepsComponent implements OnInit {
     this.startAnimation([], "#residual-network");
     this.startAnimation([], "#flow-network");
 
-    this.renderNetwork("", "#capacity-network");
-    this.renderNetwork("", "#flow-network");
-    this.renderNetwork("", "#residual-network");
+    this.renderNetwork(null, "#capacity-network");
+    this.renderNetwork(null, "#flow-network");
+    this.renderNetwork(null, "#residual-network");
   }
 
 }

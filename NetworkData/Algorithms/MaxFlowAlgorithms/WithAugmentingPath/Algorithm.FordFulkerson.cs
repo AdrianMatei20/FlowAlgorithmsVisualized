@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Graphviz4Net.Dot;
 
@@ -25,7 +26,7 @@ namespace NetworkData.Algorithms
 
             do
             {
-                path = FindRandomPath();
+                path = FindPath_FordFulkerson();
 
                 if (path.Any())
                 {
@@ -132,6 +133,52 @@ namespace NetworkData.Algorithms
             steps.Add(residualSteps);
             steps.Add(flowSteps);
             return steps;
+        }
+
+        public List<(int, int)> FindPath_FordFulkerson()
+        {
+            int s = 0, t = noOfVertices - 1;
+            List<(int, int)> path = new List<(int, int)>();
+            List<int> L = new List<int>();
+            int[] p = new int[noOfVertices];
+            Array.Fill(p, -1);
+
+            p[s] = t;
+            L.Add(s);
+
+            while (L.Any() && p[t] == -1)
+            {
+                Random random = new Random();
+                var x = L[random.Next(L.Count())];
+                L.Remove(x);
+
+                for (int y = 0; y < noOfVertices; y++)
+                {
+                    if (residualNetwork[x, y] > 0 && p[y] == -1)
+                    {
+                        p[y] = x;
+                        L.Add(y);
+                    }
+                }
+            }
+
+            if (p[t] != -1)
+            {
+                int y = t;
+                int x = p[y];
+
+                while (x != t)
+                {
+                    (int x, int y) edge = (x + 1, y + 1);
+                    path.Add(edge);
+
+                    y = x;
+                    x = p[y];
+                }
+            }
+
+            path.Reverse();
+            return path;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Graphviz4Net.Dot;
 
@@ -25,7 +26,7 @@ namespace NetworkData.Algorithms
 
             do
             {
-                path = FindPath();
+                path = FindPath_EdmondsKarp();
 
                 if (path.Any())
                 {
@@ -132,6 +133,49 @@ namespace NetworkData.Algorithms
             steps.Add(residualSteps);
             steps.Add(flowSteps);
             return steps;
+        }
+
+        public List<(int, int)> FindPath_EdmondsKarp()
+        {
+            int s = 0, t = noOfVertices - 1;
+            List<(int, int)> path = new List<(int, int)>();
+            Queue<int> Q = new Queue<int>();
+            int[] p = new int[noOfVertices];
+            Array.Fill(p, -1);
+
+            p[s] = t;
+            Q.Enqueue(s);
+
+            while (Q.Any() && p[t] == -1)
+            {
+                var x = Q.Dequeue();
+                for (int y = 0; y < noOfVertices; y++)
+                {
+                    if (residualNetwork[x, y] > 0 && p[y] == -1)
+                    {
+                        p[y] = x;
+                        Q.Enqueue(y);
+                    }
+                }
+            }
+
+            if (p[t] != -1)
+            {
+                int y = t;
+                int x = p[y];
+
+                while (x != t)
+                {
+                    (int x, int y) edge = (x + 1, y + 1);
+                    path.Add(edge);
+
+                    y = x;
+                    x = p[y];
+                }
+            }
+
+            path.Reverse();
+            return path;
         }
     }
 }

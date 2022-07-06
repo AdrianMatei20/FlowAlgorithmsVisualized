@@ -113,6 +113,10 @@ namespace NetworkData
                 case "EK":
                     algorithmSteps = algorithm.EdmondsKarp();
                     break;
+
+                case "AOSMC":
+                    algorithmSteps = algorithm.EdmondsKarp();
+                    break;
             }
 
             return algorithmSteps;

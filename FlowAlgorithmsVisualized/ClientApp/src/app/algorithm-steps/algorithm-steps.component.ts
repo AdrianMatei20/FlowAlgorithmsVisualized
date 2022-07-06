@@ -20,6 +20,8 @@ export class AlgorithmStepsComponent implements OnInit {
   private residualNetworks: string[] = [];
   private flowNetworks: string[] = [];
 
+  private transition;
+
   constructor(private networkService: NetworkService, private router: Router, private route: ActivatedRoute) {
     router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
@@ -27,6 +29,11 @@ export class AlgorithmStepsComponent implements OnInit {
         console.log("Algorithm: " + this.algorithm);
         this.reset();
         this.getData(this.algorithm);
+        this.transition = d3.transition("main")
+          .ease(d3.easeLinear)
+          .delay(200)
+          .duration(250)
+          .attr("T", 1);
       }
     });
   }
@@ -38,6 +45,10 @@ export class AlgorithmStepsComponent implements OnInit {
     this.networkService.getData(algorithm).subscribe((response) => {
       let data = response as string[][];
       if (data.length > 0) {
+        this.capacityNetwork = null;
+        this.residualNetworks = null;
+        this.flowNetworks = null;
+
         this.capacityNetwork = data[0][0] as string;
         this.residualNetworks = data[1] as string[];
         this.flowNetworks = data[2] as string[];
@@ -54,18 +65,18 @@ export class AlgorithmStepsComponent implements OnInit {
 
   renderNetwork(network: string, selector: string): void {
     var graphviz = null;
-    graphviz = d3.select(selector).graphviz();
-    graphviz.engine(this.layoutEngine);
-    graphviz!.renderDot(network)
+
+    if (d3.select(selector) != null) {
+      graphviz = d3.select(selector).graphviz();
+      graphviz.engine(this.layoutEngine);
+      graphviz!.renderDot(network)
+    }
   }
 
   startAnimation(network: string[], netwokDiv: string): void {
     var algorithmSteps = network;
     var dotIndex = 1;
     var graphviz = null;
-    var bigDelay = 2000;
-    var smallDelay = 200;
-
     var render = function () {
       var dot = algorithmSteps[dotIndex];
       graphviz!
@@ -74,34 +85,28 @@ export class AlgorithmStepsComponent implements OnInit {
           if (dotIndex + 1 < algorithmSteps.length) {
             dotIndex = dotIndex + 1;
             render();
+            if (this.animationPaused == true) {
+              dotIndex = algorithmSteps.length;
+            }
           }
         });
     }
 
     graphviz = d3.select(netwokDiv).graphviz()
-      .transition(function () {
-        return d3.transition("main")
-          .ease(d3.easeLinear)
-          .delay(smallDelay)
-          .duration(250);
-      })
+      .transition(this.transition)
       .logEvents(false)
       .on("initEnd", render);
     graphviz.engine(this.layoutEngine);
   }
 
-  startAnimationOnClick() {
+  startAnimations() {
     this.startAnimation(this.residualNetworks, "#residual-network");
     this.startAnimation(this.flowNetworks, "#flow-network");
   }
 
   reset() {
-    this.startAnimation([], "#residual-network");
-    this.startAnimation([], "#flow-network");
-
-    this.renderNetwork(null, "#capacity-network");
-    this.renderNetwork(null, "#flow-network");
-    this.renderNetwork(null, "#residual-network");
+    this.startAnimation(this.residualNetworks.slice(0, 1), "#residual-network");
+    this.startAnimation(this.flowNetworks.slice(0, 1), "#flow-network");
   }
 
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Graphviz4Net.Dot;
 
@@ -132,6 +133,50 @@ namespace NetworkData.Algorithms
             steps.Add(residualSteps);
             steps.Add(flowSteps);
             return steps;
+        }
+
+        public List<(int, int)> FindRandomPath()
+        {
+            List<(int, int)> path = new List<(int, int)>();
+            int s = 0, t = noOfVertices - 1;
+            bool[] visited = new bool[noOfVertices];
+
+            getAllPossiblePaths(s, t, visited, path);
+
+            if (paths.Any())
+            {
+                Random random = new Random();
+                path = paths[random.Next(paths.Count())];
+                paths.Clear();
+            }
+
+            return path;
+        }
+
+        private void getAllPossiblePaths(int x, int t, bool[] visited, List<(int, int)> path)
+        {
+            if (x == t)
+            {
+                paths.Add(new List<(int, int)>(path));
+                return;
+            }
+
+            visited[x] = true;
+
+            foreach (var node in dotCapacityNetwork.Vertices)
+            {
+                int y = node.Id - 1;
+                if (residualNetwork[x, y] > 0 && !visited[y])
+                {
+                    path.Add((x + 1, y + 1));
+                    getAllPossiblePaths(y, t, visited, path);
+                    path.Remove(((x + 1, y + 1)));
+                }
+            }
+
+            visited[x] = false;
+
+            return;
         }
     }
 }

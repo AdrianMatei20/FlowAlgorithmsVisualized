@@ -115,7 +115,7 @@ namespace NetworkData
                     break;
 
                 case "AOSMC":
-                    algorithmSteps = algorithm.EdmondsKarp();
+                    algorithmSteps = algorithm.AhujaOrlinCapacityScaling();
                     break;
             }
 

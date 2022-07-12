@@ -74,6 +74,32 @@ namespace NetworkData.Algorithms
             SaveCurrentStateOfNetworks(residualSteps, flowSteps);
         }
 
+        private void HighlightArrows(List<string> residualSteps, List<string> flowSteps, int minimumResidualCapacity)
+        {
+            foreach (DotEdge<int> edge in dotResidualNetwork.Edges)
+            {
+                int residualCapacityofEdge = 0;
+                int.TryParse(edge.Label.ToString(), out residualCapacityofEdge);
+
+                if (residualCapacityofEdge >= minimumResidualCapacity)
+                {
+                    edge.Attributes["style"] = "";
+                    // edge.Attributes["penwidth"] = "2";
+                    edge.Attributes["color"] = "green";
+                    // edge.Attributes["fontcolor"] = "green";
+                }
+                else
+                {
+                    edge.Attributes["style"] = "dashed";
+                    // edge.Attributes["penwidth"] = "1";
+                    edge.Attributes["color"] = "black";
+                    // edge.Attributes["fontcolor"] = "black";
+                }
+            }
+
+            SaveCurrentStateOfNetworks(residualSteps, flowSteps);
+        }
+
         private void ResetNetworks(List<string> residualSteps, List<string> flowSteps)
         {
             foreach (DotEdge<int> edge in dotResidualNetwork.Edges)

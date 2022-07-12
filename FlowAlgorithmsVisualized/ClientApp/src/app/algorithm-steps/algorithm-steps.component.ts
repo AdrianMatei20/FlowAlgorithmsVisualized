@@ -20,8 +20,6 @@ export class AlgorithmStepsComponent implements OnInit {
   private residualNetworks: string[] = [];
   private flowNetworks: string[] = [];
 
-  private transition;
-
   constructor(private networkService: NetworkService, private router: Router, private route: ActivatedRoute) {
     router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
@@ -29,11 +27,6 @@ export class AlgorithmStepsComponent implements OnInit {
         console.log("Algorithm: " + this.algorithm);
         this.reset();
         this.getData(this.algorithm);
-        this.transition = d3.transition("main")
-          .ease(d3.easeLinear)
-          .delay(200)
-          .duration(250)
-          .attr("T", 1);
       }
     });
   }
@@ -77,6 +70,7 @@ export class AlgorithmStepsComponent implements OnInit {
     var algorithmSteps = network;
     var dotIndex = 1;
     var graphviz = null;
+
     var render = function () {
       var dot = algorithmSteps[dotIndex];
       graphviz!
@@ -93,9 +87,15 @@ export class AlgorithmStepsComponent implements OnInit {
     }
 
     graphviz = d3.select(netwokDiv).graphviz()
-      .transition(this.transition)
+      .transition(function () {
+        return d3.transition("main")
+          .ease(d3.easeLinear)
+          .delay(1000)
+          .duration(200);
+      })
       .logEvents(false)
       .on("initEnd", render);
+
     graphviz.engine(this.layoutEngine);
   }
 

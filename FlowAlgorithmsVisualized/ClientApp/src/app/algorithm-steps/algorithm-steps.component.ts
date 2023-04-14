@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { NetworkService } from '../services/network.service';
@@ -21,12 +20,11 @@ export class AlgorithmStepsComponent implements OnInit {
   private flowNetworks: string[] = [];
 
   constructor(private networkService: NetworkService, private router: Router, private route: ActivatedRoute) {
-    router.events.subscribe((event) => {
+    this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.algorithm = this.route.snapshot.paramMap.get('algorithm');
         console.log("Algorithm: " + this.algorithm);
         this.reset();
-        this.getData(this.algorithm);
       }
     });
   }
@@ -62,7 +60,8 @@ export class AlgorithmStepsComponent implements OnInit {
     if (d3.select(selector) != null) {
       graphviz = d3.select(selector).graphviz();
       graphviz.engine(this.layoutEngine);
-      graphviz!.renderDot(network)
+      graphviz!.renderDot(network);
+      graphviz!.zoom(false);
     }
   }
 
@@ -104,9 +103,20 @@ export class AlgorithmStepsComponent implements OnInit {
     this.startAnimation(this.flowNetworks, "#flow-network");
   }
 
-  reset() {
+  async reset() {
+    d3.select("#capacity-network").innerHTML = "";
+    d3.select("#flow-network").innerHTML = "";
+    d3.select("#residual-network").innerHTML = "";
+    this.getData(this.algorithm);
     this.startAnimation(this.residualNetworks.slice(0, 1), "#residual-network");
     this.startAnimation(this.flowNetworks.slice(0, 1), "#flow-network");
+
+    //var svg = document.querySelector("svg");
+
+    //while (svg != null) {
+    //  svg.parentElement.removeChild(svg);
+    //  svg = document.querySelector("svg");
+    //}
   }
 
 }

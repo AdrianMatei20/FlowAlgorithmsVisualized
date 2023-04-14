@@ -100,6 +100,102 @@ namespace NetworkData.Algorithms
             SaveCurrentStateOfNetworks(residualSteps, flowSteps);
         }
 
+        private void WaveUpdateHighlightFlowNetwork(List<string> residualSteps, List<string> flowSteps, string color)
+        {
+            foreach (DotEdge<int> edge in dotFlowNetwork.Edges)
+            {
+                edge.Attributes["penwidth"] = "2";
+            }
+
+            SaveCurrentStateOfNetworks(residualSteps, flowSteps);
+
+            foreach (DotEdge<int> edge in dotFlowNetwork.Edges)
+            {
+                edge.Attributes["label"] = flowNetwork[edge.Source.Id, edge.Destination.Id].ToString() + "/" + capacityNetwork[edge.Source.Id, edge.Destination.Id];
+                edge.Attributes["fontcolor"] = color;
+            }
+
+            SaveCurrentStateOfNetworks(residualSteps, flowSteps);
+        }
+
+        private void WaveUpdateHighlightResidualNetwork(List<string> residualSteps, List<string> flowSteps)
+        {
+            foreach (DotEdge<int> edge in dotResidualNetwork.Edges)
+            {
+                edge.Attributes["penwidth"] = "2";
+            }
+
+            SaveCurrentStateOfNetworks(residualSteps, flowSteps);
+
+            foreach (DotEdge<int> edge in dotResidualNetwork.Edges)
+            {
+                edge.Attributes["label"] = residualNetwork[edge.Source.Id - 1, edge.Destination.Id - 1].ToString();
+                edge.Attributes["fontcolor"] = "red";
+            }
+
+            SaveCurrentStateOfNetworks(residualSteps, flowSteps);
+        }
+
+        private void WaveUpdateReset(List<string> residualSteps, List<string> flowSteps)
+        {
+            foreach (DotEdge<int> edge in dotFlowNetwork.Edges)
+            {
+                edge.Attributes["penwidth"] = "1";
+                edge.Attributes["fontcolor"] = "black";
+            }
+
+            SaveCurrentStateOfNetworks(residualSteps, flowSteps);
+
+            foreach (DotEdge<int> edge in dotResidualNetwork.Edges)
+            {
+                edge.Attributes["penwidth"] = "1";
+                edge.Attributes["fontcolor"] = "black";
+            }
+
+            SaveCurrentStateOfNetworks(residualSteps, flowSteps);
+        }
+
+        private void UpdateResidualNetwork(List<string> residualSteps, List<string> flowSteps)
+        {
+            for (int i = 0; i < noOfVertices; i++)
+            {
+                for (int j = 0; j < noOfVertices; j++)
+                {
+                    if(residualNetwork[i, j] > 0)
+                    {
+                        DotEdge<int> edge = FindEdge(dotResidualNetwork, i + 1, j + 1);
+                        if(edge != null)
+                        {
+                            edge.Attributes["label"] = residualNetwork[i, j].ToString();
+                        }
+                        else
+                        {
+                            var edgeAttributes = new Dictionary<string, string>();
+                            edgeAttributes.Add("label", residualNetwork[i, j].ToString());
+                            edgeAttributes.Add("fontsize", "18px");
+                            edgeAttributes.Add("penwidth", "3");
+                            edgeAttributes.Add("color", "red");
+                            edgeAttributes.Add("fontcolor", "red");
+                            DotVertex<int> source = dotResidualNetwork.Vertices.Where((vertex) => vertex.Id == i + 1).FirstOrDefault();
+                            DotVertex<int> destination = dotResidualNetwork.Vertices.Where((vertex) => vertex.Id == j + 1).FirstOrDefault();
+                            DotEdge<int> newEdge = new DotEdge<int>(source, destination, edgeAttributes);
+                            dotResidualNetwork.AddEdge(newEdge);
+                        }
+                    }
+                    else
+                    {
+                        DotEdge<int> edge = FindEdge(dotResidualNetwork, i + 1, j + 1);
+                        if (edge != null)
+                        {
+                            dotResidualNetwork.RemoveEdge(edge);
+                        }
+                    }
+                }
+            }
+
+            SaveCurrentStateOfNetworks(residualSteps, flowSteps);
+        }
+
         private void ResetNetworks(List<string> residualSteps, List<string> flowSteps)
         {
             foreach (DotEdge<int> edge in dotResidualNetwork.Edges)
@@ -114,6 +210,31 @@ namespace NetworkData.Algorithms
                 edge.Attributes["penwidth"] = "1";
                 edge.Attributes["color"] = "black";
                 edge.Attributes["fontcolor"] = "black";
+            }
+
+            SaveCurrentStateOfNetworks(residualSteps, flowSteps);
+        }
+
+        private void ShowDistances(List<string> residualSteps, List<string> flowSteps, int[] d, int maxFlow)
+        {
+            string maxFlowLabel = "V=" + maxFlow.ToString() + "\n";
+            foreach (DotVertex<int> vertex in dotResidualNetwork.Vertices)
+            {
+                string distanceLabel = "d[" + vertex.Id.ToString() + "]=" + d[vertex.Id - 1].ToString();
+
+                if(vertex.Id == dotResidualNetwork.Vertices.Count())
+                {
+                    distanceLabel = maxFlowLabel + distanceLabel;
+                }
+
+                if (vertex.Attributes.ContainsKey("xlabel"))
+                {
+                    vertex.Attributes["xlabel"] = distanceLabel;
+                }
+                else
+                {
+                    vertex.Attributes.Add(new KeyValuePair<string, string>("xlabel", distanceLabel));
+                }
             }
 
             SaveCurrentStateOfNetworks(residualSteps, flowSteps);

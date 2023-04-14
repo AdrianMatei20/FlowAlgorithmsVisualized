@@ -117,6 +117,14 @@ namespace NetworkData
                 case "AOSMC":
                     algorithmSteps = algorithm.AhujaOrlinCapacityScaling();
                     break;
+
+                case "Gabow":
+                    algorithmSteps = algorithm.Gabow();
+                    break;
+
+                case "AODS":
+                    algorithmSteps = algorithm.ShortestAugmentingPath();
+                    break;
             }
 
             return algorithmSteps;

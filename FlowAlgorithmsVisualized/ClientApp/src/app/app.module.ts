@@ -13,6 +13,7 @@ import { AlgorithmStepsComponent } from './algorithm-steps/algorithm-steps.compo
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule, MatDividerModule, MatProgressSpinnerModule, MatToolbarModule } from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,11 @@ import { MatIconModule } from '@angular/material/icon';
     ]),
     BrowserAnimationsModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    MatCardModule,
+    MatDividerModule,
+    MatToolbarModule,
+    MatProgressSpinnerModule
   ],
   providers: [],
   bootstrap: [AppComponent]

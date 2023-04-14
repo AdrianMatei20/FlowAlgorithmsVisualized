@@ -1,57 +1,61 @@
-<div id="page-content" class="column">
+<div id="page-content" class="col">
 
-  <div id="animation-controls">
+  <mat-toolbar id="animation-controls">
     <button mat-mini-fab color="primary" id="playButton" (click)="startAnimations()">
       <mat-icon>play_arrow</mat-icon>
     </button>
-  </div>
+  </mat-toolbar>
 
   <div id="content" class="row">
 
+    <div id="networks" class="col-md-8">
 
-    <div class="networks col-md-8">
+      <div id="flow-and-capacity" class="row">
 
-      <div class="flow-and-capacity row">
+        <mat-card>
+          <mat-card-header style="background-color: pink;">
+            <mat-card-title>Capacity network</mat-card-title>
+          </mat-card-header>
 
-        <div class="network col">
-          <div class="header row" style="background-color: pink">
-            <h4>Capacity network</h4>
-          </div>
-          <div id="capacity-network">
+          <mat-card-content id="capacity-network"></mat-card-content>
+        </mat-card>
 
-          </div>
-        </div>
+        <mat-card>
+          <mat-card-header style="background-color: lightblue;">
+            <mat-card-title>Flow network</mat-card-title>
+          </mat-card-header>
 
-        <div class="network col">
-          <div class="header row" style="background-color: lightblue">
-            <h4>Flow network</h4>
-          </div>
-          <div id="flow-network">
-
-          </div>
-        </div>
+          <mat-card-content id="flow-network"></mat-card-content>
+        </mat-card>
 
       </div>
 
-      <div class="row">
+      <div id="residual" class="row">
 
-        <div class="network col">
-          <div class="header row" style="background-color: lightgreen">
-            <h4>Residual network</h4>
-          </div>
-          <div id="residual-network">
+        <mat-card>
+          <mat-card-header style="background-color: lightgreen;">
+            <mat-card-title>Residual network</mat-card-title>
+          </mat-card-header>
 
-          </div>
-        </div>
+          <mat-card-content id="residual-network"></mat-card-content>
+        </mat-card>
 
       </div>
 
     </div>
 
-    <div id="algorithm" class="col-md-4">
-      <div class="header row" style="background-color: yellow">
-        <h4>Algorithm</h4>
-      </div>
+    <div id="algorithm">
+
+      <mat-card>
+        <mat-card-header style="background-color: gold;">
+          <mat-card-title style="align-items: center;">Algorithm</mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+
+        </mat-card-content>
+      </mat-card>
+
     </div>
 
   </div>

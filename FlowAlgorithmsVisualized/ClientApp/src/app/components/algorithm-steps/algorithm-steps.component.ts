@@ -1,6 +1,7 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { NetworkService } from '../services/network.service';
+import { NetworkService } from '../../services/network.service';
+import * as pseudocode from 'pseudocode';
 // import * as d3 from 'd3';
 declare var d3: any;
 
@@ -9,7 +10,7 @@ declare var d3: any;
   templateUrl: './algorithm-steps.component.html',
   styleUrls: ['./algorithm-steps.component.css']
 })
-export class AlgorithmStepsComponent implements OnInit {
+export class AlgorithmStepsComponent implements OnInit, AfterViewInit {
 
   private layoutEngines = ["dot", "neato", "fdp", "sfdp", "circo", "twopi", "osage", "patchwork"];
   private layoutEngine = this.layoutEngines[1];
@@ -30,6 +31,9 @@ export class AlgorithmStepsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  ngAfterViewInit() {
   }
 
   getData(algorithm: string): void {
@@ -110,13 +114,6 @@ export class AlgorithmStepsComponent implements OnInit {
     this.getData(this.algorithm);
     this.startAnimation(this.residualNetworks.slice(0, 1), "#residual-network");
     this.startAnimation(this.flowNetworks.slice(0, 1), "#flow-network");
-
-    //var svg = document.querySelector("svg");
-
-    //while (svg != null) {
-    //  svg.parentElement.removeChild(svg);
-    //  svg = document.querySelector("svg");
-    //}
   }
 
 }

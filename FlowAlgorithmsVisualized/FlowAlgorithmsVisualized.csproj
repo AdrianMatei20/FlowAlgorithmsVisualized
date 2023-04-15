@@ -28,6 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="ClientApp\src\app\components\pseudocode\" />
     <Folder Include="ClientApp\src\app\services\" />
   </ItemGroup>
 

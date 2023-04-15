@@ -1,0 +1,19 @@
+<pre id="pseudocode" class="pseudocode" style="display:none;">
+        {{'\\begin{algorithm}'}}
+        {{'\\caption{Ahuja-Orlin de scalare maximă a capacității}'}}
+        {{'\\begin{algorithmic}'}}
+          {{'\\STATE $f=0$'}}
+          {{'\\STATE $\\bar{r}=2^{\\lfloor \\mathcal{\\log}_2 C \\rfloor}$'}}
+          {{'\\WHILE{$\\bar{r} \\ge 1$}'}}
+            {{'\\STATE \\textbf{Se determină rețeaua $\\bar{r}-reziduală$ $G(f,\\bar{r})$}'}}
+            {{'\\WHILE{în $G(f,\\bar{r}) \\exists$ DMF}'}}
+              {{'\\STATE \\textbf{Se determină un DMF D din $G(f,\\bar{r})$}'}}
+              {{'\\STATE \\textbf{Se calculează} $r(D)=\\min\\{r(x,y)|(x,y) \\in D\\}$'}}
+              {{'\\STATE \\textbf{Se mărește cu $r(D)$ fluxul de-a lungul drumului D}'}}
+              {{'\\STATE \\textbf{Se actualizează rețeaua $\\bar{r}-reziduală$ $G(f,\\bar{r})$}'}}
+            {{'\\ENDWHILE'}}
+            {{'\\STATE $\\bar{r}=\\bar{r}/2$'}}
+          {{'\\ENDWHILE'}}
+        {{'\\end{algorithmic}'}}
+        {{'\\end{algorithm}'}}
+</pre>

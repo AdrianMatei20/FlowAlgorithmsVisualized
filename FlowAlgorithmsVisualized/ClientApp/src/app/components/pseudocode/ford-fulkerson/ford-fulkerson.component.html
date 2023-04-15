@@ -1,0 +1,29 @@
+<pre id="pseudocode" class="pseudocode" style="display:none;">
+        {{'\\begin{algorithm}'}}
+        {{'\\caption{Ford-Fulkerson}'}}
+        {{'\\begin{algorithmic}'}}
+          {{'\\STATE $f=\\mathcal{f}_0$'}}
+          {{'\\FOR{$x \\in N$}'}}
+            {{'\\STATE $p[x]=0$'}}
+          {{'\\ENDFOR'}}
+          {{'\\STATE $V=\\{s\\}$'}}
+          {{'\\STATE $p[s]=t$'}}
+          {{'\\WHILE{$V \\not= \\emptyset$}'}}
+            {{'\\STATE \\textbf{Se selectează un nod $x$ din $V$}'}}
+            {{'\\STATE $V=V\\setminus\\{x\\}$'}}
+            {{'\\FOR{$(x,y) \\in A(f)$}'}}
+              {{'\\IF{$p[y]=0$}'}}
+                {{'\\STATE $p[y]=x$'}}
+                {{'\\STATE $V=V\\cup\\{y\\}$'}}
+              {{'\\ENDIF'}}
+            {{'\\ENDFOR'}}
+          {{'\\ENDWHILE'}}
+          {{'\\IF{$p[t]\\not=0$}'}}
+            {{'\\STATE \\textbf{Se determină un DMF D cu ajutorul etichetelor p}'}}
+            {{'\\STATE \\textbf{Se calculează} $r(D)=\\min\\{r(x,y)|(x,y) \\in D\\}$'}}
+            {{'\\STATE \\textbf{Se mărește cu $r(D)$ fluxul de-a lungul drumului D}'}}
+            {{'\\STATE \\textbf{Se actualizează rețeaua reziduală $G(f)=(N,A(f))$}'}}
+          {{'\\ENDIF'}}
+        {{'\\end{algorithmic}'}}
+        {{'\\end{algorithm}'}}
+</pre>

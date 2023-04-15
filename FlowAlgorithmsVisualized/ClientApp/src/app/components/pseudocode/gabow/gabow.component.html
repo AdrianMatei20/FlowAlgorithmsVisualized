@@ -1,0 +1,21 @@
+<pre id="pseudocode" class="pseudocode" style="display:none;">
+        {{'\\begin{algorithm}'}}
+        {{'\\caption{Gabow}'}}
+        {{'\\begin{algorithmic}'}}
+          {{'\\STATE $k \\gets 0$'}}
+          {{'\\STATE $\\mathcal{c}_0 \\gets c$'}}
+          {{'\\WHILE{$\\max\\{\\mathcal{c}_k(x,y)|(x,y) \\in A\\}>1$}'}}
+            {{'\\FOR{$(x,y) \\in A$}'}}
+              {{'\\STATE $\\mathcal{c}_{k+1}(x,y)=[\\mathcal{c}_k(x,y)/2]$'}}
+            {{'\\ENDFOR'}}
+            {{'\\STATE $k \\gets k+1$'}}
+          {{'\\ENDWHILE'}}
+          {{'\\STATE $\\mathcal{f}_{k+1}=0$'}}
+          {{'\\WHILE{$k \\ge 0$}'}}
+            {{'\\STATE \\textbf{Se consideră ca flux inițial în $\\mathcal{\\textbf{G} }_k$, fluxul $2*\\mathcal{f}_{k+1}$}'}}
+            {{'\\STATE \\textbf{Se determină un flux maxim $\\mathcal{f}_k$ în $\\mathcal{\\textbf{G} }_k$}'}}
+            {{'\\STATE $k \\gets k-1$'}}
+          {{'\\ENDWHILE'}}
+        {{'\\end{algorithmic}'}}
+        {{'\\end{algorithm}'}}
+</pre>

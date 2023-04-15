@@ -1,0 +1,15 @@
+<pre id="pseudocode" class="pseudocode" style="display:none;">
+        {{'\\begin{algorithm}'}}
+        {{'\\caption{Generic}'}}
+        {{'\\begin{algorithmic}'}}
+          {{'\\STATE $f=\\mathcal{f}_0$'}}
+          {{'\\STATE \\textbf{Se determină rețeaua reziduală} $G(f)=(N,A(f))$'}}
+          {{'\\WHILE{în $G(f) \\exists$ DMF}'}}
+            {{'\\STATE \\textbf{Se determină un DMF D}'}}
+            {{'\\STATE \\textbf{Se calculează} $r(D)=\\min\\{r(x,y)|(x,y) \\in D\\}$'}}
+            {{'\\STATE \\textbf{Se mărește cu $r(D)$ fluxul de-a lungul drumului D}'}}
+            {{'\\STATE \\textbf{Se actualizează rețeaua reziduală $G(f)=(N,A(f))$}'}}
+          {{'\\ENDWHILE'}}
+        {{'\\end{algorithmic}'}}
+        {{'\\end{algorithm}'}}
+</pre>

@@ -1,0 +1,32 @@
+<pre id="pseudocode" class="pseudocode" style="display:none;">
+        {{'\\begin{algorithm}'}}
+        {{'\\caption{Ahuja-Orlin al drumului celui mai scurt}'}}
+        {{'\\begin{algorithmic}'}}
+          {{'\\STATE $f=0$'}}
+          {{'\\STATE \\textbf{Se determină rețeaua reziduală $G(f)=(N,A(f))$}'}}
+          {{'\\STATE \\textbf{Se determină etichetele de distanță exacte $d$}'}}
+          {{'\\STATE $x=s$'}}
+          {{'\\WHILE{$d[s]<n$}'}}
+            {{'\\IF{$\\exists$ arc admisibil $(x,y)$ în $G(f)$}'}}
+              {{'\\STATE $p[y]=x$'}}
+              {{'\\STATE $x=y$'}}
+              {{'\\IF{$x=t$}'}}
+                {{'\\STATE \\CALL{mărire}{}'}}
+                {{'\\STATE $x=s$'}}
+              {{'\\ENDIF'}}
+            {{'\\ELSE'}}
+              {{'\\STATE $d[x]=\\min\\{d[y]+1|(x,y) \\in A(f)\\}$'}}
+              {{'\\IF{$x\\not=s$}'}}
+                {{'\\STATE $x=p[x]$'}}
+              {{'\\ENDIF'}}
+            {{'\\ENDIF'}}
+          {{'\\ENDWHILE'}}
+        {{'\\PROCEDURE{mărire}{}'}}
+          {{'\\STATE \\textbf{Se determină un DMF D cu ajutorul etichetelor p}'}}
+          {{'\\STATE \\textbf{Se calculează} $r(D)=\\min\\{r(x,y)|(x,y) \\in D\\}$'}}
+          {{'\\STATE \\textbf{Se mărește cu $r(D)$ unități fluxul de-a lungul drumului D}'}}
+          {{'\\STATE \\textbf{Se actualizează rețeaua reziduală $G(f)=(N,A(f))$}'}}
+        {{'\\ENDPROCEDURE'}}
+        {{'\\end{algorithmic}'}}
+        {{'\\end{algorithm}'}}
+</pre>

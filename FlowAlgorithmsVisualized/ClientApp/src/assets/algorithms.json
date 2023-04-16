@@ -1,0 +1,54 @@
+[
+  {
+    "name": "Problema fluxului maxim",
+    "algorithmTypes": [
+      {
+        "name": "Algoritmi de flux maxim cu drumuri de mărire a fluxului",
+        "algorithms": [
+          "Algoritmul generic cu drumuri de mărire a fluxului",
+          "Algoritmul de etichetare Ford-Fulkerson",
+          "Algoritmul Edmonds-Karp",
+          "Algoritmul Ahuja-Orlin de scalare maximă a capacității",
+          "Algoritmul Gabow de scalare bit a capacității",
+          "Algoritmul Ahuja-Orlin al drumului celui mai scurt",
+          "Algoritmul Ahuja-Orlin al rețelelor stratificate"
+        ]
+      },
+      {
+        "name": "Algoritmi de flux maxim cu preflux",
+        "algorithms": [
+          "Algoritmul generic cu preflux",
+          "Algoritmul preflux FIFO",
+          "Algoritmul preflux cu eticheta cea mai mare",
+          "Algoritmul de scalare a excesului"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Problema fluxului minim",
+    "algorithmTypes": [
+      {
+        "name": "Algoritmi de flux minim cu drumuri de micșorare a fluxului",
+        "algorithms": [
+          "Algoritmul generic cu drumuri de mărire a fluxului",
+          "Algoritmul de etichetare Ford-Fulkerson",
+          "Algoritmul Edmonds-Karp",
+          "Algoritmul Ahuja-Orlin de scalare maximă a capacității",
+          "Algoritmul Gabow de scalare bit a capacității",
+          "Algoritmul Ahuja-Orlin al drumului celui mai scurt",
+          "Algoritmul Ahuja-Orlin al rețelelor stratificate"
+        ]
+      },
+      {
+        "name": "Algoritmi de flux minim cu preflux",
+        "algorithms": [
+          "Algoritmul generic cu preflux",
+          "Algoritmul preflux FIFO",
+          "Algoritmul preflux cu eticheta cea mai mare",
+          "Algoritmul de scalare a excesului"
+        ]
+      }
+    ]
+  }
+]

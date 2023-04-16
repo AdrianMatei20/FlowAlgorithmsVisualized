@@ -1,7 +1,6 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { NetworkService } from '../../services/network.service';
-import * as pseudocode from 'pseudocode';
+import { NetworkService } from '../../../services/network.service';
 // import * as d3 from 'd3';
 declare var d3: any;
 

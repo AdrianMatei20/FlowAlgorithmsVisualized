@@ -1,0 +1,53 @@
+a.navbar-brand {
+  white-space: normal;
+  text-align: center;
+  word-break: break-word;
+  /*
+      font-size: 1.5vw;
+*/
+}
+
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.box-shadow {
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+.fixed {
+  position: fixed;
+  width: 100%;
+  top: 0px;
+  z-index: 2;
+}
+
+button {
+  margin: 5px;
+}
+
+.active {
+  background-color: crimson;
+}
+
+mat-sidenav-container {
+  height: 100%;
+}
+
+mat-sidenav {
+  width: 350px;
+  background-color: white;
+}
+
+.currentMenuItem {
+  /*
+    background-color: lightgray;
+  */
+  font-weight: bold;
+}

@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
 import { HomePageComponent } from './components/pages/home-page/home-page.component';
@@ -16,10 +17,15 @@ import { AhujaOrlinCapacityScalingComponent } from './components/pseudocode/ahuj
 import { GabowComponent } from './components/pseudocode/gabow/gabow.component';
 import { AhujaOrlinShortestPathComponent } from './components/pseudocode/ahuja-orlin-shortest-path/ahuja-orlin-shortest-path.component';
 
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
-import { MatCardModule, MatDividerModule, MatProgressSpinnerModule, MatToolbarModule } from '@angular/material';
+import { MatListModule } from '@angular/material/list';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatTreeModule } from '@angular/material/tree';
 
 @NgModule({
   declarations: [
@@ -40,16 +46,20 @@ import { MatCardModule, MatDividerModule, MatProgressSpinnerModule, MatToolbarMo
     FormsModule,
     RouterModule.forRoot([
       { path: 'algorithm-steps/:algorithm', component: AlgorithmStepsComponent },
-      { path: '', component: HomePageComponent, pathMatch: 'full' },
+      { path: 'home', component: HomePageComponent, pathMatch: 'full' },
+      { path: '', redirectTo: 'home', pathMatch: 'full' },
       { path: '**', redirectTo:'' },
     ]),
     BrowserAnimationsModule,
     MatButtonModule,
-    MatIconModule,
     MatCardModule,
     MatDividerModule,
-    MatToolbarModule,
+    MatIconModule,
+    MatListModule,
     MatProgressSpinnerModule,
+    MatSidenavModule,
+    MatToolbarModule,
+    MatTreeModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

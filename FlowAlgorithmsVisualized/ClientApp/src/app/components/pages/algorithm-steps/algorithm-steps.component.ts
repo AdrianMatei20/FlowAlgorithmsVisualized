@@ -1,5 +1,5 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NetworkService } from '../../../services/network.service';
 // import * as d3 from 'd3';
 declare var d3: any;
@@ -9,7 +9,7 @@ declare var d3: any;
   templateUrl: './algorithm-steps.component.html',
   styleUrls: ['./algorithm-steps.component.css']
 })
-export class AlgorithmStepsComponent implements OnInit, AfterViewInit {
+export class AlgorithmStepsComponent implements OnInit {
 
   private layoutEngines = ["dot", "neato", "fdp", "sfdp", "circo", "twopi", "osage", "patchwork"];
   private layoutEngine = this.layoutEngines[1];
@@ -20,41 +20,45 @@ export class AlgorithmStepsComponent implements OnInit, AfterViewInit {
   private flowNetworks: string[] = [];
 
   constructor(private networkService: NetworkService, private router: Router, private route: ActivatedRoute) {
-    this.router.events.subscribe((event) => {
-      if (event instanceof NavigationEnd) {
-        this.algorithm = this.route.snapshot.paramMap.get('algorithm');
-        console.log("Algorithm: " + this.algorithm);
-        this.reset();
-      }
+    this.route.paramMap.subscribe(params => {
+      this.algorithm = params.get('algorithm');
+      console.log('algorithm: ' + this.algorithm);
+      this.ngOnInit();
     });
   }
 
   ngOnInit(): void {
-  }
-
-  ngAfterViewInit() {
+    this.reset();
+    this.getData(this.algorithm);
   }
 
   getData(algorithm: string): void {
-    this.networkService.getData(algorithm).subscribe((response) => {
-      let data = response as string[][];
-      if (data.length > 0) {
-        this.capacityNetwork = null;
-        this.residualNetworks = null;
-        this.flowNetworks = null;
+    if (["GenericCuDMF", "FF", "EK", "AOSMC", "Gabow", "AODS", "AORS"].includes(algorithm)) {
+      this.networkService.getData(algorithm).subscribe((response) => {
+        let data = response as string[][];
+        if (data.length > 0) {
+          this.capacityNetwork = null;
+          this.residualNetworks = null;
+          this.flowNetworks = null;
 
-        this.capacityNetwork = data[0][0] as string;
-        this.residualNetworks = data[1] as string[];
-        this.flowNetworks = data[2] as string[];
+          this.capacityNetwork = data[0][0] as string;
+          this.residualNetworks = data[1] as string[];
+          this.flowNetworks = data[2] as string[];
 
-        this.renderNetwork(this.capacityNetwork, "#capacity-network");
-        this.renderNetwork(this.flowNetworks[0], "#flow-network");
-        this.renderNetwork(this.residualNetworks[0], "#residual-network");
-      }
-      else {
-        this.reset();
-      }
-    });
+          this.renderNetwork(this.capacityNetwork, "#capacity-network");
+          this.renderNetwork(this.flowNetworks[0], "#flow-network");
+          this.renderNetwork(this.residualNetworks[0], "#residual-network");
+        }
+        else {
+          this.reset();
+        }
+      });
+    }
+    else {
+      this.renderNetwork("digraph {}", "#capacity-network");
+      this.renderNetwork("digraph {}", "#flow-network");
+      this.renderNetwork("digraph {}", "#residual-network");
+    }
   }
 
   renderNetwork(network: string, selector: string): void {
@@ -88,17 +92,19 @@ export class AlgorithmStepsComponent implements OnInit, AfterViewInit {
         });
     }
 
-    graphviz = d3.select(netwokDiv).graphviz()
-      .transition(function () {
-        return d3.transition("main")
-          .ease(d3.easeLinear)
-          .delay(1000)
-          .duration(200);
-      })
-      .logEvents(false)
-      .on("initEnd", render);
+    if (d3.select(netwokDiv) != null) {
+      graphviz = d3.select(netwokDiv).graphviz()
+        .transition(function () {
+          return d3.transition("main")
+            .ease(d3.easeLinear)
+            .delay(1000)
+            .duration(200);
+        })
+        .logEvents(false)
+        .on("initEnd", render);
 
-    graphviz.engine(this.layoutEngine);
+      graphviz.engine(this.layoutEngine);
+    }
   }
 
   startAnimations() {
@@ -110,9 +116,12 @@ export class AlgorithmStepsComponent implements OnInit, AfterViewInit {
     d3.select("#capacity-network").innerHTML = "";
     d3.select("#flow-network").innerHTML = "";
     d3.select("#residual-network").innerHTML = "";
+    this.renderNetwork("digraph {}", "#capacity-network");
+    this.renderNetwork("digraph {}", "#flow-network");
+    this.renderNetwork("digraph {}", "#residual-network");
     this.getData(this.algorithm);
-    this.startAnimation(this.residualNetworks.slice(0, 1), "#residual-network");
-    this.startAnimation(this.flowNetworks.slice(0, 1), "#flow-network");
+    //this.startAnimation(this.residualNetworks.slice(0, 1), "#residual-network");
+    //this.startAnimation(this.flowNetworks.slice(0, 1), "#flow-network");
   }
 
 }

@@ -52,7 +52,7 @@
         </mat-card-header>
 
         <mat-card-content [ngSwitch]="algorithm">
-          <app-generic-with-augmenting-path *ngSwitchCase="'Generic'"></app-generic-with-augmenting-path>
+          <app-generic-with-augmenting-path *ngSwitchCase="'GenericCuDMF'"></app-generic-with-augmenting-path>
           <app-ford-fulkerson *ngSwitchCase="'FF'"></app-ford-fulkerson>
           <app-edmonds-karp *ngSwitchCase="'EK'"></app-edmonds-karp>
           <app-ahuja-orlin-capacity-scaling *ngSwitchCase="'AOSMC'"></app-ahuja-orlin-capacity-scaling>

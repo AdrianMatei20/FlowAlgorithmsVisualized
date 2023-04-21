@@ -1,6 +1,73 @@
 <body>
-  <app-nav-menu></app-nav-menu>
-  <div class="container-fluid">
-    <router-outlet></router-outlet>
-  </div>
+
+  <mat-sidenav-container>
+
+    <mat-sidenav [(opened)]="opened" mode="over">
+
+      <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+
+        <!-- This is the tree node template for leaf nodes -->
+        <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
+          <!-- use a disabled button to provide padding for tree leaf -->
+          <button mat-icon-button disabled></button>
+          <!--<button mat-button routerLink="/algorithm-steps/FF" (click)="opened=!opened">{{node.name}}</button>-->
+        <a routerLink="{{node.route}}" routerLinkActive="currentMenuItem">{{node.name}}</a>
+        </mat-tree-node>
+
+        <!-- This is the tree node template for expandable nodes -->
+        <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
+          <button mat-icon-button matTreeNodeToggle
+                  [attr.aria-label]="'Toggle ' + node.name">
+            <mat-icon class="mat-icon-rtl-mirror">
+              {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+            </mat-icon>
+          </button>
+          {{node.name}}
+        </mat-tree-node>
+
+      </mat-tree>
+
+    </mat-sidenav>
+
+
+
+    <mat-sidenav-content>
+
+      <nav class="navbar sticky-top navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3 justify-content-between">
+        <div class="container">
+          <button mat-button (click)="opened=!opened">
+            <mat-icon>menu</mat-icon>
+          </button>
+          <a class="navbar-brand" [routerLink]="['/']">Flow Algorithms Visualized</a>
+          <button class="navbar-toggler"
+                  type="button"
+                  data-toggle="collapse"
+                  data-target=".navbar-collapse"
+                  aria-label="Toggle navigation"
+                  [attr.aria-expanded]="isExpanded"
+                  (click)="toggle()">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="navbar-collapse collapse d-sm-inline-flex justify-content-end">
+            <div class="navbar-nav flex-grow button-row">
+              <button mat-raised-button color="primary" [routerLink]="['/algorithm-steps/GenericCuDMF']" routerLinkActive="active">Generic</button>
+              <button mat-raised-button color="primary" [routerLink]="['/algorithm-steps/FF']" routerLinkActive="active">Ford-Fulkerson</button>
+              <button mat-raised-button color="primary" [routerLink]="['/algorithm-steps/EK']" routerLinkActive="active">Edmonds-Karp</button>
+              <button mat-raised-button color="primary" [routerLink]="['/algorithm-steps/AOSMC']" routerLinkActive="active">AOSMC</button>
+              <button mat-raised-button color="primary" [routerLink]="['/algorithm-steps/Gabow']" routerLinkActive="active">Gabow</button>
+              <button mat-raised-button color="primary" [routerLink]="['/algorithm-steps/AODS']" routerLinkActive="active">AODS</button>
+              <button mat-raised-button color="primary" [routerLink]="['/algorithm-steps/AORS']" routerLinkActive="active">AORS</button>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <div class="container-fluid">
+        <router-outlet></router-outlet>
+      </div>
+
+    </mat-sidenav-content>
+
+  </mat-sidenav-container>
+
 </body>

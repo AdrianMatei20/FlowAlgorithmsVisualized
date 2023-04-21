@@ -33,7 +33,7 @@ namespace NetworkData
 
             switch (algorithmName)
             {
-                case "Generic":
+                case "GenericCuDMF":
                     filepath += "1.dot";
                     break;
 
@@ -102,7 +102,7 @@ namespace NetworkData
 
             switch (algorithmName)
             {
-                case "Generic":
+                case "GenericCuDMF":
                     algorithmSteps = algorithm.GenericMaxFlowAlgWithAugPath();
                     break;
 

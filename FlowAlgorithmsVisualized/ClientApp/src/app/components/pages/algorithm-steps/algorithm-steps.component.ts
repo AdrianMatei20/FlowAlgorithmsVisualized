@@ -23,7 +23,8 @@ export class AlgorithmStepsComponent implements OnInit {
     this.route.paramMap.subscribe(params => {
       this.algorithm = params.get('algorithm');
       console.log('algorithm: ' + this.algorithm);
-      this.ngOnInit();
+      this.reset();
+      this.getData(this.algorithm);
     });
   }
 
@@ -42,8 +43,8 @@ export class AlgorithmStepsComponent implements OnInit {
           this.flowNetworks = null;
 
           this.capacityNetwork = data[0][0] as string;
-          this.residualNetworks = data[1] as string[];
-          this.flowNetworks = data[2] as string[];
+          this.flowNetworks = data[1] as string[];
+          this.residualNetworks = data[2] as string[];
 
           this.renderNetwork(this.capacityNetwork, "#capacity-network");
           this.renderNetwork(this.flowNetworks[0], "#flow-network");

@@ -26,6 +26,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTreeModule } from '@angular/material/tree';
+import { DinicComponent } from './components/pseudocode/dinic/dinic.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { MatTreeModule } from '@angular/material/tree';
     AhujaOrlinCapacityScalingComponent,
     GabowComponent,
     AhujaOrlinShortestPathComponent,
+    DinicComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

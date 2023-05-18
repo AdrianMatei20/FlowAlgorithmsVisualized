@@ -12,23 +12,8 @@ export class NetworkService {
     this.baseUrl = baseUrl;
   }
 
-  //getCapacityNetwork(algorithm: string) {
-  //  let params = new HttpParams().set("algorithm", algorithm);
-  //  return this.http.get(this.baseUrl + 'algorithmsteps/capacityNetwork', { params, responseType: "text" });
-  //}
-
-  //getFlowNetwork(algorithm: string) {
-  //  let params = new HttpParams().set("algorithm", algorithm);
-  //  return this.http.get(this.baseUrl + 'algorithmsteps/flowNetwork', { params, responseType: "text" });
-  //}
-
-  //getAlgorithmSteps(algorithm: string) {
-  //  let params = new HttpParams().set("algorithm", algorithm);
-  //  return this.http.get(this.baseUrl + 'algorithmsteps/steps', { params });
-  //}
-
   getData(algorithm: string) {
-    let params = new HttpParams().set("algorithm", algorithm);
+    let params = new HttpParams().set("algorithmName", algorithm);
     return this.http.get(this.baseUrl + 'algorithmsteps/steps', { params });
   }
 }

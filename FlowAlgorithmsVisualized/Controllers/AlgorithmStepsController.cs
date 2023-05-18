@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using NetworkData;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using FlowAlgorithmsVisualizedBackend.Algorithms;
+using FlowAlgorithmsVisualizedBackend.Network;
 
 namespace FlowAlgorithmsVisualized.Controllers
 {
@@ -12,31 +12,25 @@ namespace FlowAlgorithmsVisualized.Controllers
     [Route("[controller]")]
     public class AlgorithmStepsController : ControllerBase
     {
-        //[HttpGet("capacityNetwork")]
-        //public string GetCapacityNetwork(string algorithm)
-        //{
-        //    string capacityNetwork = Network.GetCapacityNetwork(algorithm);
-        //    return capacityNetwork;
-        //}
-
-        //[HttpGet("flowNetwork")]
-        //public string GetFlowNetwork(string algorithm)
-        //{
-        //    string flowNetwork = Network.GetFlowNetwork(algorithm);
-        //    return flowNetwork;
-        //}
-
-        //[HttpGet("steps")]
-        //public string GetAlgorithmSteps(string algorithm)
-        //{
-        //    List<List<string>> steps = Network.ApplyAlgorithm(algorithm);
-        //    return JsonSerializer.Serialize(steps);
-        //}
+        private string[] algorithms = { "GenericCuDMF", "FF", "EK", "AOSMC", "Gabow", "AODS", "AORS", "GenericCuPreflux", "PrefluxFIFO", "PrefluxCuECMM", "ScalareExces" };
 
         [HttpGet("steps")]
-        public string GetData(string algorithm)
+        public string GetData(string algorithmName)
         {
-            List<List<string>> data = Network.ApplyAlgorithm(algorithm);
+            List<List<string>> data = new List<List<string>>()
+            {
+                new List<string>(),
+                new List<string>(),
+                new List<string>()
+            };
+
+            if (algorithms.Contains(algorithmName))
+            {
+                IAlgorithmFactory algorithmFactory = new AlgorithmFactory();
+                IFlowAlgorithm algorithm = algorithmFactory.CreateAlgorithm(algorithmName);
+                data = algorithm.GetAlgorithmSteps();
+            }
+
             return JsonSerializer.Serialize(data);
         }
     }

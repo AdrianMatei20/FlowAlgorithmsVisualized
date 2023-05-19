@@ -2,7 +2,7 @@
 // Matei Adrian
 // </copyright>
 
-namespace FlowAlgorithmsVisualizedBackend.Algorithms.MaxFlowAlgorithms.WithAugmentingPath.Gabow
+namespace FlowAlgorithmsVisualizedBackend.Algorithms
 {
     using System;
     using System.Collections.Generic;

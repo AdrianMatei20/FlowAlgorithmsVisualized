@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlowAlgorithmsVisualized", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlowAlgorithmsVisualizedBackend", "..\NetworkData\FlowAlgorithmsVisualizedBackend.csproj", "{37C08117-8844-4ED9-BE9C-7EA2701FFA2B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlowAlgorithmsVisualizedBackend.Tests", "..\FlowAlgorithmsVisualizedBackend.Tests\FlowAlgorithmsVisualizedBackend.Tests.csproj", "{AA604CE2-0AD0-48B0-80ED-AAB1F92B32D0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{37C08117-8844-4ED9-BE9C-7EA2701FFA2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{37C08117-8844-4ED9-BE9C-7EA2701FFA2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{37C08117-8844-4ED9-BE9C-7EA2701FFA2B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA604CE2-0AD0-48B0-80ED-AAB1F92B32D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA604CE2-0AD0-48B0-80ED-AAB1F92B32D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA604CE2-0AD0-48B0-80ED-AAB1F92B32D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA604CE2-0AD0-48B0-80ED-AAB1F92B32D0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

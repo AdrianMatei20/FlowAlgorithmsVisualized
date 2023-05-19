@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <AdditionalFiles Include="..\NetworkData\stylecop.json" Link="stylecop.json" />
+    <AdditionalFiles Include="..\FlowAlgorithmsVisualizedBackend\stylecop.json" Link="stylecop.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NetworkData\FlowAlgorithmsVisualizedBackend.csproj" />
+    <ProjectReference Include="..\FlowAlgorithmsVisualizedBackend\FlowAlgorithmsVisualizedBackend.csproj" />
   </ItemGroup>
 
 </Project>

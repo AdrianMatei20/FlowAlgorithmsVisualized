@@ -24,6 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\FlowAlgorithmsVisualizedBackend\FlowAlgorithmsVisualizedBackend.csproj" />
     <ProjectReference Include="..\NetworkData\FlowAlgorithmsVisualizedBackend.csproj" />
   </ItemGroup>
 

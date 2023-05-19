@@ -53,7 +53,7 @@ namespace FlowAlgorithmsVisualizedBackend.Utils
         /// <inheritdoc/>
         public string GetFilePath(string algorithmName)
         {
-            string filepath = "..\\NetworkData\\Networks\\Network_";
+            string filepath = "..\\FlowAlgorithmsVisualizedBackend\\Networks\\Network_";
 
             switch (algorithmName)
             {

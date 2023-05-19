@@ -1,7 +1,3 @@
-﻿// <copyright file="AssemblyInfo.cs" company="Universitatea Transilvania din Brașov">
-// Matei Adrian
-// </copyright>
-
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -19,7 +15,7 @@ using System.Runtime.InteropServices;
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM.
 
-[assembly: Guid("60b087bd-7c26-4a7d-9d9a-3fb7a1c96bae")]
+[assembly: Guid("f503c8b2-2c62-42b2-b8ec-7b97650460e1")]
 
 [assembly: InternalsVisibleTo("FlowAlgorithmsVisualizedBackend.Tests")]
 [assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]

@@ -10,7 +10,7 @@ namespace FlowAlgorithmsVisualizedBackend.Algorithms
     using FlowAlgorithmsVisualizedBackend.Utils;
     using Graphviz4Net.Dot;
 
-    /// <summary>Class for the Ford-Fulkerson algorithm.</summary>
+    /// <summary>Class for the <b>Ford-Fulkerson Algorithm</b>.</summary>
     /// <seealso cref="IFlowAlgorithm" />
     internal class FordFulkerson : IFlowAlgorithm
     {

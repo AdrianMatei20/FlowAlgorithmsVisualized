@@ -11,7 +11,7 @@ namespace FlowAlgorithmsVisualizedBackend.Algorithms
     using FlowAlgorithmsVisualizedBackend.Utils;
     using Graphviz4Net.Dot;
 
-    /// <summary>Class for the Gabow algorithm.</summary>
+    /// <summary>Class for the <b>Gabow Algorithm</b>.</summary>
     /// <seealso cref="IFlowAlgorithm" />
     internal class Gabow : IFlowAlgorithm
     {

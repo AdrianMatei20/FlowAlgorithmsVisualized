@@ -17,7 +17,8 @@ namespace FlowAlgorithmsVisualizedBackend.Network
             IFlowAlgorithm algorithm;
             IConverter converter = new Converter();
             IAnimation animation = new Animation(converter);
-            INetworkData networkData = new NetworkData(algorithmName, new FileHelper(new Converter()));
+            IFileHelper fileHelper = new FileHelper(converter);
+            INetworkData networkData = new NetworkData(algorithmName, fileHelper);
 
             switch (algorithmName)
             {

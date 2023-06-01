@@ -2,9 +2,10 @@
 // Matei Adrian
 // </copyright>
 
-namespace FlowAlgorithmsVisualizedBackend.Tests
+namespace FlowAlgorithmsVisualizedBackend.Tests.AlgorithmTests
 {
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using FlowAlgorithmsVisualizedBackend.Algorithms;
     using FlowAlgorithmsVisualizedBackend.Network;
@@ -12,9 +13,12 @@ namespace FlowAlgorithmsVisualizedBackend.Tests
     using Moq;
     using NUnit.Framework;
 
+    /// <summary>Test class for algorithms.</summary>
     [TestFixture]
+    [ExcludeFromCodeCoverage]
     internal class AlgorithmTests
     {
+        /// <summary>Test for the <b>Generic Max Flow Algorithm With Augmenting Path</b>.</summary>
         [Test]
         public void GenericWithAugmentingPathTest()
         {
@@ -45,6 +49,7 @@ namespace FlowAlgorithmsVisualizedBackend.Tests
             Assert.That(data[2][data[2].Count - 1], Does.Contain("V=15"));
         }
 
+        /// <summary>Test for the <b>Ford-Fulkerson Algorithm</b>.</summary>
         [Test]
         public void FordFulkersonTest()
         {
@@ -76,6 +81,7 @@ namespace FlowAlgorithmsVisualizedBackend.Tests
             Assert.That(data[2][data[2].Count - 1], Does.Contain("V=14"));
         }
 
+        /// <summary>Test for the <b>Edmonds-Karp Algorithm</b>.</summary>
         [Test]
         public void EdmondsKarpTest()
         {
@@ -107,6 +113,7 @@ namespace FlowAlgorithmsVisualizedBackend.Tests
             Assert.That(data[2][data[2].Count - 1], Does.Contain("V=14"));
         }
 
+        /// <summary>Test for the <b>Ahuja-Orlin Capacity Scaling Algorithm</b>.</summary>
         [Test]
         public void AhujaOrlinCapacityScalingTest()
         {
@@ -142,6 +149,7 @@ namespace FlowAlgorithmsVisualizedBackend.Tests
             Assert.That(data[2][data[2].Count - 1], Does.Contain("V=13"));
         }
 
+        /// <summary>Test for the <b>Gabow Algorithm</b>.</summary>
         [Test]
         public void GabowTest()
         {
@@ -178,6 +186,7 @@ namespace FlowAlgorithmsVisualizedBackend.Tests
             Assert.That(data[2][data[2].Count - 1], Does.Contain("V=13"));
         }
 
+        /// <summary>Test for the <b>Ahuja-Orlin Shortest Path Algorithm</b>.</summary>
         [Test]
         public void AhujaOrlinShortestPathTest()
         {
@@ -230,6 +239,7 @@ namespace FlowAlgorithmsVisualizedBackend.Tests
             Assert.That(data[2][data[2].Count - 1], Does.Contain("V=12"));
         }
 
+        /// <summary>Test for the <b>Dinic Algorithm</b>.</summary>
         [Test]
         public void DinicTest()
         {

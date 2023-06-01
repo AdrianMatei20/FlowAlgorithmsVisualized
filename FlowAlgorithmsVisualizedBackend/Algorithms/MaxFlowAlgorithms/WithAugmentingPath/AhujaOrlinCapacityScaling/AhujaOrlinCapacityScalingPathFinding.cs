@@ -18,22 +18,25 @@ namespace FlowAlgorithmsVisualizedBackend.Algorithms
         {
             int s = 0, t = networkData.NoOfVertices - 1;
             List<(int, int)> path = new List<(int, int)>();
-            Queue<int> queue = new Queue<int>();
+            List<int> list = new List<int>();
             int[] p = new int[networkData.NoOfVertices];
             Array.Fill(p, -1);
 
             p[s] = t;
-            queue.Enqueue(s);
+            list.Add(s);
 
-            while (queue.Any() && p[t] == -1)
+            while (list.Any() && p[t] == -1)
             {
-                var x = queue.Dequeue();
+                Random random = new Random();
+                var x = list[random.Next(list.Count)];
+                list.Remove(x);
+
                 for (int y = 0; y < networkData.NoOfVertices; y++)
                 {
                     if (networkData.ResidualNetwork[x, y] > 0 && p[y] == -1 && networkData.ResidualNetwork[x, y] >= minimumResidualCapacity)
                     {
                         p[y] = x;
-                        queue.Enqueue(y);
+                        list.Add(y);
                     }
                 }
             }

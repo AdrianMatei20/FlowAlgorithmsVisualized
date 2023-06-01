@@ -11,7 +11,7 @@ namespace FlowAlgorithmsVisualizedBackend.Algorithms
     using FlowAlgorithmsVisualizedBackend.Utils;
     using Graphviz4Net.Dot;
 
-    /// <summary>Class for the Dinic algorithm.</summary>
+    /// <summary>Class for the <b>Dinic Algorithm</b>.</summary>
     /// <seealso cref="IFlowAlgorithm" />
     internal class Dinic : IFlowAlgorithm
     {

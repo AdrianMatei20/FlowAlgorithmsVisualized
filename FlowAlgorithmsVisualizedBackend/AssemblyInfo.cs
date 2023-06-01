@@ -1,3 +1,7 @@
+﻿// <copyright file="AssemblyInfo.cs" company="Universitatea Transilvania din Brașov">
+// Matei Adrian
+// </copyright>
+
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 

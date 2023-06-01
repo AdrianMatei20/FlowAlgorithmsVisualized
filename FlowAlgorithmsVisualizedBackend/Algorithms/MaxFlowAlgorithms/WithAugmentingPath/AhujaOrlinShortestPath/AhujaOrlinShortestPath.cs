@@ -11,7 +11,7 @@ namespace FlowAlgorithmsVisualizedBackend.Algorithms
     using FlowAlgorithmsVisualizedBackend.Utils;
     using Graphviz4Net.Dot;
 
-    /// <summary>Class for the Ahuja-Orlin shortest path algorithm.</summary>
+    /// <summary>Class for the <b>Ahuja-Orlin Shortest Path Algorithm</b>.</summary>
     /// <seealso cref="IFlowAlgorithm" />
     internal class AhujaOrlinShortestPath : IFlowAlgorithm
     {

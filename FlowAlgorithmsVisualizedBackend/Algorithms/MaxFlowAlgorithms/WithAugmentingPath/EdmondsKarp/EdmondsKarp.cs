@@ -10,7 +10,7 @@ namespace FlowAlgorithmsVisualizedBackend.Algorithms
     using FlowAlgorithmsVisualizedBackend.Utils;
     using Graphviz4Net.Dot;
 
-    /// <summary>Class for the Edmonds-Karp algorithm.</summary>
+    /// <summary>Class for the <b>Edmonds-Karp Algorithm</b>.</summary>
     /// <seealso cref="IFlowAlgorithm" />
     internal class EdmondsKarp : IFlowAlgorithm
     {

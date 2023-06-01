@@ -11,7 +11,7 @@ namespace FlowAlgorithmsVisualizedBackend.Algorithms
     using FlowAlgorithmsVisualizedBackend.Utils;
     using Graphviz4Net.Dot;
 
-    /// <summary>Class for the Ahuja-Orlin capacity scaling algorithm.</summary>
+    /// <summary>Class for the <b>Ahuja-Orlin Capacity Scaling Algorithm</b>.</summary>
     /// <seealso cref="IFlowAlgorithm" />
     internal class AhujaOrlinCapacityScaling : IFlowAlgorithm
     {

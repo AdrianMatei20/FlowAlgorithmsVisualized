@@ -10,7 +10,7 @@ namespace FlowAlgorithmsVisualizedBackend.Algorithms
     using FlowAlgorithmsVisualizedBackend.Utils;
     using Graphviz4Net.Dot;
 
-    /// <summary>Class for the generic max flow algorithm with augmenting path.</summary>
+    /// <summary>Class for the <b>Generic Max Flow Algorithm With Augmenting Path</b>.</summary>
     /// <seealso cref="IFlowAlgorithm" />
     internal class GenericWithAugmentingPath : IFlowAlgorithm
     {

@@ -12,9 +12,9 @@ namespace FlowAlgorithmsVisualizedBackend.Tests.PathFindingStrategyTests
     using Moq;
     using NUnit.Framework;
 
+    /// <summary>Test class for the <b>path finding strategy</b> of the <b>Gabow Algorithm</b>.</summary>
     [TestFixture]
     [ExcludeFromCodeCoverage]
-    /// <summary>Test class for the <b>path finding strategy</b> of the <b>Gabow Algorithm</b>.</summary>
     internal class GabowPathFindingStrategyTests
     {
         private INetworkData networkData;

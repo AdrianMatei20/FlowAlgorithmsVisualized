@@ -58,31 +58,43 @@ namespace FlowAlgorithmsVisualizedBackend.Utils
             switch (algorithmName)
             {
                 case "GenericCuDMF":
-                    filepath += "1.dot";
+                    filepath += "01.dot";
                     break;
 
                 case "FF":
-                    filepath += "2.dot";
+                    filepath += "02.dot";
                     break;
 
                 case "EK":
-                    filepath += "3.dot";
+                    filepath += "03.dot";
                     break;
 
                 case "AOSMC":
-                    filepath += "4.dot";
+                    filepath += "04.dot";
                     break;
 
                 case "Gabow":
-                    filepath += "5.dot";
+                    filepath += "05.dot";
                     break;
 
                 case "AODS":
-                    filepath += "6.dot";
+                    filepath += "06.dot";
                     break;
 
                 case "AORS":
-                    filepath += "7.dot";
+                    filepath += "07.dot";
+                    break;
+
+                case "GenericCuPreflux":
+                    filepath += "09.dot";
+                    break;
+
+                case "PrefluxFIFO":
+                    filepath += "09.dot";
+                    break;
+
+                default:
+                    filepath += "01.dot";
                     break;
             }
 

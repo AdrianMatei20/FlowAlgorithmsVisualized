@@ -1,4 +1,4 @@
-﻿// <copyright file="AhujaOrlinShortestPathPathFinding.cs" company="Universitatea Transilvania din Brașov">
+﻿// <copyright file="FifoPreflowPathFinding.cs" company="Universitatea Transilvania din Brașov">
 // Matei Adrian
 // </copyright>
 
@@ -9,9 +9,9 @@ namespace FlowAlgorithmsVisualizedBackend.Algorithms
     using System.Linq;
     using FlowAlgorithmsVisualizedBackend.Network;
 
-    /// <summary>Class that implements the path finding strategy of the <b>Ahuja-Orlin Shortest Path Algorithm</b>.</summary>
-    /// <seealso cref="INextNodeStrategy" />
-    internal class AhujaOrlinShortestPathPathFinding : INextNodeStrategy
+    /// <summary>Class that implements the path finding strategy of the <b>FIFO Preflow Algorithm</b>.</summary>
+    /// <seealso cref="INextNodesStrategy"/>
+    internal class FifoPreflowPathFinding : INextNodeStrategy
     {
         /// <inheritdoc/>
         public int GetNextNode(INetworkData networkData, int x, int[] d)

@@ -345,5 +345,68 @@ namespace FlowAlgorithmsVisualizedBackend.Utils
 
             this.SaveCurrentStateOfNetworks(flowSteps, residualSteps, networkData);
         }
+
+        /// <inheritdoc/>
+        public void ShowDistancesAndExcess(List<string> flowSteps, List<string> residualSteps, INetworkData networkData, int[] d, int[] e, int maxFlow)
+        {
+            string maxFlowLabel = "V=" + maxFlow.ToString() + "\n";
+            foreach (DotVertex<int> vertex in networkData.DotResidualNetwork.Vertices)
+            {
+                string distanceLabel = "d[" + vertex.Id.ToString() + "]=" + d[vertex.Id - 1].ToString();
+                string excessLabel = "e[" + vertex.Id.ToString() + "]=" + e[vertex.Id - 1].ToString();
+                string label = distanceLabel + "\n" + excessLabel;
+
+                if (vertex.Id == networkData.DotResidualNetwork.Vertices.Count())
+                {
+                    label = maxFlowLabel + label;
+                }
+
+                if (vertex.Attributes.ContainsKey("xlabel"))
+                {
+                    vertex.Attributes["xlabel"] = label;
+                }
+                else
+                {
+                    vertex.Attributes.Add(new KeyValuePair<string, string>("xlabel", label));
+                }
+            }
+
+            this.SaveCurrentStateOfNetworks(flowSteps, residualSteps, networkData);
+        }
+
+        /// <inheritdoc/>
+        public void PaintNode(List<string> flowSteps, List<string> residualSteps, INetworkData networkData, int nodeId, int[] e)
+        {
+            DotVertex<int> node = networkData.DotResidualNetwork.Vertices.Where((vertex) => vertex.Id == nodeId).FirstOrDefault();
+
+            if (node != null)
+            {
+                if (node.Id != 1 && node.Id != networkData.DotResidualNetwork.Vertices.Count())
+                {
+                    if (e[node.Id - 1] > 0)
+                    {
+                        if (!node.Attributes.ContainsKey("style"))
+                        {
+                            node.Attributes.Add(new KeyValuePair<string, string>("style", "filled"));
+                            node.Attributes.Add(new KeyValuePair<string, string>("fillcolor", "yellow"));
+                        }
+
+                        node.Attributes["fontsize"] = "18px";
+                    }
+                    else
+                    {
+                        if (node.Attributes.ContainsKey("style"))
+                        {
+                            node.Attributes.Remove(new KeyValuePair<string, string>("style", "filled"));
+                            node.Attributes.Remove(new KeyValuePair<string, string>("fillcolor", "yellow"));
+                        }
+
+                        node.Attributes["fontsize"] = "16px";
+                    }
+                }
+            }
+
+            this.SaveCurrentStateOfNetworks(flowSteps, residualSteps, networkData);
+        }
     }
 }

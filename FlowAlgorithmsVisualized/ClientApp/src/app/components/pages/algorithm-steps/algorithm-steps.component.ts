@@ -34,7 +34,7 @@ export class AlgorithmStepsComponent implements OnInit {
   }
 
   getData(algorithm: string): void {
-    if (["GenericCuDMF", "FF", "EK", "AOSMC", "Gabow", "AODS", "AORS"].includes(algorithm)) {
+    if (["GenericCuDMF", "FF", "EK", "AOSMC", "Gabow", "AODS", "AORS", "GenericCuPreflux", "PrefluxFIFO", "PrefluxCuECMM", "ScalareExces"].includes(algorithm)) {
       this.networkService.getData(algorithm).subscribe((response) => {
         let data = response as string[][];
         if (data.length > 0) {

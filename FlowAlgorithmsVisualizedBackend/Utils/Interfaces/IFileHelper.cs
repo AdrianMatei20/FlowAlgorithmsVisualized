@@ -7,7 +7,7 @@ namespace FlowAlgorithmsVisualizedBackend.Utils
     using Graphviz4Net.Dot;
 
     /// <summary>Interface for reading network information from files.</summary>
-    internal interface IFileHelper
+    public interface IFileHelper
     {
         /// <summary>Gets the capacity network.</summary>
         /// <param name="algorithmName">Name of the algorithm.</param>

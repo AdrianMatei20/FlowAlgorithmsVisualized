@@ -11,13 +11,22 @@ namespace FlowAlgorithmsVisualizedBackend.Network
     /// <seealso cref="IAlgorithmFactory" />
     public class AlgorithmFactory : IAlgorithmFactory
     {
+        private readonly IFileHelperFactory fileHelperFactory;
+
+        /// <summary>Initializes a new instance of the <see cref="AlgorithmFactory" /> class.</summary>
+        /// <param name="fileHelperFactory">Wrapper for the <see cref="FileHelper"/> class.</param>
+        public AlgorithmFactory(IFileHelperFactory fileHelperFactory)
+        {
+            this.fileHelperFactory = fileHelperFactory;
+        }
+
         /// <inheritdoc/>
         public IFlowAlgorithm CreateAlgorithm(string algorithmName)
         {
             IFlowAlgorithm algorithm;
             IConverter converter = new Converter();
             IAnimation animation = new Animation(converter);
-            IFileHelper fileHelper = new FileHelper(converter);
+            IFileHelper fileHelper = this.fileHelperFactory.GetFileHelper();
             INetworkData networkData = new NetworkData(algorithmName, fileHelper);
 
             switch (algorithmName)
@@ -48,6 +57,14 @@ namespace FlowAlgorithmsVisualizedBackend.Network
 
                 case "AORS":
                     algorithm = new Dinic(new DinicPathFinding(), networkData, animation);
+                    break;
+
+                case "GenericCuPreflux":
+                    algorithm = new GenericWithPreflow(new GenericWithPreflowPathFinding(), networkData, animation);
+                    break;
+
+                case "PrefluxFIFO":
+                    algorithm = new FifoPreflow(new FifoPreflowPathFinding(), networkData, animation);
                     break;
 
                 default:

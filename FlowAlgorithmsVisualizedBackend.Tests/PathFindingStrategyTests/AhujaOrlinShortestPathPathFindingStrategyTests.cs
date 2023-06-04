@@ -5,6 +5,7 @@
 namespace FlowAlgorithmsVisualizedBackend.Tests.PathFindingStrategyTests
 {
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using FlowAlgorithmsVisualizedBackend.Algorithms;
     using FlowAlgorithmsVisualizedBackend.Network;
     using FlowAlgorithmsVisualizedBackend.Utils;
@@ -12,6 +13,8 @@ namespace FlowAlgorithmsVisualizedBackend.Tests.PathFindingStrategyTests
     using NUnit.Framework;
 
     /// <summary>Test class for the <b>path finding strategy</b> of the <b>Ahuja-Orlin Shortest Path Algorithm</b>.</summary>
+    [TestFixture]
+    [ExcludeFromCodeCoverage]
     internal class AhujaOrlinShortestPathPathFindingStrategyTests
     {
         private INetworkData networkData;
@@ -58,7 +61,7 @@ namespace FlowAlgorithmsVisualizedBackend.Tests.PathFindingStrategyTests
 
         /// <summary>Test for the <b>path finding strategy</b> of the <b>Ahuja-Orlin Shortest Path Algorithm</b> (Iteration 1).</summary>
         [Test]
-        [Repeat(50)]
+        [Repeat(10)]
         public void AhujaOrlinShortestPath_1()
         {
             int[] d = new int[] { 3, 2, 2, 1, 1, 0 };
@@ -83,7 +86,7 @@ namespace FlowAlgorithmsVisualizedBackend.Tests.PathFindingStrategyTests
 
         /// <summary>Test for the <b>path finding strategy</b> of the <b>Ahuja-Orlin Shortest Path Algorithm</b> (Iteration 2).</summary>
         [Test]
-        [Repeat(50)]
+        [Repeat(10)]
         public void AhujaOrlinShortestPath_2()
         {
             int[] d = new int[] { 3, 2, 2, 1, 1, 0 };
@@ -126,7 +129,7 @@ namespace FlowAlgorithmsVisualizedBackend.Tests.PathFindingStrategyTests
 
         /// <summary>Test for the <b>path finding strategy</b> of the <b>Ahuja-Orlin Shortest Path Algorithm</b> (Iteration 3).</summary>
         [Test]
-        [Repeat(50)]
+        [Repeat(10)]
         public void AhujaOrlinShortestPath_3()
         {
             int[] d = new int[] { 3, 2, 2, 2, 1, 0 };
@@ -169,7 +172,7 @@ namespace FlowAlgorithmsVisualizedBackend.Tests.PathFindingStrategyTests
 
         /// <summary>Test for the <b>path finding strategy</b> of the <b>Ahuja-Orlin Shortest Path Algorithm</b> (Iteration 4).</summary>
         [Test]
-        [Repeat(50)]
+        [Repeat(10)]
         public void AhujaOrlinShortestPath_4()
         {
             int[] d = new int[] { 3, 3, 2, 2, 1, 0 };

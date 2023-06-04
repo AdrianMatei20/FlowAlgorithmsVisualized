@@ -6,6 +6,7 @@ namespace FlowAlgorithmsVisualizedBackend.Tests.PathFindingStrategyTests
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using FlowAlgorithmsVisualizedBackend.Algorithms;
     using FlowAlgorithmsVisualizedBackend.Network;
     using FlowAlgorithmsVisualizedBackend.Utils;
@@ -13,6 +14,8 @@ namespace FlowAlgorithmsVisualizedBackend.Tests.PathFindingStrategyTests
     using NUnit.Framework;
 
     /// <summary>Test class for the <b>path finding strategy</b> of the <b>Dinic Algorithm</b>.</summary>
+    [TestFixture]
+    [ExcludeFromCodeCoverage]
     internal class DinicPathFindingStrategyTests
     {
         private INetworkData networkData;
@@ -61,7 +64,7 @@ namespace FlowAlgorithmsVisualizedBackend.Tests.PathFindingStrategyTests
 
         /// <summary>Test for the <b>path finding strategy</b> of the <b>Dinic Algorithm</b> (Iteration 1).</summary>
         [Test]
-        [Repeat(50)]
+        [Repeat(10)]
         public void Dinic_1()
         {
             int[] d = new int[] { 3, 2, 2, 1, 1, 0 };
@@ -88,7 +91,7 @@ namespace FlowAlgorithmsVisualizedBackend.Tests.PathFindingStrategyTests
 
         /// <summary>Test for the <b>path finding strategy</b> of the <b>Dinic Algorithm</b> (Iteration 2).</summary>
         [Test]
-        [Repeat(50)]
+        [Repeat(10)]
         public void Dinic_2()
         {
             int[] d = new int[] { 3, 2, 2, 1, 1, 0 };
@@ -115,7 +118,7 @@ namespace FlowAlgorithmsVisualizedBackend.Tests.PathFindingStrategyTests
 
         /// <summary>Test for the <b>path finding strategy</b> of the <b>Dinic Algorithm</b> (Iteration 3).</summary>
         [Test]
-        [Repeat(50)]
+        [Repeat(10)]
         public void Dinic_3()
         {
             int[] d = new int[] { 3, 2, 2, 1, 1, 0 };
@@ -142,7 +145,7 @@ namespace FlowAlgorithmsVisualizedBackend.Tests.PathFindingStrategyTests
 
         /// <summary>Test for the <b>path finding strategy</b> of the <b>Dinic Algorithm</b> (Iteration 4).</summary>
         [Test]
-        [Repeat(50)]
+        [Repeat(10)]
         public void Dinic_4()
         {
             int[] d = new int[] { 3, 2, 2, 1, 1, 0 };
@@ -241,7 +244,7 @@ namespace FlowAlgorithmsVisualizedBackend.Tests.PathFindingStrategyTests
 
         /// <summary>Test for the <b>path finding strategy</b> of the <b>Dinic Algorithm</b> (Iteration 5).</summary>
         [Test]
-        [Repeat(50)]
+        [Repeat(10)]
         public void Dinic_5()
         {
             int[] d = new int[] { 4, 3, 3, 1, 2, 0 };

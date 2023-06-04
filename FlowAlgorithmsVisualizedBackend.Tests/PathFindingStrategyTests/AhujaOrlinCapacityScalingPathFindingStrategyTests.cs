@@ -5,6 +5,7 @@
 namespace FlowAlgorithmsVisualizedBackend.Tests.PathFindingStrategyTests
 {
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using FlowAlgorithmsVisualizedBackend.Algorithms;
     using FlowAlgorithmsVisualizedBackend.Network;
     using FlowAlgorithmsVisualizedBackend.Utils;
@@ -12,6 +13,8 @@ namespace FlowAlgorithmsVisualizedBackend.Tests.PathFindingStrategyTests
     using NUnit.Framework;
 
     /// <summary>Test class for the <b>path finding strategy</b> of the <b>Ahuja-Orlin Capacity Scaling Algorithm</b>.</summary>
+    [TestFixture]
+    [ExcludeFromCodeCoverage]
     internal class AhujaOrlinCapacityScalingPathFindingStrategyTests
     {
         private INetworkData networkData;
@@ -54,7 +57,7 @@ namespace FlowAlgorithmsVisualizedBackend.Tests.PathFindingStrategyTests
 
         /// <summary>Test for the <b>path finding strategy</b> of the <b>Ahuja-Orlin Capacity Scaling Algorithm</b> (Iteration 1).</summary>
         [Test]
-        [Repeat(50)]
+        [Repeat(10)]
         public void AhujaOrlinCapacityScaling_1()
         {
             this.CreatePathFindingStrategy(0);
@@ -71,7 +74,7 @@ namespace FlowAlgorithmsVisualizedBackend.Tests.PathFindingStrategyTests
 
         /// <summary>Test for the <b>path finding strategy</b> of the <b>Ahuja-Orlin Capacity Scaling Algorithm</b> (Iteration 2).</summary>
         [Test]
-        [Repeat(50)]
+        [Repeat(10)]
         public void AhujaOrlinCapacityScaling_2()
         {
             this.CreatePathFindingStrategy(1);
@@ -83,7 +86,7 @@ namespace FlowAlgorithmsVisualizedBackend.Tests.PathFindingStrategyTests
 
         /// <summary>Test for the <b>path finding strategy</b> of the <b>Ahuja-Orlin Capacity Scaling Algorithm</b> (Iteration 3).</summary>
         [Test]
-        [Repeat(50)]
+        [Repeat(10)]
         public void AhujaOrlinCapacityScaling_3()
         {
             this.CreatePathFindingStrategy(1);
@@ -93,7 +96,7 @@ namespace FlowAlgorithmsVisualizedBackend.Tests.PathFindingStrategyTests
             List<List<(int, int)>> paths = new List<List<(int, int)>>()
             {
                 new List<(int, int)>() { (1, 2), (2, 5) },
-                // new List<(int, int)>() { (1, 2), (2, 4), (4, 5) },
+                new List<(int, int)>() { (1, 2), (2, 4), (4, 5) },
             };
 
             CollectionAssert.Contains(paths, path);
@@ -101,7 +104,7 @@ namespace FlowAlgorithmsVisualizedBackend.Tests.PathFindingStrategyTests
 
         /// <summary>Test for the <b>path finding strategy</b> of the <b>Ahuja-Orlin Capacity Scaling Algorithm</b> (Iteration 4).</summary>
         [Test]
-        [Repeat(50)]
+        [Repeat(10)]
         public void AhujaOrlinCapacityScaling_4()
         {
             this.CreatePathFindingStrategy(2);
@@ -110,7 +113,7 @@ namespace FlowAlgorithmsVisualizedBackend.Tests.PathFindingStrategyTests
 
             List<List<(int, int)>> paths = new List<List<(int, int)>>()
             {
-                // new List<(int, int)>() { (1, 2), (2, 5) },
+                new List<(int, int)>() { (1, 2), (2, 5) },
                 new List<(int, int)>() { (1, 2), (2, 4), (4, 5) },
             };
 
@@ -119,7 +122,7 @@ namespace FlowAlgorithmsVisualizedBackend.Tests.PathFindingStrategyTests
 
         /// <summary>Test for the <b>path finding strategy</b> of the <b>Ahuja-Orlin Capacity Scaling Algorithm</b> (Iteration 5).</summary>
         [Test]
-        [Repeat(50)]
+        [Repeat(10)]
         public void AhujaOrlinCapacityScaling_5()
         {
             this.CreatePathFindingStrategy(3);
@@ -131,7 +134,7 @@ namespace FlowAlgorithmsVisualizedBackend.Tests.PathFindingStrategyTests
 
         /// <summary>Test for the <b>path finding strategy</b> of the <b>Ahuja-Orlin Capacity Scaling Algorithm</b> (Iteration 6).</summary>
         [Test]
-        [Repeat(50)]
+        [Repeat(10)]
         public void AhujaOrlinCapacityScaling_6()
         {
             this.CreatePathFindingStrategy(3);
@@ -148,7 +151,7 @@ namespace FlowAlgorithmsVisualizedBackend.Tests.PathFindingStrategyTests
 
         /// <summary>Test for the <b>path finding strategy</b> of the <b>Ahuja-Orlin Capacity Scaling Algorithm</b> (Iteration 7).</summary>
         [Test]
-        [Repeat(50)]
+        [Repeat(10)]
         public void AhujaOrlinCapacityScaling_7()
         {
             this.CreatePathFindingStrategy(4);

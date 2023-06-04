@@ -101,5 +101,16 @@ namespace FlowAlgorithmsVisualizedBackend.Utils
         /// <param name="networkData">All the information related to the actual network.</param>
         /// <param name="b">An array storing the status of each node (blocked / not blocked).</param>
         void ShowBlockedNodes(List<string> flowSteps, List<string> residualSteps, INetworkData networkData, bool[] b);
+
+        /// <summary>Shows the distance from each node to the sink (t) and the excess flow value of each node.</summary>
+        /// <param name="flowSteps">The list containing previous states of the flow network.</param>
+        /// <param name="residualSteps">The list containing previous states of the residual network.</param>
+        /// <param name="networkData">All the information related to the actual network.</param>
+        /// <param name="d">An array storing the distances from each node to the sink (t).</param>
+        /// <param name="e">An array storing the excess flow in each node.</param>
+        /// <param name="maxFlow">The maximum flow value.</param>
+        void ShowDistancesAndExcess(List<string> flowSteps, List<string> residualSteps, INetworkData networkData, int[] d, int[] e, int maxFlow);
+
+        void PaintNode(List<string> flowSteps, List<string> residualSteps, INetworkData networkData, int nodeId, int[] e);
     }
 }

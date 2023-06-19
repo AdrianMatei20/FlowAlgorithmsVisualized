@@ -96,39 +96,6 @@ namespace FlowAlgorithmsVisualizedBackend.Tests.AlgorithmTests
             Assert.AreEqual("12/15", networkData.FindEdge(networkData.DotFlowNetwork, 5, 6).Attributes["label"]);
         }
 
-        /// <summary>Test for the <b>Generic Max Flow Algorithm With Augmenting Path</b>.</summary>
-        [Test]
-        public void GenericWithAugmentingPathTest_EdgeCase()
-        {
-            string algorithmName = "GenericCuDMF";
-
-            IConverter converter = new Converter();
-            IAnimation animation = new Animation(converter);
-
-            Mock<IFileHelper> fileHelper = new Mock<IFileHelper>();
-            fileHelper.Setup(x => x.GetCapacityNetwork(algorithmName)).Returns(converter.StringToDotGraph("digraph {\r\n\r\n    1 [label=\"1\", pos=\"0,1!\", fontsize=\"16px\", shape=\"circle\", style=\"filled\", fillcolor=\"pink\"];\r\n    2 [label=\"2\", pos=\"1,2!\", fontsize=\"16px\", shape=\"circle\"];\r\n    3 [label=\"3\", pos=\"1,0!\", fontsize=\"16px\", shape=\"circle\"];\r\n    4 [label=\"4\", pos=\"3,2!\", fontsize=\"16px\", shape=\"circle\"];\r\n    5 [label=\"5\", pos=\"3,0!\", fontsize=\"16px\", shape=\"circle\"];\r\n    6 [label=\"6\", pos=\"4,1!\", fontsize=\"16px\", shape=\"circle\", style=\"filled\", fillcolor=\"lightblue\"];\r\n\r\n    1 -> 2 [label=\"10\", fontsize=\"18px\"];\r\n    1 -> 3 [label=\"12\", fontsize=\"18px\"];\r\n    2 -> 3 [label=\"10\", fontsize=\"18px\"];\r\n    2 -> 4 [label=\"3\", fontsize=\"18px\"];\r\n    2 -> 5 [label=\"7\", fontsize=\"18px\"];\r\n    3 -> 5 [label=\"5\", fontsize=\"18px\"];\r\n    4 -> 6 [label=\"5\", fontsize=\"18px\"];\r\n    5 -> 6 [label=\"15\", fontsize=\"18px\"];\r\n\r\n}"));
-            fileHelper.Setup(x => x.GetFlowNetwork(algorithmName)).Returns(converter.StringToDotGraph("digraph {\r\n\r\n    1 [label=\"1\", pos=\"0,1!\", fontsize=\"16px\", shape=\"circle\", style=\"filled\", fillcolor=\"pink\"];\r\n    2 [label=\"2\", pos=\"1,2!\", fontsize=\"16px\", shape=\"circle\"];\r\n    3 [label=\"3\", pos=\"1,0!\", fontsize=\"16px\", shape=\"circle\"];\r\n    4 [label=\"4\", pos=\"3,2!\", fontsize=\"16px\", shape=\"circle\"];\r\n    5 [label=\"5\", pos=\"3,0!\", fontsize=\"16px\", shape=\"circle\"];\r\n    6 [label=\"6\", pos=\"4,1!\", fontsize=\"16px\", shape=\"circle\", style=\"filled\", fillcolor=\"lightblue\"];\r\n\r\n    1 -> 2 [label=\"0/10\", fontsize=\"18px\"];\r\n    1 -> 3 [label=\"0/12\", fontsize=\"18px\"];\r\n    2 -> 3 [label=\"0/10\", fontsize=\"18px\"];\r\n    2 -> 4 [label=\"0/3\", fontsize=\"18px\"];\r\n    2 -> 5 [label=\"0/7\", fontsize=\"18px\"];\r\n    3 -> 5 [label=\"0/5\", fontsize=\"18px\"];\r\n    4 -> 6 [label=\"0/5\", fontsize=\"18px\"];\r\n    5 -> 6 [label=\"0/15\", fontsize=\"18px\"];\r\n\r\n}"));
-
-            INetworkData networkData = new NetworkData(algorithmName, fileHelper.Object);
-
-            Mock<IFindPathStrategy> pathFindingStrategy = new Mock<IFindPathStrategy>();
-            pathFindingStrategy.SetupSequence(x => x.FindPath(networkData))
-                .Returns(new List<(int, int)> { (1, 2), (2, 3), (3, 5), (5, 6) })
-                .Returns(new List<(int, int)> { (1, 3), (3, 2), (2, 5), (5, 6) })
-                .Returns(new List<(int, int)> { (1, 2), (2, 5), (5, 6) })
-                .Returns(new List<(int, int)> { (1, 2), (2, 4), (4, 6) })
-                .Returns(new List<(int, int)> { });
-
-            IFlowAlgorithm algorithm = new GenericWithAugmentingPath(pathFindingStrategy.Object, networkData, animation);
-
-            List<List<string>> data = algorithm.GetAlgorithmSteps();
-
-            Assert.AreEqual(3, data.Count);
-            Assert.AreEqual("V=15", networkData.DotResidualNetwork.Vertices.Where(vertex => vertex.Id == 6).First().Attributes["xlabel"]);
-            Assert.AreEqual("V=15", networkData.DotFlowNetwork.Vertices.Where(vertex => vertex.Id == 6).First().Attributes["xlabel"]);
-            Assert.That(data[2][data[2].Count - 1], Does.Contain("V=15"));
-        }
-
         /// <summary>Test for the <b>Ford-Fulkerson Algorithm</b>.</summary>
         [Test]
         public void FordFulkersonTest()

@@ -11,23 +11,21 @@ namespace FlowAlgorithmsVisualizedBackend.Network
     /// <seealso cref="IAlgorithmFactory" />
     public class AlgorithmFactory : IAlgorithmFactory
     {
-        private readonly IFileHelperFactory fileHelperFactory;
+        private readonly IHelperFactory helperFactory;
 
         /// <summary>Initializes a new instance of the <see cref="AlgorithmFactory" /> class.</summary>
-        /// <param name="fileHelperFactory">Wrapper for the <see cref="FileHelper"/> class.</param>
-        public AlgorithmFactory(IFileHelperFactory fileHelperFactory)
+        /// <param name="helperFactory">Wrapper for dependencies.</param>
+        public AlgorithmFactory(IHelperFactory helperFactory)
         {
-            this.fileHelperFactory = fileHelperFactory;
+            this.helperFactory = helperFactory;
         }
 
         /// <inheritdoc/>
         public IFlowAlgorithm CreateAlgorithm(string algorithmName)
         {
             IFlowAlgorithm algorithm;
-            IConverter converter = new Converter();
-            IAnimation animation = new Animation(converter);
-            IFileHelper fileHelper = this.fileHelperFactory.GetFileHelper();
-            INetworkData networkData = new NetworkData(algorithmName, fileHelper);
+            INetworkData networkData = this.helperFactory.GetNetworkData(algorithmName);
+            IAnimation animation = this.helperFactory.GetAnimation();
 
             switch (algorithmName)
             {

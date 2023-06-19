@@ -26,7 +26,7 @@ namespace FlowAlgorithmsVisualized.Controllers
 
             if (algorithms.Contains(algorithmName))
             {
-                IAlgorithmFactory algorithmFactory = new AlgorithmFactory(new FileHelperFactory());
+                IAlgorithmFactory algorithmFactory = new AlgorithmFactory(new HelperFactory());
                 IFlowAlgorithm algorithm = algorithmFactory.CreateAlgorithm(algorithmName);
                 data = algorithm.GetAlgorithmSteps();
             }

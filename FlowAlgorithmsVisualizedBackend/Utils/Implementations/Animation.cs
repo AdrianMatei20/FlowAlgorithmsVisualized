@@ -20,31 +20,50 @@ namespace FlowAlgorithmsVisualizedBackend.Utils
         public Animation(IConverter converter)
         {
             this.converter = converter;
+            this.CapacitySteps = new List<string>();
+            this.FlowSteps = new List<string>();
+            this.ResidualSteps = new List<string>();
         }
 
+        /// <summary>Gets or sets the capacity steps.</summary>
+        /// <value>The list containing previous states of the capacity network.</value>
+        private List<string> CapacitySteps { get; set; }
+
+        /// <summary>Gets or sets the flow steps.</summary>
+        /// <value>The list containing previous states of the flow network.</value>
+        private List<string> FlowSteps { get; set; }
+
+        /// <summary>Gets or sets the residual steps.</summary>
+        /// <value>The list containing previous states of the residual network.</value>
+        private List<string> ResidualSteps { get; set; }
+
         /// <inheritdoc/>
-        public void SaveState(List<string> steps, DotGraph<int> network)
+        public List<List<string>> GetAlgorithmSteps()
         {
-            steps.Add(this.converter.DotGraphToString(network));
+            List<List<string>> algorithmSteps = new List<List<string>>();
+            algorithmSteps.Add(this.CapacitySteps);
+            algorithmSteps.Add(this.FlowSteps);
+            algorithmSteps.Add(this.ResidualSteps);
+            return algorithmSteps;
         }
 
         /// <inheritdoc/>
-        public void SaveInitialStateOfNetworks(List<string> capacitySteps, List<string> flowSteps, List<string> residualSteps, INetworkData networkData)
+        public void SaveInitialStateOfNetworks(INetworkData networkData)
         {
-            this.SaveState(capacitySteps, networkData.DotCapacityNetwork);
-            this.SaveState(flowSteps, networkData.DotFlowNetwork);
-            this.SaveState(residualSteps, networkData.DotResidualNetwork);
+            this.CapacitySteps.Add(this.converter.DotGraphToString(networkData.DotCapacityNetwork));
+            this.FlowSteps.Add(this.converter.DotGraphToString(networkData.DotFlowNetwork));
+            this.ResidualSteps.Add(this.converter.DotGraphToString(networkData.DotResidualNetwork));
         }
 
         /// <inheritdoc/>
-        public void SaveCurrentStateOfNetworks(List<string> flowSteps, List<string> residualSteps, INetworkData networkData)
+        public void SaveCurrentStateOfNetworks(INetworkData networkData)
         {
-            this.SaveState(flowSteps, networkData.DotFlowNetwork);
-            this.SaveState(residualSteps, networkData.DotResidualNetwork);
+            this.FlowSteps.Add(this.converter.DotGraphToString(networkData.DotFlowNetwork));
+            this.ResidualSteps.Add(this.converter.DotGraphToString(networkData.DotResidualNetwork));
         }
 
         /// <inheritdoc/>
-        public void HighlightPathStepByStep(List<(int V1, int V2)> path, List<string> flowSteps, List<string> residualSteps, INetworkData networkData)
+        public void HighlightPathStepByStep(List<(int V1, int V2)> path, INetworkData networkData)
         {
             foreach (var edge in path)
             {
@@ -72,12 +91,12 @@ namespace FlowAlgorithmsVisualizedBackend.Utils
                     }
                 }
 
-                this.SaveCurrentStateOfNetworks(flowSteps, residualSteps, networkData);
+                this.SaveCurrentStateOfNetworks(networkData);
             }
         }
 
         /// <inheritdoc/>
-        public void HighlightPath(List<(int V1, int V2)> path, List<string> flowSteps, List<string> residualSteps, INetworkData networkData)
+        public void HighlightPath(List<(int V1, int V2)> path, INetworkData networkData)
         {
             foreach (var edge in path)
             {
@@ -96,11 +115,11 @@ namespace FlowAlgorithmsVisualizedBackend.Utils
                 }
             }
 
-            this.SaveCurrentStateOfNetworks(flowSteps, residualSteps, networkData);
+            this.SaveCurrentStateOfNetworks(networkData);
         }
 
         /// <inheritdoc/>
-        public void ResetNetworks(List<string> flowSteps, List<string> residualSteps, INetworkData networkData)
+        public void ResetNetworks(INetworkData networkData)
         {
             foreach (DotEdge<int> edge in networkData.DotFlowNetwork.Edges)
             {
@@ -116,26 +135,26 @@ namespace FlowAlgorithmsVisualizedBackend.Utils
                 edge.Attributes["fontcolor"] = "black";
             }
 
-            this.SaveCurrentStateOfNetworks(flowSteps, residualSteps, networkData);
+            this.SaveCurrentStateOfNetworks(networkData);
         }
 
         /// <inheritdoc/>
-        public void EndOfAnimation(List<string> flowSteps, List<string> residualSteps, INetworkData networkData)
+        public void EndOfAnimation(INetworkData networkData)
         {
             for (int i = 1; i <= 3; i++)
             {
                 networkData.DotFlowNetwork.Vertices.ElementAt(networkData.NoOfVertices - 1).Attributes["fillcolor"] = "white";
                 networkData.DotResidualNetwork.Vertices.ElementAt(networkData.NoOfVertices - 1).Attributes["fillcolor"] = "white";
-                this.SaveCurrentStateOfNetworks(flowSteps, residualSteps, networkData);
+                this.SaveCurrentStateOfNetworks(networkData);
 
                 networkData.DotFlowNetwork.Vertices.ElementAt(networkData.NoOfVertices - 1).Attributes["fillcolor"] = "lightblue";
                 networkData.DotResidualNetwork.Vertices.ElementAt(networkData.NoOfVertices - 1).Attributes["fillcolor"] = "lightblue";
-                this.SaveCurrentStateOfNetworks(flowSteps, residualSteps, networkData);
+                this.SaveCurrentStateOfNetworks(networkData);
             }
         }
 
         /// <inheritdoc/>
-        public void HighlightArrowsWithEnoughResidualCapacity(List<string> flowSteps, List<string> residualSteps, INetworkData networkData, int minimumResidualCapacity)
+        public void HighlightArrowsWithEnoughResidualCapacity(INetworkData networkData, int minimumResidualCapacity)
         {
             foreach (DotEdge<int> edge in networkData.DotResidualNetwork.Edges)
             {
@@ -154,18 +173,18 @@ namespace FlowAlgorithmsVisualizedBackend.Utils
                 }
             }
 
-            this.SaveCurrentStateOfNetworks(flowSteps, residualSteps, networkData);
+            this.SaveCurrentStateOfNetworks(networkData);
         }
 
         /// <inheritdoc/>
-        public void UpdateFlowNetworkArrows(List<string> flowSteps, List<string> residualSteps, INetworkData networkData, string color)
+        public void UpdateFlowNetworkArrows(INetworkData networkData, string color)
         {
             foreach (DotEdge<int> edge in networkData.DotFlowNetwork.Edges)
             {
                 edge.Attributes["penwidth"] = "2";
             }
 
-            this.SaveCurrentStateOfNetworks(flowSteps, residualSteps, networkData);
+            this.SaveCurrentStateOfNetworks(networkData);
 
             foreach (DotEdge<int> edge in networkData.DotFlowNetwork.Edges)
             {
@@ -173,18 +192,18 @@ namespace FlowAlgorithmsVisualizedBackend.Utils
                 edge.Attributes["fontcolor"] = color;
             }
 
-            this.SaveCurrentStateOfNetworks(flowSteps, residualSteps, networkData);
+            this.SaveCurrentStateOfNetworks(networkData);
         }
 
         /// <inheritdoc/>
-        public void UpdateResidualNetworkArrows(List<string> flowSteps, List<string> residualSteps, INetworkData networkData)
+        public void UpdateResidualNetworkArrows(INetworkData networkData)
         {
             foreach (DotEdge<int> edge in networkData.DotResidualNetwork.Edges)
             {
                 edge.Attributes["penwidth"] = "2";
             }
 
-            this.SaveCurrentStateOfNetworks(flowSteps, residualSteps, networkData);
+            this.SaveCurrentStateOfNetworks(networkData);
 
             foreach (DotEdge<int> edge in networkData.DotResidualNetwork.Edges)
             {
@@ -192,11 +211,11 @@ namespace FlowAlgorithmsVisualizedBackend.Utils
                 edge.Attributes["fontcolor"] = "red";
             }
 
-            this.SaveCurrentStateOfNetworks(flowSteps, residualSteps, networkData);
+            this.SaveCurrentStateOfNetworks(networkData);
         }
 
         /// <inheritdoc/>
-        public void ResetNetworksOneAfterTheOther(List<string> flowSteps, List<string> residualSteps, INetworkData networkData)
+        public void ResetNetworksOneAfterTheOther(INetworkData networkData)
         {
             foreach (DotEdge<int> edge in networkData.DotFlowNetwork.Edges)
             {
@@ -204,7 +223,7 @@ namespace FlowAlgorithmsVisualizedBackend.Utils
                 edge.Attributes["fontcolor"] = "black";
             }
 
-            this.SaveCurrentStateOfNetworks(flowSteps, residualSteps, networkData);
+            this.SaveCurrentStateOfNetworks(networkData);
 
             foreach (DotEdge<int> edge in networkData.DotResidualNetwork.Edges)
             {
@@ -212,11 +231,11 @@ namespace FlowAlgorithmsVisualizedBackend.Utils
                 edge.Attributes["fontcolor"] = "black";
             }
 
-            this.SaveCurrentStateOfNetworks(flowSteps, residualSteps, networkData);
+            this.SaveCurrentStateOfNetworks(networkData);
         }
 
         /// <inheritdoc/>
-        public void UpdateResidualNetwork(List<string> flowSteps, List<string> residualSteps, INetworkData networkData)
+        public void UpdateResidualNetwork(INetworkData networkData)
         {
             for (int i = 0; i < networkData.NoOfVertices; i++)
             {
@@ -254,11 +273,11 @@ namespace FlowAlgorithmsVisualizedBackend.Utils
                 }
             }
 
-            this.SaveCurrentStateOfNetworks(flowSteps, residualSteps, networkData);
+            this.SaveCurrentStateOfNetworks(networkData);
         }
 
         /// <inheritdoc/>
-        public void ShowDistances(List<string> flowSteps, List<string> residualSteps, INetworkData networkData, int[] d, int maxFlow)
+        public void ShowDistances(INetworkData networkData, int[] d, int maxFlow)
         {
             string maxFlowLabel = "V=" + maxFlow.ToString() + "\n";
             foreach (DotVertex<int> vertex in networkData.DotResidualNetwork.Vertices)
@@ -280,11 +299,11 @@ namespace FlowAlgorithmsVisualizedBackend.Utils
                 }
             }
 
-            this.SaveCurrentStateOfNetworks(flowSteps, residualSteps, networkData);
+            this.SaveCurrentStateOfNetworks(networkData);
         }
 
         /// <inheritdoc/>
-        public void ShowBlockedNodes(List<string> flowSteps, List<string> residualSteps, INetworkData networkData, bool[] b)
+        public void ShowBlockedNodes(INetworkData networkData, bool[] b)
         {
             foreach (DotVertex<int> vertex in networkData.DotResidualNetwork.Vertices)
             {
@@ -335,19 +354,14 @@ namespace FlowAlgorithmsVisualizedBackend.Utils
                             }
                         }
                     }
-
-                    if (vertex.Attributes.ContainsKey("fontcolor"))
-                    {
-                        vertex.Attributes.Remove(new KeyValuePair<string, string>("fontcolor", vertex.Attributes["fontcolor"]));
-                    }
                 }
             }
 
-            this.SaveCurrentStateOfNetworks(flowSteps, residualSteps, networkData);
+            this.SaveCurrentStateOfNetworks(networkData);
         }
 
         /// <inheritdoc/>
-        public void ShowDistancesAndExcess(List<string> flowSteps, List<string> residualSteps, INetworkData networkData, int[] d, int[] e, int maxFlow)
+        public void ShowDistancesAndExcess(INetworkData networkData, int[] d, int[] e, int maxFlow)
         {
             string maxFlowLabel = "V=" + maxFlow.ToString() + "\n";
             foreach (DotVertex<int> vertex in networkData.DotResidualNetwork.Vertices)
@@ -371,11 +385,11 @@ namespace FlowAlgorithmsVisualizedBackend.Utils
                 }
             }
 
-            this.SaveCurrentStateOfNetworks(flowSteps, residualSteps, networkData);
+            this.SaveCurrentStateOfNetworks(networkData);
         }
 
         /// <inheritdoc/>
-        public void PaintNode(List<string> flowSteps, List<string> residualSteps, INetworkData networkData, int nodeId, int[] e)
+        public void PaintNode(INetworkData networkData, int nodeId, int[] e)
         {
             DotVertex<int> node = networkData.DotResidualNetwork.Vertices.Where((vertex) => vertex.Id == nodeId).FirstOrDefault();
 
@@ -406,7 +420,7 @@ namespace FlowAlgorithmsVisualizedBackend.Utils
                 }
             }
 
-            this.SaveCurrentStateOfNetworks(flowSteps, residualSteps, networkData);
+            this.SaveCurrentStateOfNetworks(networkData);
         }
     }
 }

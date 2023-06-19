@@ -32,20 +32,15 @@ namespace FlowAlgorithmsVisualizedBackend.Algorithms
         /// <inheritdoc/>
         public List<List<string>> GetAlgorithmSteps()
         {
-            List<List<string>> steps = new List<List<string>>();
-            List<string> capacitySteps = new List<string>();
-            List<string> residualSteps = new List<string>();
-            List<string> flowSteps = new List<string>();
-
             List<(int V1, int V2)> path = new List<(int, int)>();
 
-            this.animation.SaveInitialStateOfNetworks(capacitySteps, flowSteps, residualSteps, this.networkData);
+            this.animation.SaveInitialStateOfNetworks(this.networkData);
 
             int maxFlow = 0;
             this.networkData.DotFlowNetwork.Vertices.ElementAt(this.networkData.NoOfVertices - 1).Attributes["xlabel"] = "V=" + maxFlow.ToString();
             this.networkData.DotResidualNetwork.Vertices.ElementAt(this.networkData.NoOfVertices - 1).Attributes["xlabel"] = "V=" + maxFlow.ToString();
 
-            this.animation.SaveCurrentStateOfNetworks(flowSteps, residualSteps, this.networkData);
+            this.animation.SaveCurrentStateOfNetworks(this.networkData);
 
             do
             {
@@ -65,8 +60,8 @@ namespace FlowAlgorithmsVisualizedBackend.Algorithms
                         }
                     }
 
-                    this.animation.HighlightPathStepByStep(path, flowSteps, residualSteps, this.networkData);
-                    this.animation.HighlightPath(path, flowSteps, residualSteps, this.networkData);
+                    this.animation.HighlightPathStepByStep(path, this.networkData);
+                    this.animation.HighlightPath(path, this.networkData);
 
                     foreach (var edge in path)
                     {
@@ -113,15 +108,7 @@ namespace FlowAlgorithmsVisualizedBackend.Algorithms
                             int oldValue = 0, newValue = 0;
                             int.TryParse(oppositeEdge.Attributes["label"], out oldValue);
                             newValue = this.networkData.ResidualNetwork[edge.V2 - 1, edge.V1 - 1];
-
-                            if (newValue > 0)
-                            {
-                                oppositeEdge.Attributes["label"] = newValue.ToString();
-                            }
-                            else
-                            {
-                                this.networkData.DotResidualNetwork.RemoveEdge(oppositeEdge);
-                            }
+                            oppositeEdge.Attributes["label"] = newValue.ToString();
                         }
                         else
                         {
@@ -139,25 +126,22 @@ namespace FlowAlgorithmsVisualizedBackend.Algorithms
                             this.networkData.DotResidualNetwork.AddEdge(newEdge);
                         }
 
-                        this.animation.SaveCurrentStateOfNetworks(flowSteps, residualSteps, this.networkData);
+                        this.animation.SaveCurrentStateOfNetworks(this.networkData);
                     }
 
                     maxFlow += residualCapacityOfPath;
                     this.networkData.DotResidualNetwork.Vertices.ElementAt(this.networkData.NoOfVertices - 1).Attributes["xlabel"] = "V=" + maxFlow.ToString();
                     this.networkData.DotFlowNetwork.Vertices.ElementAt(this.networkData.NoOfVertices - 1).Attributes["xlabel"] = "V=" + maxFlow.ToString();
 
-                    this.animation.SaveCurrentStateOfNetworks(flowSteps, residualSteps, this.networkData);
-                    this.animation.ResetNetworks(flowSteps, residualSteps, this.networkData);
+                    this.animation.SaveCurrentStateOfNetworks(this.networkData);
+                    this.animation.ResetNetworks(this.networkData);
                 }
             }
             while (path.Any());
 
-            this.animation.EndOfAnimation(flowSteps, residualSteps, this.networkData);
+            this.animation.EndOfAnimation(this.networkData);
 
-            steps.Add(capacitySteps);
-            steps.Add(flowSteps);
-            steps.Add(residualSteps);
-            return steps;
+            return this.animation.GetAlgorithmSteps();
         }
     }
 }

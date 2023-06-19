@@ -33,18 +33,13 @@ namespace FlowAlgorithmsVisualizedBackend.Algorithms
         /// <inheritdoc/>
         public List<List<string>> GetAlgorithmSteps()
         {
-            List<List<string>> algorithmSteps = new List<List<string>>();
-            List<string> capacitySteps = new List<string>();
-            List<string> flowSteps = new List<string>();
-            List<string> residualSteps = new List<string>();
-
-            this.animation.SaveInitialStateOfNetworks(capacitySteps, flowSteps, residualSteps, this.networkData);
+            this.animation.SaveInitialStateOfNetworks(this.networkData);
 
             int maxFlow = 0;
             this.networkData.DotFlowNetwork.Vertices.ElementAt(this.networkData.NoOfVertices - 1).Attributes["xlabel"] = "V=" + maxFlow.ToString();
             this.networkData.DotResidualNetwork.Vertices.ElementAt(this.networkData.NoOfVertices - 1).Attributes["xlabel"] = "V=" + maxFlow.ToString();
 
-            this.animation.SaveCurrentStateOfNetworks(flowSteps, residualSteps, this.networkData);
+            this.animation.SaveCurrentStateOfNetworks(this.networkData);
 
             int x = -1, y = -1;
             int s = 0, t = this.networkData.NoOfVertices - 1;
@@ -58,19 +53,19 @@ namespace FlowAlgorithmsVisualizedBackend.Algorithms
 
             p[s] = t;
             d = this.CalculateDistances();
-            this.animation.ShowDistancesAndExcess(flowSteps, residualSteps, this.networkData, d, e, maxFlow);
+            this.animation.ShowDistancesAndExcess(this.networkData, d, e, maxFlow);
 
             for (x = 0; x < this.networkData.NoOfVertices; x++)
             {
                 if (this.networkData.ResidualNetwork[s, x] > 0)
                 {
-                    this.animation.HighlightPathStepByStep(new List<(int V1, int V2)> { (s + 1, x + 1) }, flowSteps, residualSteps, this.networkData);
+                    this.animation.HighlightPathStepByStep(new List<(int V1, int V2)> { (s + 1, x + 1) }, this.networkData);
 
                     int excessFlow = this.networkData.CapacityNetwork[s, x];
 
                     e[s] -= excessFlow;
-                    this.animation.ShowDistancesAndExcess(flowSteps, residualSteps, this.networkData, d, e, maxFlow);
-                    this.animation.HighlightPath(new List<(int V1, int V2)> { (s + 1, x + 1) }, flowSteps, residualSteps, this.networkData);
+                    this.animation.ShowDistancesAndExcess(this.networkData, d, e, maxFlow);
+                    this.animation.HighlightPath(new List<(int V1, int V2)> { (s + 1, x + 1) }, this.networkData);
 
                     this.networkData.ResidualNetwork[s, x] -= excessFlow;
                     this.networkData.ResidualNetwork[x, s] += excessFlow;
@@ -78,18 +73,7 @@ namespace FlowAlgorithmsVisualizedBackend.Algorithms
                     var directEdge = this.networkData.FindEdge(this.networkData.DotResidualNetwork, s + 1, x + 1);
                     if (directEdge != null)
                     {
-                        int oldValue = 0, newValue = 0;
-                        int.TryParse(directEdge.Attributes["label"], out oldValue);
-                        newValue = this.networkData.ResidualNetwork[s, x];
-
-                        if (newValue > 0)
-                        {
-                            directEdge.Attributes["label"] = newValue.ToString();
-                        }
-                        else
-                        {
-                            this.networkData.DotResidualNetwork.RemoveEdge(directEdge);
-                        }
+                        this.networkData.DotResidualNetwork.RemoveEdge(directEdge);
                     }
 
                     var oppositeEdge = this.networkData.FindEdge(this.networkData.DotResidualNetwork, x + 1, s + 1);
@@ -98,15 +82,7 @@ namespace FlowAlgorithmsVisualizedBackend.Algorithms
                         int oldValue = 0, newValue = 0;
                         int.TryParse(oppositeEdge.Attributes["label"], out oldValue);
                         newValue = this.networkData.ResidualNetwork[x, s];
-
-                        if (newValue > 0)
-                        {
-                            oppositeEdge.Attributes["label"] = newValue.ToString();
-                        }
-                        else
-                        {
-                            this.networkData.DotResidualNetwork.RemoveEdge(oppositeEdge);
-                        }
+                        oppositeEdge.Attributes["label"] = newValue.ToString();
                     }
                     else
                     {
@@ -141,7 +117,7 @@ namespace FlowAlgorithmsVisualizedBackend.Algorithms
                         }
                     }
 
-                    this.animation.SaveCurrentStateOfNetworks(flowSteps, residualSteps, this.networkData);
+                    this.animation.SaveCurrentStateOfNetworks(this.networkData);
 
                     e[x] += excessFlow;
 
@@ -150,9 +126,9 @@ namespace FlowAlgorithmsVisualizedBackend.Algorithms
                         maxFlow += excessFlow;
                     }
 
-                    this.animation.ShowDistancesAndExcess(flowSteps, residualSteps, this.networkData, d, e, maxFlow);
-                    this.animation.PaintNode(flowSteps, residualSteps, this.networkData, x + 1, e);
-                    this.animation.ResetNetworks(flowSteps, residualSteps, this.networkData);
+                    this.animation.ShowDistancesAndExcess(this.networkData, d, e, maxFlow);
+                    this.animation.PaintNode(this.networkData, x + 1, e);
+                    this.animation.ResetNetworks(this.networkData);
                 }
             }
 
@@ -170,14 +146,14 @@ namespace FlowAlgorithmsVisualizedBackend.Algorithms
 
                     if (y != -1)
                     {
-                        this.animation.HighlightPathStepByStep(new List<(int V1, int V2)> { (x + 1, y + 1) }, flowSteps, residualSteps, this.networkData);
+                        this.animation.HighlightPathStepByStep(new List<(int V1, int V2)> { (x + 1, y + 1) }, this.networkData);
 
                         int excessFlow = new List<int>() { e[x], this.networkData.ResidualNetwork[x, y] }.Min();
 
                         e[x] -= excessFlow;
-                        this.animation.ShowDistancesAndExcess(flowSteps, residualSteps, this.networkData, d, e, maxFlow);
-                        this.animation.PaintNode(flowSteps, residualSteps, this.networkData, x + 1, e);
-                        this.animation.HighlightPath(new List<(int V1, int V2)> { (x + 1, y + 1) }, flowSteps, residualSteps, this.networkData);
+                        this.animation.ShowDistancesAndExcess(this.networkData, d, e, maxFlow);
+                        this.animation.PaintNode(this.networkData, x + 1, e);
+                        this.animation.HighlightPath(new List<(int V1, int V2)> { (x + 1, y + 1) }, this.networkData);
 
                         this.networkData.ResidualNetwork[x, y] -= excessFlow;
                         this.networkData.ResidualNetwork[y, x] += excessFlow;
@@ -205,15 +181,7 @@ namespace FlowAlgorithmsVisualizedBackend.Algorithms
                             int oldValue = 0, newValue = 0;
                             int.TryParse(oppositeEdge.Attributes["label"], out oldValue);
                             newValue = this.networkData.ResidualNetwork[y, x];
-
-                            if (newValue > 0)
-                            {
-                                oppositeEdge.Attributes["label"] = newValue.ToString();
-                            }
-                            else
-                            {
-                                this.networkData.DotResidualNetwork.RemoveEdge(oppositeEdge);
-                            }
+                            oppositeEdge.Attributes["label"] = newValue.ToString();
                         }
                         else
                         {
@@ -254,7 +222,7 @@ namespace FlowAlgorithmsVisualizedBackend.Algorithms
                             }
                         }
 
-                        this.animation.SaveCurrentStateOfNetworks(flowSteps, residualSteps, this.networkData);
+                        this.animation.SaveCurrentStateOfNetworks(this.networkData);
 
                         e[y] += excessFlow;
 
@@ -265,9 +233,9 @@ namespace FlowAlgorithmsVisualizedBackend.Algorithms
                             this.networkData.DotFlowNetwork.Vertices.ElementAt(this.networkData.NoOfVertices - 1).Attributes["xlabel"] = "V=" + maxFlow.ToString();
                         }
 
-                        this.animation.ShowDistancesAndExcess(flowSteps, residualSteps, this.networkData, d, e, maxFlow);
-                        this.animation.PaintNode(flowSteps, residualSteps, this.networkData, y + 1, e);
-                        this.animation.ResetNetworks(flowSteps, residualSteps, this.networkData);
+                        this.animation.ShowDistancesAndExcess(this.networkData, d, e, maxFlow);
+                        this.animation.PaintNode(this.networkData, y + 1, e);
+                        this.animation.ResetNetworks(this.networkData);
                     }
                     else
                     {
@@ -285,18 +253,15 @@ namespace FlowAlgorithmsVisualizedBackend.Algorithms
                         }
 
                         d[x] = distance;
-                        this.animation.ShowDistancesAndExcess(flowSteps, residualSteps, this.networkData, d, e, maxFlow);
+                        this.animation.ShowDistancesAndExcess(this.networkData, d, e, maxFlow);
                     }
                 }
             }
             while (x != -1);
 
-            this.animation.EndOfAnimation(flowSteps, residualSteps, this.networkData);
+            this.animation.EndOfAnimation(this.networkData);
 
-            algorithmSteps.Add(capacitySteps);
-            algorithmSteps.Add(flowSteps);
-            algorithmSteps.Add(residualSteps);
-            return algorithmSteps;
+            return this.animation.GetAlgorithmSteps();
         }
 
         private int[] CalculateDistances()

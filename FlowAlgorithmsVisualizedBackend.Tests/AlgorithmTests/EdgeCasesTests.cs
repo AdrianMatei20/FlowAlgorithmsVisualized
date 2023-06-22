@@ -73,8 +73,8 @@ namespace FlowAlgorithmsVisualizedBackend.Tests.AlgorithmTests
             List<List<string>> data = algorithm.GetAlgorithmSteps();
 
             Assert.AreEqual(3, data.Count);
-            Assert.AreEqual("V=15", networkData.DotResidualNetwork.Vertices.Where(vertex => vertex.Id == 6).First().Attributes["xlabel"]);
-            Assert.AreEqual("V=15", networkData.DotFlowNetwork.Vertices.Where(vertex => vertex.Id == 6).First().Attributes["xlabel"]);
+            Assert.AreEqual("V=15", networkData.DotResidualNetwork.Vertices.Where(vertex => vertex.Id == networkData.NoOfVertices).First().Attributes["xlabel"]);
+            Assert.AreEqual("V=15", networkData.DotFlowNetwork.Vertices.Where(vertex => vertex.Id == networkData.NoOfVertices).First().Attributes["xlabel"]);
             Assert.That(data[2][data[2].Count - 1], Does.Contain("V=15"));
         }
 
@@ -89,9 +89,30 @@ namespace FlowAlgorithmsVisualizedBackend.Tests.AlgorithmTests
             List<List<string>> data = algorithm.GetAlgorithmSteps();
 
             Assert.AreEqual(3, data.Count);
-            Assert.AreEqual("V=15", networkData.DotResidualNetwork.Vertices.Where(vertex => vertex.Id == 6).First().Attributes["xlabel"]);
-            Assert.AreEqual("V=15", networkData.DotFlowNetwork.Vertices.Where(vertex => vertex.Id == 6).First().Attributes["xlabel"]);
+            Assert.AreEqual("V=15", networkData.DotResidualNetwork.Vertices.Where(vertex => vertex.Id == networkData.NoOfVertices).First().Attributes["xlabel"]);
+            Assert.AreEqual("V=15", networkData.DotFlowNetwork.Vertices.Where(vertex => vertex.Id == networkData.NoOfVertices).First().Attributes["xlabel"]);
             Assert.That(data[2][data[2].Count - 1], Does.Contain("V=15"));
+        }
+
+        /// <summary>Test for the <b>Fifo Preflow</b>.</summary>
+        [Test]
+        public void FifoPreflowTest_EdgeCase()
+        {
+            string algorithmName = "PrefluxFIFO";
+
+            this.fileHelperMock = new Mock<IFileHelper>();
+            this.fileHelperMock.Setup(x => x.GetCapacityNetwork(It.IsAny<string>())).Returns(this.converter.StringToDotGraph("digraph {\r\n\r\n    1 [label=\"1\", pos=\"0,1!\", fontsize=\"16px\", shape=\"circle\", style=\"filled\", fillcolor=\"pink\"];\r\n    2 [label=\"2\", pos=\"4,1!\", fontsize=\"16px\", shape=\"circle\", style=\"filled\", fillcolor=\"lightblue\"];\r\n\r\n    1 -> 2 [label=\"10\", fontsize=\"18px\"];\r\n\r\n}"));
+            this.fileHelperMock.Setup(x => x.GetFlowNetwork(It.IsAny<string>())).Returns(this.converter.StringToDotGraph("digraph {\r\n\r\n    1 [label=\"1\", pos=\"0,1!\", fontsize=\"16px\", shape=\"circle\", style=\"filled\", fillcolor=\"pink\"];\r\n    2 [label=\"2\", pos=\"4,1!\", fontsize=\"16px\", shape=\"circle\", style=\"filled\", fillcolor=\"lightblue\"];\r\n\r\n    1 -> 2 [label=\"0/10\", fontsize=\"18px\"];\r\n\r\n}"));
+
+            INetworkData networkData = new NetworkData(algorithmName, this.fileHelperMock.Object);
+            IFlowAlgorithm algorithm = new FifoPreflow(new FifoPreflowPathFinding(), networkData, this.animation);
+
+            List<List<string>> data = algorithm.GetAlgorithmSteps();
+
+            Assert.AreEqual(3, data.Count);
+            Assert.AreEqual("V=10\nd[2]=0\ne[2]=10", networkData.DotResidualNetwork.Vertices.Where(vertex => vertex.Id == networkData.NoOfVertices).First().Attributes["xlabel"]);
+            // Assert.AreEqual("V=10", networkData.DotFlowNetwork.Vertices.Where(vertex => vertex.Id == networkData.NoOfVertices).First().Attributes["xlabel"]);
+            Assert.That(data[2][data[2].Count - 1], Does.Contain("V=10"));
         }
     }
 }

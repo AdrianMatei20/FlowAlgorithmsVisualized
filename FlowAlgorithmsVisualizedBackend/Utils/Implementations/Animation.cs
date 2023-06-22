@@ -63,6 +63,131 @@ namespace FlowAlgorithmsVisualizedBackend.Utils
         }
 
         /// <inheritdoc/>
+        public void UpdateFoundPathInNetworks(INetworkData networkData, List<(int V1, int V2)> path, int residualCapacityOfPath)
+        {
+            foreach (var edge in path)
+            {
+                var dotEdge = networkData.FindEdge(networkData.DotFlowNetwork, edge.V1, edge.V2);
+                if (dotEdge != null)
+                {
+                    dotEdge.Attributes["label"] = networkData.FlowNetwork[edge.V1 - 1, edge.V2 - 1].ToString() + "/" + networkData.CapacityNetwork[edge.V1 - 1, edge.V2 - 1].ToString();
+                }
+                else
+                {
+                    var dotBackEdge = networkData.FindEdge(networkData.DotFlowNetwork, edge.V2, edge.V1);
+                    if (dotBackEdge != null)
+                    {
+                        dotBackEdge.Attributes["label"] = networkData.FlowNetwork[edge.V2 - 1, edge.V1 - 1].ToString() + "/" + networkData.CapacityNetwork[edge.V2 - 1, edge.V1 - 1].ToString();
+                    }
+                }
+
+                var directEdge = networkData.FindEdge(networkData.DotResidualNetwork, edge.V1, edge.V2);
+                if (directEdge != null)
+                {
+                    int oldValue = 0, newValue = 0;
+                    int.TryParse(directEdge.Attributes["label"], out oldValue);
+                    newValue = networkData.ResidualNetwork[edge.V1 - 1, edge.V2 - 1];
+
+                    if (newValue > 0)
+                    {
+                        directEdge.Attributes["label"] = newValue.ToString();
+                    }
+                    else
+                    {
+                        networkData.DotResidualNetwork.RemoveEdge(directEdge);
+                    }
+                }
+
+                var oppositeEdge = networkData.FindEdge(networkData.DotResidualNetwork, edge.V2, edge.V1);
+                if (oppositeEdge != null)
+                {
+                    int oldValue = 0, newValue = 0;
+                    int.TryParse(oppositeEdge.Attributes["label"], out oldValue);
+                    newValue = networkData.ResidualNetwork[edge.V2 - 1, edge.V1 - 1];
+                    oppositeEdge.Attributes["label"] = newValue.ToString();
+                }
+                else
+                {
+                    var edgeAttributes = new Dictionary<string, string>
+                            {
+                                { "label", residualCapacityOfPath.ToString() },
+                                { "fontsize", "18px" },
+                                { "penwidth", "3" },
+                                { "color", "red" },
+                                { "fontcolor", "red" },
+                            };
+                    DotVertex<int> source = networkData.DotResidualNetwork.Vertices.Where((vertex) => vertex.Id == edge.V2).FirstOrDefault();
+                    DotVertex<int> destination = networkData.DotResidualNetwork.Vertices.Where((vertex) => vertex.Id == edge.V1).FirstOrDefault();
+                    DotEdge<int> newEdge = new DotEdge<int>(source, destination, edgeAttributes);
+                    networkData.DotResidualNetwork.AddEdge(newEdge);
+                }
+
+                this.SaveCurrentStateOfNetworks(networkData);
+            }
+        }
+
+        /// <inheritdoc/>
+        public void UpdateEdgeInNetworks(INetworkData networkData, (int V1, int V2) edge, int excessFlow)
+        {
+            var dotEdge = networkData.FindEdge(networkData.DotFlowNetwork, edge.V1, edge.V2);
+            if (dotEdge != null)
+            {
+                dotEdge.Attributes["label"] = networkData.FlowNetwork[edge.V1 - 1, edge.V2 - 1].ToString() + "/" + networkData.CapacityNetwork[edge.V1 - 1, edge.V2 - 1].ToString();
+            }
+            else
+            {
+                var dotBackEdge = networkData.FindEdge(networkData.DotFlowNetwork, edge.V2, edge.V1);
+                if (dotBackEdge != null)
+                {
+                    dotBackEdge.Attributes["label"] = networkData.FlowNetwork[edge.V2 - 1, edge.V1 - 1].ToString() + "/" + networkData.CapacityNetwork[edge.V2 - 1, edge.V1 - 1].ToString();
+                }
+            }
+
+            var directEdge = networkData.FindEdge(networkData.DotResidualNetwork, edge.V1, edge.V2);
+            if (directEdge != null)
+            {
+                int oldValue = 0, newValue = 0;
+                int.TryParse(directEdge.Attributes["label"], out oldValue);
+                newValue = networkData.ResidualNetwork[edge.V1 - 1, edge.V2 - 1];
+
+                if (newValue > 0)
+                {
+                    directEdge.Attributes["label"] = newValue.ToString();
+                }
+                else
+                {
+                    networkData.DotResidualNetwork.RemoveEdge(directEdge);
+                }
+            }
+
+            var oppositeEdge = networkData.FindEdge(networkData.DotResidualNetwork, edge.V2, edge.V1);
+            if (oppositeEdge != null)
+            {
+                int oldValue = 0, newValue = 0;
+                int.TryParse(oppositeEdge.Attributes["label"], out oldValue);
+                newValue = networkData.ResidualNetwork[edge.V2 - 1, edge.V1 - 1];
+                oppositeEdge.Attributes["label"] = newValue.ToString();
+            }
+            else
+            {
+                var edgeAttributes = new Dictionary<string, string>
+                 {
+                    { "label", excessFlow.ToString() },
+                    { "fontsize", "18px" },
+                    { "penwidth", "3" },
+                    { "color", "red" },
+                    { "fontcolor", "red" },
+                 };
+                DotVertex<int> source = networkData.DotResidualNetwork.Vertices.Where((vertex) => vertex.Id == edge.V2).FirstOrDefault();
+                DotVertex<int> destination = networkData.DotResidualNetwork.Vertices.Where((vertex) => vertex.Id == edge.V1).FirstOrDefault();
+                DotEdge<int> newEdge = new DotEdge<int>(source, destination, edgeAttributes);
+                networkData.DotResidualNetwork.AddEdge(newEdge);
+            }
+
+            this.SaveCurrentStateOfNetworks(networkData);
+        }
+
+        /// <inheritdoc/>
         public void HighlightPathStepByStep(List<(int V1, int V2)> path, INetworkData networkData)
         {
             foreach (var edge in path)
@@ -85,8 +210,6 @@ namespace FlowAlgorithmsVisualizedBackend.Utils
                     var dotFlowNetworkBackEdge = networkData.FindEdge(networkData.DotFlowNetwork, edge.V2, edge.V1);
                     if (dotFlowNetworkBackEdge != null)
                     {
-                        // dotFlowNetworkBackEdge.Attributes["penwidth"] = "3";
-                        // dotFlowNetworkBackEdge.Attributes["color"] = "blue";
                         dotFlowNetworkBackEdge.Attributes["fontcolor"] = "blue";
                     }
                 }

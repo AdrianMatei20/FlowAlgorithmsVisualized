@@ -20,6 +20,7 @@ namespace FlowAlgorithmsVisualizedBackend.Tests.AlgorithmTests
         {
             IHelperFactory helperFactory = new HelperFactory();
 
+            Assert.IsInstanceOf<IFileHelper>(helperFactory.GetFileHelper());
             Assert.IsInstanceOf<FileHelper>(helperFactory.GetFileHelper());
         }
 
@@ -43,6 +44,7 @@ namespace FlowAlgorithmsVisualizedBackend.Tests.AlgorithmTests
         {
             IHelperFactory helperFactory = new HelperFactory();
 
+            Assert.IsInstanceOf<IAnimation>(helperFactory.GetAnimation());
             Assert.IsInstanceOf<Animation>(helperFactory.GetAnimation());
         }
     }

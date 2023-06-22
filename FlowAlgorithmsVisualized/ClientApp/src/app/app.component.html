@@ -34,7 +34,7 @@
     <mat-sidenav-content>
 
       <nav class="navbar sticky-top navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3 justify-content-between">
-        <div class="container">
+        <div class="container" style="justify-content: left">
           <button mat-button (click)="opened=!opened">
             <mat-icon>menu</mat-icon>
           </button>
@@ -48,7 +48,7 @@
                   (click)="toggle()">
             <span class="navbar-toggler-icon"></span>
           </button>
-          <div class="navbar-collapse collapse d-sm-inline-flex justify-content-end">
+          <!--<div class="navbar-collapse collapse d-sm-inline-flex justify-content-end">
             <div class="navbar-nav flex-grow button-row">
               <button mat-raised-button color="primary" [routerLink]="['/algorithm-steps/GenericCuDMF']" routerLinkActive="active">Generic</button>
               <button mat-raised-button color="primary" [routerLink]="['/algorithm-steps/FF']" routerLinkActive="active">Ford-Fulkerson</button>
@@ -58,7 +58,7 @@
               <button mat-raised-button color="primary" [routerLink]="['/algorithm-steps/AODS']" routerLinkActive="active">AODS</button>
               <button mat-raised-button color="primary" [routerLink]="['/algorithm-steps/AORS']" routerLinkActive="active">AORS</button>
             </div>
-          </div>
+          </div>-->
         </div>
       </nav>
 

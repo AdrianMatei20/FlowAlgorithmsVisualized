@@ -7,7 +7,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
 import { HomePageComponent } from './components/pages/home-page/home-page.component';
-import { NavMenuComponent } from './components/pages/nav-menu/nav-menu.component';
 import { AlgorithmStepsComponent } from './components/pages/algorithm-steps/algorithm-steps.component';
 
 import { GenericWithAugmentingPathComponent } from './components/pseudocode/generic-with-augmenting-path/generic-with-augmenting-path.component';
@@ -32,7 +31,6 @@ import { DinicComponent } from './components/pseudocode/dinic/dinic.component';
   declarations: [
     AppComponent,
     HomePageComponent,
-    NavMenuComponent,
     AlgorithmStepsComponent,
     GenericWithAugmentingPathComponent,
     FordFulkersonComponent,

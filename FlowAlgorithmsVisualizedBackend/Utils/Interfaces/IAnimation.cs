@@ -37,6 +37,18 @@ namespace FlowAlgorithmsVisualizedBackend.Utils
         /// <param name="networkData">All the information related to the actual network.</param>
         void SaveCurrentStateOfNetworks(INetworkData networkData);
 
+        /// <summary>Updates the found path in both networks.</summary>
+        /// <param name="networkData">All the information related to the actual network.</param>
+        /// <param name="path">The path.</param>
+        /// <param name="residualCapacityOfPath">The residual capacity of the path.</param>
+        void UpdateFoundPathInNetworks(INetworkData networkData, List<(int V1, int V2)> path, int residualCapacityOfPath);
+
+        /// <summary>Updates an edge in both networks.</summary>
+        /// <param name="networkData">All the information related to the actual network.</param>
+        /// <param name="edge">The edge.</param>
+        /// <param name="excessFlow">The amount of flow sent through the edge.</param>
+        void UpdateEdgeInNetworks(INetworkData networkData, (int V1, int V2) edge, int excessFlow);
+
         /// <summary>Highlights a path from the network step by step (one arrow at a time).</summary>
         /// <param name="path">The path.</param>
         /// <param name="networkData">All the information related to the actual network.</param>

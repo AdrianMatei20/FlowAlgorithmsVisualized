@@ -9,7 +9,6 @@ namespace FlowAlgorithmsVisualizedBackend.Algorithms
     using System.Linq;
     using FlowAlgorithmsVisualizedBackend.Network;
     using FlowAlgorithmsVisualizedBackend.Utils;
-    using Graphviz4Net.Dot;
 
     /// <summary>Class for the <b>FIFO Preflow Algorithm</b>.</summary>
     /// <seealso cref="IFlowAlgorithm" />
@@ -68,65 +67,11 @@ namespace FlowAlgorithmsVisualizedBackend.Algorithms
                     this.animation.ShowDistancesAndExcess(this.networkData, d, e, maxFlow);
                     this.animation.HighlightPath(new List<(int V1, int V2)> { (s + 1, x + 1) }, this.networkData);
 
+                    this.networkData.FlowNetwork[s, x] = excessFlow;
                     this.networkData.ResidualNetwork[s, x] -= excessFlow;
                     this.networkData.ResidualNetwork[x, s] += excessFlow;
 
-                    var directEdge = this.networkData.FindEdge(this.networkData.DotResidualNetwork, s + 1, x + 1);
-                    if (directEdge != null)
-                    {
-                        this.networkData.DotResidualNetwork.RemoveEdge(directEdge);
-                    }
-
-                    var oppositeEdge = this.networkData.FindEdge(this.networkData.DotResidualNetwork, x + 1, s + 1);
-                    if (oppositeEdge != null)
-                    {
-                        int oldValue = 0, newValue = 0;
-                        int.TryParse(oppositeEdge.Attributes["label"], out oldValue);
-                        newValue = this.networkData.ResidualNetwork[x, s];
-
-                        if (newValue > 0)
-                        {
-                            oppositeEdge.Attributes["label"] = newValue.ToString();
-                        }
-                        else
-                        {
-                            this.networkData.DotResidualNetwork.RemoveEdge(oppositeEdge);
-                        }
-                    }
-                    else
-                    {
-                        var edgeAttributes = new Dictionary<string, string>
-                            {
-                                { "label", excessFlow.ToString() },
-                                { "fontsize", "18px" },
-                                { "penwidth", "3" },
-                                { "color", "red" },
-                                { "fontcolor", "red" },
-                            };
-                        DotVertex<int> source = this.networkData.DotResidualNetwork.Vertices.Where((vertex) => vertex.Id == x + 1).FirstOrDefault();
-                        DotVertex<int> destination = this.networkData.DotResidualNetwork.Vertices.Where((vertex) => vertex.Id == s + 1).FirstOrDefault();
-                        DotEdge<int> newEdge = new DotEdge<int>(source, destination, edgeAttributes);
-                        this.networkData.DotResidualNetwork.AddEdge(newEdge);
-                    }
-
-                    this.networkData.FlowNetwork[s, x] = excessFlow;
-
-                    var dotEdge = this.networkData.FindEdge(this.networkData.DotFlowNetwork, s + 1, x + 1);
-                    if (dotEdge != null)
-                    {
-                        dotEdge.Attributes["label"] = this.networkData.FlowNetwork[s, x].ToString() + "/" + this.networkData.CapacityNetwork[s, x].ToString();
-                    }
-                    else
-                    {
-                        var dotBackEdge = this.networkData.FindEdge(this.networkData.DotFlowNetwork, x + 1, s + 1);
-                        if (dotBackEdge != null)
-                        {
-                            var flow = this.networkData.FlowNetwork[s, x] - excessFlow;
-                            dotBackEdge.Attributes["label"] = flow.ToString() + "/" + this.networkData.CapacityNetwork[x, s].ToString();
-                        }
-                    }
-
-                    this.animation.SaveCurrentStateOfNetworks(this.networkData);
+                    this.animation.UpdateEdgeInNetworks(this.networkData, (s + 1, x + 1), excessFlow);
 
                     e[x] += excessFlow;
 
@@ -169,58 +114,6 @@ namespace FlowAlgorithmsVisualizedBackend.Algorithms
                         this.animation.PaintNode(this.networkData, x + 1, e);
                         this.animation.HighlightPath(new List<(int V1, int V2)> { (x + 1, y + 1) }, this.networkData);
 
-                        this.networkData.ResidualNetwork[x, y] -= excessFlow;
-                        this.networkData.ResidualNetwork[y, x] += excessFlow;
-
-                        var directEdge = this.networkData.FindEdge(this.networkData.DotResidualNetwork, x + 1, y + 1);
-                        if (directEdge != null)
-                        {
-                            int oldValue = 0, newValue = 0;
-                            int.TryParse(directEdge.Attributes["label"], out oldValue);
-                            newValue = this.networkData.ResidualNetwork[x, y];
-
-                            if (newValue > 0)
-                            {
-                                directEdge.Attributes["label"] = newValue.ToString();
-                            }
-                            else
-                            {
-                                this.networkData.DotResidualNetwork.RemoveEdge(directEdge);
-                            }
-                        }
-
-                        var oppositeEdge = this.networkData.FindEdge(this.networkData.DotResidualNetwork, y + 1, x + 1);
-                        if (oppositeEdge != null)
-                        {
-                            int oldValue = 0, newValue = 0;
-                            int.TryParse(oppositeEdge.Attributes["label"], out oldValue);
-                            newValue = this.networkData.ResidualNetwork[y, x];
-
-                            if (newValue > 0)
-                            {
-                                oppositeEdge.Attributes["label"] = newValue.ToString();
-                            }
-                            else
-                            {
-                                this.networkData.DotResidualNetwork.RemoveEdge(oppositeEdge);
-                            }
-                        }
-                        else
-                        {
-                            var edgeAttributes = new Dictionary<string, string>
-                            {
-                                { "label", excessFlow.ToString() },
-                                { "fontsize", "18px" },
-                                { "penwidth", "3" },
-                                { "color", "red" },
-                                { "fontcolor", "red" },
-                            };
-                            DotVertex<int> source = this.networkData.DotResidualNetwork.Vertices.Where((vertex) => vertex.Id == y + 1).FirstOrDefault();
-                            DotVertex<int> destination = this.networkData.DotResidualNetwork.Vertices.Where((vertex) => vertex.Id == x + 1).FirstOrDefault();
-                            DotEdge<int> newEdge = new DotEdge<int>(source, destination, edgeAttributes);
-                            this.networkData.DotResidualNetwork.AddEdge(newEdge);
-                        }
-
                         if (this.networkData.CapacityNetwork[x, y] > 0)
                         {
                             this.networkData.FlowNetwork[x, y] += excessFlow;
@@ -230,23 +123,12 @@ namespace FlowAlgorithmsVisualizedBackend.Algorithms
                             this.networkData.FlowNetwork[y, x] -= excessFlow;
                         }
 
-                        var dotEdge = this.networkData.FindEdge(this.networkData.DotFlowNetwork, x + 1, y + 1);
-                        if (dotEdge != null)
-                        {
-                            dotEdge.Attributes["label"] = this.networkData.FlowNetwork[x, y].ToString() + "/" + this.networkData.CapacityNetwork[x, y].ToString();
-                        }
-                        else
-                        {
-                            var dotBackEdge = this.networkData.FindEdge(this.networkData.DotFlowNetwork, y + 1, x + 1);
-                            if (dotBackEdge != null)
-                            {
-                                dotBackEdge.Attributes["label"] = this.networkData.FlowNetwork[y, x].ToString() + "/" + this.networkData.CapacityNetwork[y, x].ToString();
-                            }
-                        }
-
-                        this.animation.SaveCurrentStateOfNetworks(this.networkData);
+                        this.networkData.ResidualNetwork[x, y] -= excessFlow;
+                        this.networkData.ResidualNetwork[y, x] += excessFlow;
 
                         e[y] += excessFlow;
+
+                        this.animation.UpdateEdgeInNetworks(this.networkData, (x + 1, y + 1), excessFlow);
 
                         if (y + 1 == this.networkData.NoOfVertices)
                         {

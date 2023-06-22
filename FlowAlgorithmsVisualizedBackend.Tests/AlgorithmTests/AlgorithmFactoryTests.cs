@@ -76,7 +76,7 @@ namespace FlowAlgorithmsVisualizedBackend.Tests.AlgorithmTests
             IAlgorithmFactory algorithmFactory = new AlgorithmFactory(helperFactoryMock.Object);
             IFlowAlgorithm algorithm = algorithmFactory.CreateAlgorithm(algorithmName);
 
-            Assert.IsInstanceOf<FordFulkerson>(algorithm);
+            Assert.IsInstanceOf<GenericWithAugmentingPath>(algorithm);
         }
 
         /// <summary>Tests if <see cref="AlgorithmFactory"/> creates an instance of <see cref="EdmondsKarp"/> if algorithm name is "EK".</summary>
@@ -97,7 +97,7 @@ namespace FlowAlgorithmsVisualizedBackend.Tests.AlgorithmTests
             IAlgorithmFactory algorithmFactory = new AlgorithmFactory(helperFactoryMock.Object);
             IFlowAlgorithm algorithm = algorithmFactory.CreateAlgorithm(algorithmName);
 
-            Assert.IsInstanceOf<EdmondsKarp>(algorithm);
+            Assert.IsInstanceOf<GenericWithAugmentingPath>(algorithm);
         }
 
         /// <summary>Tests if <see cref="AlgorithmFactory"/> creates an instance of <see cref="AhujaOrlinCapacityScaling"/> if algorithm name is "AOSMC".</summary>

@@ -45,8 +45,8 @@ namespace FlowAlgorithmsVisualizedBackend.Tests.AlgorithmTests
             List<List<string>> data = algorithm.GetAlgorithmSteps();
 
             Assert.AreEqual(3, data.Count);
-            Assert.AreEqual("V=15", networkData.DotResidualNetwork.Vertices.Where(vertex => vertex.Id == 6).First().Attributes["xlabel"]);
-            Assert.AreEqual("V=15", networkData.DotFlowNetwork.Vertices.Where(vertex => vertex.Id == 6).First().Attributes["xlabel"]);
+            Assert.AreEqual("V=15", networkData.DotResidualNetwork.Vertices.Where(vertex => vertex.Id == networkData.NoOfVertices).First().Attributes["xlabel"]);
+            Assert.AreEqual("V=15", networkData.DotFlowNetwork.Vertices.Where(vertex => vertex.Id == networkData.NoOfVertices).First().Attributes["xlabel"]);
             Assert.That(data[2][data[2].Count - 1], Does.Contain("V=15"));
 
             int[,] flowMatrix = new int[,]
@@ -124,8 +124,8 @@ namespace FlowAlgorithmsVisualizedBackend.Tests.AlgorithmTests
             List<List<string>> data = algorithm.GetAlgorithmSteps();
 
             Assert.AreEqual(3, data.Count);
-            Assert.AreEqual("V=14", networkData.DotResidualNetwork.Vertices.Where(vertex => vertex.Id == 5).First().Attributes["xlabel"]);
-            Assert.AreEqual("V=14", networkData.DotFlowNetwork.Vertices.Where(vertex => vertex.Id == 5).First().Attributes["xlabel"]);
+            Assert.AreEqual("V=14", networkData.DotResidualNetwork.Vertices.Where(vertex => vertex.Id == networkData.NoOfVertices).First().Attributes["xlabel"]);
+            Assert.AreEqual("V=14", networkData.DotFlowNetwork.Vertices.Where(vertex => vertex.Id == networkData.NoOfVertices).First().Attributes["xlabel"]);
             Assert.That(data[2][data[2].Count - 1], Does.Contain("V=14"));
 
             int[,] flowMatrix = new int[,]
@@ -199,8 +199,8 @@ namespace FlowAlgorithmsVisualizedBackend.Tests.AlgorithmTests
             List<List<string>> data = algorithm.GetAlgorithmSteps();
 
             Assert.AreEqual(3, data.Count);
-            Assert.AreEqual("V=14", networkData.DotResidualNetwork.Vertices.Where(vertex => vertex.Id == 5).First().Attributes["xlabel"]);
-            Assert.AreEqual("V=14", networkData.DotFlowNetwork.Vertices.Where(vertex => vertex.Id == 5).First().Attributes["xlabel"]);
+            Assert.AreEqual("V=14", networkData.DotResidualNetwork.Vertices.Where(vertex => vertex.Id == networkData.NoOfVertices).First().Attributes["xlabel"]);
+            Assert.AreEqual("V=14", networkData.DotFlowNetwork.Vertices.Where(vertex => vertex.Id == networkData.NoOfVertices).First().Attributes["xlabel"]);
             Assert.That(data[2][data[2].Count - 1], Does.Contain("V=14"));
 
             int[,] flowMatrix = new int[,]
@@ -278,8 +278,8 @@ namespace FlowAlgorithmsVisualizedBackend.Tests.AlgorithmTests
             List<List<string>> data = algorithm.GetAlgorithmSteps();
 
             Assert.AreEqual(3, data.Count);
-            Assert.AreEqual("V=13", networkData.DotResidualNetwork.Vertices.Where(vertex => vertex.Id == 5).First().Attributes["xlabel"]);
-            Assert.AreEqual("V=13", networkData.DotFlowNetwork.Vertices.Where(vertex => vertex.Id == 5).First().Attributes["xlabel"]);
+            Assert.AreEqual("V=13", networkData.DotResidualNetwork.Vertices.Where(vertex => vertex.Id == networkData.NoOfVertices).First().Attributes["xlabel"]);
+            Assert.AreEqual("V=13", networkData.DotFlowNetwork.Vertices.Where(vertex => vertex.Id == networkData.NoOfVertices).First().Attributes["xlabel"]);
             Assert.That(data[2][data[2].Count - 1], Does.Contain("V=13"));
 
             int[,] flowMatrix = new int[,]
@@ -358,8 +358,8 @@ namespace FlowAlgorithmsVisualizedBackend.Tests.AlgorithmTests
             List<List<string>> data = algorithm.GetAlgorithmSteps();
 
             Assert.AreEqual(3, data.Count);
-            Assert.AreEqual("V=13", networkData.DotResidualNetwork.Vertices.Where(vertex => vertex.Id == 5).First().Attributes["xlabel"]);
-            Assert.AreEqual("V=13", networkData.DotFlowNetwork.Vertices.Where(vertex => vertex.Id == 5).First().Attributes["xlabel"]);
+            Assert.AreEqual("V=13", networkData.DotResidualNetwork.Vertices.Where(vertex => vertex.Id == networkData.NoOfVertices).First().Attributes["xlabel"]);
+            Assert.AreEqual("V=13", networkData.DotFlowNetwork.Vertices.Where(vertex => vertex.Id == networkData.NoOfVertices).First().Attributes["xlabel"]);
             Assert.That(data[2][data[2].Count - 1], Does.Contain("V=13"));
 
             int[,] flowMatrix = new int[,]
@@ -454,8 +454,8 @@ namespace FlowAlgorithmsVisualizedBackend.Tests.AlgorithmTests
             List<List<string>> data = algorithm.GetAlgorithmSteps();
 
             Assert.AreEqual(3, data.Count);
-            Assert.AreEqual("V=12\nd[6]=0", networkData.DotResidualNetwork.Vertices.Where(vertex => vertex.Id == 6).First().Attributes["xlabel"]);
-            Assert.AreEqual("V=12", networkData.DotFlowNetwork.Vertices.Where(vertex => vertex.Id == 6).First().Attributes["xlabel"]);
+            Assert.AreEqual("V=12\nd[6]=0", networkData.DotResidualNetwork.Vertices.Where(vertex => vertex.Id == networkData.NoOfVertices).First().Attributes["xlabel"]);
+            Assert.AreEqual("V=12", networkData.DotFlowNetwork.Vertices.Where(vertex => vertex.Id == networkData.NoOfVertices).First().Attributes["xlabel"]);
             Assert.That(data[2][data[2].Count - 1], Does.Contain("V=12"));
 
             int[,] flowMatrix = new int[,]
@@ -554,8 +554,8 @@ namespace FlowAlgorithmsVisualizedBackend.Tests.AlgorithmTests
             List<List<string>> data = algorithm.GetAlgorithmSteps();
 
             Assert.AreEqual(3, data.Count);
-            Assert.AreEqual("V=6\nd[6]=0", networkData.DotResidualNetwork.Vertices.Where(vertex => vertex.Id == 6).First().Attributes["xlabel"]);
-            Assert.AreEqual("V=6", networkData.DotFlowNetwork.Vertices.Where(vertex => vertex.Id == 6).First().Attributes["xlabel"]);
+            Assert.AreEqual("V=6\nd[6]=0", networkData.DotResidualNetwork.Vertices.Where(vertex => vertex.Id == networkData.NoOfVertices).First().Attributes["xlabel"]);
+            Assert.AreEqual("V=6", networkData.DotFlowNetwork.Vertices.Where(vertex => vertex.Id == networkData.NoOfVertices).First().Attributes["xlabel"]);
             Assert.That(data[2][data[2].Count - 1], Does.Contain("V=6"));
 
             int[,] flowMatrix = new int[,]
@@ -642,8 +642,8 @@ namespace FlowAlgorithmsVisualizedBackend.Tests.AlgorithmTests
             List<List<string>> data = algorithm.GetAlgorithmSteps();
 
             Assert.AreEqual(3, data.Count);
-            Assert.AreEqual("V=9\nd[4]=0\ne[4]=9", networkData.DotResidualNetwork.Vertices.Where(vertex => vertex.Id == 4).First().Attributes["xlabel"]);
-            Assert.AreEqual("V=9", networkData.DotFlowNetwork.Vertices.Where(vertex => vertex.Id == 4).First().Attributes["xlabel"]);
+            Assert.AreEqual("V=9\nd[4]=0\ne[4]=9", networkData.DotResidualNetwork.Vertices.Where(vertex => vertex.Id == networkData.NoOfVertices).First().Attributes["xlabel"]);
+            Assert.AreEqual("V=9", networkData.DotFlowNetwork.Vertices.Where(vertex => vertex.Id == networkData.NoOfVertices).First().Attributes["xlabel"]);
             Assert.That(data[2][data[2].Count - 1], Does.Contain("V=9"));
 
             int[,] flowMatrix = new int[,]
@@ -724,8 +724,8 @@ namespace FlowAlgorithmsVisualizedBackend.Tests.AlgorithmTests
             List<List<string>> data = algorithm.GetAlgorithmSteps();
 
             Assert.AreEqual(3, data.Count);
-            Assert.AreEqual("V=13\nd[6]=0\ne[6]=13", networkData.DotResidualNetwork.Vertices.Where(vertex => vertex.Id == 6).First().Attributes["xlabel"]);
-            Assert.AreEqual("V=13", networkData.DotFlowNetwork.Vertices.Where(vertex => vertex.Id == 6).First().Attributes["xlabel"]);
+            Assert.AreEqual("V=13\nd[6]=0\ne[6]=13", networkData.DotResidualNetwork.Vertices.Where(vertex => vertex.Id == networkData.NoOfVertices).First().Attributes["xlabel"]);
+            Assert.AreEqual("V=13", networkData.DotFlowNetwork.Vertices.Where(vertex => vertex.Id == networkData.NoOfVertices).First().Attributes["xlabel"]);
             Assert.That(data[2][data[2].Count - 1], Does.Contain("V=13"));
 
             int[,] flowMatrix = new int[,]

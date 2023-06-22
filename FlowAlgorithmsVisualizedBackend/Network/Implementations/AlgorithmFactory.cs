@@ -34,11 +34,11 @@ namespace FlowAlgorithmsVisualizedBackend.Network
                     break;
 
                 case "FF":
-                    algorithm = new FordFulkerson(new FordFulkersonPathFinding(), networkData, animation);
+                    algorithm = new GenericWithAugmentingPath(new FordFulkersonPathFinding(), networkData, animation);
                     break;
 
                 case "EK":
-                    algorithm = new EdmondsKarp(new EdmondsKarpPathFinding(), networkData, animation);
+                    algorithm = new GenericWithAugmentingPath(new EdmondsKarpPathFinding(), networkData, animation);
                     break;
 
                 case "AOSMC":
